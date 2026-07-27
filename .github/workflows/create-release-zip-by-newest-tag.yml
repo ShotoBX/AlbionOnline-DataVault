@@ -148,6 +148,7 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           prerelease: ${{ steps.release_variables.outputs.is-pre-release }}
+          generate_release_notes: true
           files: |
             StatisticsAnalysis-AlbionOnline-${{ steps.release_variables.outputs.artifact-tag-name }}-windows-x64.zip
             StatisticsAnalysis-AlbionOnline-${{ steps.release_variables.outputs.artifact-tag-name }}-windows-x64.exe

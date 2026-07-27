@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
   <channel>
-    <title>AlbionOnline - DataVault</title>
+    <title>Statistics Analysis Tool</title>
     <description>Most recent changes with link to updates.</description>
     <language>en</language>
     <item>
-      <title>Statistics Analysis Tool v9.3.10</title>
-      <description><![CDATA[<a href="https://github.com/Triky313/AlbionOnline-StatisticsAnalysis/releases/tag/v9.3.10">View full patch notes on GitHub</a>]]></description>
-      <pubDate>Tue, 14 Jul 2026 13:16:09 +0000</pubDate>
-      <enclosure url="https://github.com/Triky313/AlbionOnline-StatisticsAnalysis/releases/download/v9.3.10/StatisticsAnalysis-AlbionOnline-v9.3.10-windows-x64.exe" sparkle:version="9.3.10" sparkle:shortVersionString="9.3.10" sparkle:os="windows-x64" length="42878798" type="application/octet-stream" sparkle:edSignature="/Fol5yXR5/Ho02BoqN4rAx86hXMk3Ow2UBKQK8oJvLjjs2r1+C/l0iQpNUmrZGObNpmcu6vdfwe/Mj0gZmO4DQ==" sparkle:signature="/Fol5yXR5/Ho02BoqN4rAx86hXMk3Ow2UBKQK8oJvLjjs2r1+C/l0iQpNUmrZGObNpmcu6vdfwe/Mj0gZmO4DQ==" />
+      <title>Statistics Analysis Tool v1.0.0</title>
+      <description><![CDATA[<a href="https://github.com/ShotoBX/AlbionOnline-DataVault/releases/tag/v1.0.0">View full patch notes on GitHub</a>]]></description>
+      <pubDate>Mon, 27 Jul 2026 16:27:50 +0000</pubDate>
+      <enclosure url="https://github.com/ShotoBX/AlbionOnline-DataVault/releases/download/v1.0.0/StatisticsAnalysis-AlbionOnline-v1.0.0-windows-x64.exe" sparkle:version="1.0.0" sparkle:shortVersionString="1.0.0" sparkle:os="windows-x64" length="44729499" type="application/octet-stream" sparkle:edSignature="xfgtm8Ws0JkNdH+3DpUTzjC3q7SaOMaIBRbdndQ6FzlRbYSEqBbqKOOUcGUSC0gzwmNeh9UApV3gOG/7QMeyCQ==" sparkle:signature="xfgtm8Ws0JkNdH+3DpUTzjC3q7SaOMaIBRbdndQ6FzlRbYSEqBbqKOOUcGUSC0gzwmNeh9UApV3gOG/7QMeyCQ==" />
     </item>
   </channel>
 </rss>

@@ -67,8 +67,8 @@
     </Style>
 
     <DataTemplate x:Key="GatheredItemTemplate" DataType="{x:Type gathering:Gathered}">
-        <Grid Height="50">
-            <Border Style="{StaticResource Container.Border}">
+        <Grid Height="50" Margin="0,0,0,6">
+            <Border Style="{StaticResource Style.Card}" Padding="8,4">
                 <DockPanel VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="0,0,10,0">
                     <StackPanel Orientation="Vertical" Margin="0,0,5,0" HorizontalAlignment="Center" VerticalAlignment="Top">
                         <Image Source="{Binding Item.Icon, IsAsync=True}" Style="{StaticResource Gathering.Image.Item.Icon}" />
@@ -159,8 +159,8 @@
     </DataTemplate>
 
     <DataTemplate x:Key="GatheredItemStatsTemplate" DataType="{x:Type gathering:Gathered}">
-        <Grid Height="50">
-            <Border Style="{StaticResource Container.Border}">
+        <Grid Height="50" Margin="0,0,0,6">
+            <Border Style="{StaticResource Style.Card}" Padding="8,4">
                 <DockPanel VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="0,0,10,0">
                     <StackPanel Orientation="Vertical" Margin="0,0,5,0" HorizontalAlignment="Center" VerticalAlignment="Top">
                         <Image Source="{Binding Item.Icon, IsAsync=True, Mode=OneWay}" Style="{StaticResource Gathering.Image.Item.Icon}" />

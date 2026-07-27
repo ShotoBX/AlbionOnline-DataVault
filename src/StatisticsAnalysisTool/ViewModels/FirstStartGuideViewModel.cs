@@ -384,6 +384,7 @@ public class FirstStartGuideViewModel : BaseViewModel
         SettingsController.CurrentSettings.IsStorageHistoryNaviTabActive = IsNavigationTabVisible(NavigationTabFilterType.StorageHistory);
         SettingsController.CurrentSettings.IsMapHistoryNaviTabActive = IsNavigationTabVisible(NavigationTabFilterType.MapHistory);
         SettingsController.CurrentSettings.IsPlayerInformationNaviTabActive = IsNavigationTabVisible(NavigationTabFilterType.PlayerInformation);
+        SettingsController.CurrentSettings.IsArbitrageNaviTabActive = IsNavigationTabVisible(NavigationTabFilterType.Arbitrage);
 
         await SettingsController.SaveSettingsAsync().ConfigureAwait(true);
         return true;
@@ -544,6 +545,7 @@ public class FirstStartGuideViewModel : BaseViewModel
         NavigationTabOptions.Add(CreateNavigationTabOption(NavigationTabFilterType.StorageHistory, SettingsController.CurrentSettings.IsStorageHistoryNaviTabActive));
         NavigationTabOptions.Add(CreateNavigationTabOption(NavigationTabFilterType.MapHistory, SettingsController.CurrentSettings.IsMapHistoryNaviTabActive));
         NavigationTabOptions.Add(CreateNavigationTabOption(NavigationTabFilterType.PlayerInformation, SettingsController.CurrentSettings.IsPlayerInformationNaviTabActive));
+        NavigationTabOptions.Add(CreateNavigationTabOption(NavigationTabFilterType.Arbitrage, SettingsController.CurrentSettings.IsArbitrageNaviTabActive));
     }
 
     private FirstStartGuideNavigationTabOption CreateNavigationTabOption(NavigationTabFilterType navigationTabFilterType, bool isVisible)
@@ -586,6 +588,7 @@ public class FirstStartGuideViewModel : BaseViewModel
             NavigationTabFilterType.StorageHistory => MainWindowTranslation.StorageHistory,
             NavigationTabFilterType.MapHistory => MainWindowTranslation.MapHistory,
             NavigationTabFilterType.PlayerInformation => MainWindowTranslation.PlayerInformation,
+            NavigationTabFilterType.Arbitrage => MainWindowTranslation.Arbitrage,
             _ => string.Empty
         };
     }

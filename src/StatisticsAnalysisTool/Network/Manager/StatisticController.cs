@@ -67,7 +67,39 @@ public class StatisticController
             UpdateDailyChart();
         }
 
+        if (valueType is ValueType.Silver or ValueType.Fame)
+        {
+            UpdateEconomySummaryUi();
+        }
+
         OnAddValue?.Invoke();
+    }
+
+    public void UpdateEconomySummaryUi()
+    {
+        var today = DateTime.Now.Date;
+
+        _mainWindowViewModel.DashboardBindings.EconomySilverToday = SumDailyValue(ValueType.Silver, today, today);
+        _mainWindowViewModel.DashboardBindings.EconomySilverThisWeek = SumDailyValue(ValueType.Silver, today.AddDays(-6), today);
+        _mainWindowViewModel.DashboardBindings.EconomySilverLast90Days = SumDailyValue(ValueType.Silver, today.AddDays(-89), today);
+
+        _mainWindowViewModel.DashboardBindings.EconomyFameToday = SumDailyValue(ValueType.Fame, today, today);
+        _mainWindowViewModel.DashboardBindings.EconomyFameThisWeek = SumDailyValue(ValueType.Fame, today.AddDays(-6), today);
+        _mainWindowViewModel.DashboardBindings.EconomyFameLast90Days = SumDailyValue(ValueType.Fame, today.AddDays(-89), today);
+    }
+
+    private long SumDailyValue(ValueType valueType, DateTime fromDateInclusive, DateTime toDateInclusive)
+    {
+        if (_dashboardStatistics?.DailyValues == null)
+        {
+            return 0;
+        }
+
+        var sum = _dashboardStatistics.DailyValues
+            .Where(x => x.ValueType == valueType && x.Date.Date >= fromDateInclusive.Date && x.Date.Date <= toDateInclusive.Date)
+            .Sum(x => x.Value);
+
+        return (long) Math.Round(sum, MidpointRounding.AwayFromZero);
     }
 
     public void UpdateDailyChart(bool forceUpdate = false)
@@ -91,14 +123,28 @@ public class StatisticController
             ? CreateHourlyBuckets(selectedRange.BucketCount)
             : CreateDailyBuckets(selectedRange.BucketCount);
 
+        var axisLabelPaint = new SolidColorPaint(new SKColor(0xA8, 0x99, 0x79));
+        var axisSeparatorPaint = new SolidColorPaint(new SKColor(0x24, 0x24, 0x28));
+
         var xAxes = new[]
         {
             new Axis()
             {
                 LabelsRotation = 15,
-                Labels = chartBuckets.Select(x => x.Label).ToArray()
+                Labels = chartBuckets.Select(x => x.Label).ToArray(),
+                LabelsPaint = axisLabelPaint,
+                SeparatorsPaint = axisSeparatorPaint
             }
         };
+
+        _mainWindowViewModel.YAxesDashboardHourValues =
+        [
+            new Axis
+            {
+                LabelsPaint = axisLabelPaint,
+                SeparatorsPaint = axisSeparatorPaint
+            }
+        ];
 
         if (selectedSeriesFilters.Count == 0)
         {
@@ -320,6 +366,7 @@ public class StatisticController
 
         UpdateRepairCostsUi();
         UpdateDailyChart(true);
+        UpdateEconomySummaryUi();
     }
 
     public async System.Threading.Tasks.Task SaveInFileAsync()

@@ -45,39 +45,74 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TabItem">
-                    <Grid Width="{Binding DataContext.NavigationMenuWidth, RelativeSource={RelativeSource AncestorType=TabControl}}" Margin="0,2" ToolTip="{TemplateBinding Header}">
-                        <StackPanel Orientation="Horizontal" Margin="0">
-                            <TextBlock Name="Pipe" Foreground="{StaticResource SolidColorBrush.Accent.Blue.4}" FontWeight="Bold" Text="|" VerticalAlignment="Center" Padding="5,0,0,0" FontSize="16" />
-                            <Grid Name="Icon" Width="32" Height="32" Margin="10,4,9,4" Visibility="Collapsed">
-                                <Rectangle Name="IconMask" Fill="{StaticResource SolidColorBrush.Text.5}">
-                                    <Rectangle.OpacityMask>
-                                        <ImageBrush ImageSource="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}" Stretch="Uniform" />
-                                    </Rectangle.OpacityMask>
-                                </Rectangle>
-                            </Grid>
-                            <Label Name="Text" Height="40" Content="{TemplateBinding Header}" Foreground="{StaticResource SolidColorBrush.Text.5}"
-                                   FontSize="16" VerticalContentAlignment="Center" Margin="5,0" />
-                        </StackPanel>
+                    <Grid Width="{Binding DataContext.NavigationMenuWidth, RelativeSource={RelativeSource AncestorType=TabControl}}" Margin="6,2" ToolTip="{TemplateBinding Header}">
+                        <Border x:Name="SelectionBg" CornerRadius="8" Background="Transparent">
+                            <StackPanel Orientation="Horizontal" Margin="0">
+                                <Border Name="AccentBar" Width="3" CornerRadius="2" Margin="0,6,0,6" Background="Transparent" />
+                                <Grid Name="Icon" Width="20" Height="20" Margin="13,7,10,7">
+                                    <Rectangle Name="IconMask" Fill="{StaticResource SolidColorBrush.TextSecondary}">
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush ImageSource="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}" Stretch="Uniform" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </Grid>
+                                <Label Name="Text" Height="34" Content="{TemplateBinding Header}" Foreground="{StaticResource SolidColorBrush.TextSecondary}"
+                                       FontFamily="{StaticResource Font.Display}" FontSize="13" VerticalContentAlignment="Center" Margin="0,0,12,0" />
+                            </StackPanel>
+                        </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="Pipe" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="AccentBar" Property="Background" Value="{StaticResource SolidColorBrush.Accent}" />
+                            <Setter TargetName="SelectionBg" Property="Background" Value="{StaticResource SolidColorBrush.Accent.Blue.Transparent.5}" />
                             <Setter TargetName="Text" Property="Foreground" Value="{StaticResource SolidColorBrush.Text.1}" />
-                            <Setter TargetName="IconMask" Property="Fill" Value="{StaticResource SolidColorBrush.Text.1}" />
+                            <Setter TargetName="Text" Property="FontWeight" Value="SemiBold" />
+                            <Setter TargetName="IconMask" Property="Fill" Value="{StaticResource SolidColorBrush.Accent}" />
                         </Trigger>
                         <Trigger Property="IsSelected" Value="False">
-                            <Setter TargetName="Pipe" Property="Visibility" Value="Hidden" />
-                            <Setter TargetName="Text" Property="Foreground" Value="{StaticResource SolidColorBrush.Text.5}" />
-                            <Setter TargetName="IconMask" Property="Fill" Value="{StaticResource SolidColorBrush.Text.5}" />
+                            <Setter TargetName="Text" Property="Foreground" Value="{StaticResource SolidColorBrush.TextSecondary}" />
+                            <Setter TargetName="IconMask" Property="Fill" Value="{StaticResource SolidColorBrush.TextSecondary}" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="SelectionBg" Property="Background" Value="{StaticResource SolidColorBrush.Hover}" />
                         </Trigger>
                         <DataTrigger Binding="{Binding DataContext.IsNavigationMenuOpen, RelativeSource={RelativeSource AncestorType=TabControl}}" Value="False">
-                            <Setter TargetName="Icon" Property="Visibility" Value="Visible" />
                             <Setter TargetName="Text" Property="Visibility" Value="Collapsed" />
                         </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <!--
+        Non-selectable sidebar group-header row. IsEnabled/Focusable=False means WPF's Selector
+        machinery skips it for both mouse and keyboard selection - it can never become SelectedItem,
+        so it never affects PART_SelectedContentHost or the tab-switch fade animation.
+    -->
+    <Style x:Key="NavSectionHeaderStyle" TargetType="{x:Type TabItem}">
+        <Setter Property="IsEnabled" Value="False" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="KeyboardNavigation.IsTabStop" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TabItem">
+                    <Grid Width="{Binding DataContext.NavigationMenuWidth, RelativeSource={RelativeSource AncestorType=TabControl}}" Margin="6,14,6,4">
+                        <StackPanel>
+                            <Label Content="{TemplateBinding Header}" Foreground="{StaticResource SolidColorBrush.Accent.Blue.4}"
+                                   FontFamily="{StaticResource Font.Display}" FontSize="11" FontWeight="SemiBold" Padding="13,0,0,2" HorizontalContentAlignment="Left" />
+                            <Rectangle Height="1" Margin="13,0,13,0" Fill="{StaticResource LinearGradientBrush.GoldSeparator}" />
+                        </StackPanel>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <!-- Collapse the whole header row (not just its text) in icon-only rail mode - there's no icon for a section label. -->
+            <DataTrigger Binding="{Binding DataContext.IsNavigationMenuOpen, RelativeSource={RelativeSource AncestorType=TabControl}}" Value="False">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+        </Style.Triggers>
     </Style>
 
     <Style x:Key="ItemContainerDonationStyle" TargetType="{x:Type TabItem}">
@@ -172,7 +207,7 @@
 
     <Style x:Key="TabControlStyle" TargetType="{x:Type TabControl}">
         <Setter Property="TabStripPlacement" Value="Left" />
-        <Setter Property="Margin" Value="0,90,0,40" />
+        <Setter Property="Margin" Value="0,60,0,46" />
         <Setter Property="ItemContainerStyle" Value="{StaticResource ItemContainerStyle}" />
         <Setter Property="Template">
             <Setter.Value>

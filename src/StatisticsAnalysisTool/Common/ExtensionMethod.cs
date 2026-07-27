@@ -348,17 +348,17 @@ public static class ExtensionMethod
 
     public static long GetCurrentTotalDamage(this List<KeyValuePair<Guid, PlayerGameObject>> playerObjects)
     {
-        return playerObjects.Count <= 0 ? 0 : playerObjects.Max(x => x.Value.Damage);
+        return playerObjects.Count <= 0 ? 0 : playerObjects.Sum(x => x.Value.Damage);
     }
 
     public static long GetCurrentTotalHeal(this List<KeyValuePair<Guid, PlayerGameObject>> playerObjects)
     {
-        return playerObjects.Count <= 0 ? 0 : playerObjects.Max(x => x.Value.Heal);
+        return playerObjects.Count <= 0 ? 0 : playerObjects.Sum(x => x.Value.Heal);
     }
 
     public static long GetCurrentTotalTakenDamage(this List<KeyValuePair<Guid, PlayerGameObject>> playerObjects)
     {
-        return playerObjects.Count <= 0 ? 0 : playerObjects.Max(x => x.Value.TakenDamage);
+        return playerObjects.Count <= 0 ? 0 : playerObjects.Sum(x => x.Value.TakenDamage);
     }
 
 

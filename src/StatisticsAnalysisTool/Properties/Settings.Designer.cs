@@ -52,7 +52,7 @@ namespace StatisticsAnalysisTool.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://raw.githubusercontent.com/Triky313/AlbionOnline-StatisticsAnalysis/main/s" +
+        [global::System.Configuration.DefaultSettingValueAttribute("https://raw.githubusercontent.com/ShotoBX/AlbionOnline-DataVault/main/s" +
             "rc/StatisticsAnalysisTool/ao-netsparkle-update-check.xml")]
         public string AutoUpdateConfigUrl {
             get {
@@ -95,7 +95,7 @@ namespace StatisticsAnalysisTool.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://github.com/Triky313/AlbionOnline-StatisticsAnalysis")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://github.com/ShotoBX/AlbionOnline-DataVault")]
         public string GitHubRepoUrl {
             get {
                 return ((string)(this["GitHubRepoUrl"]));
@@ -209,7 +209,7 @@ namespace StatisticsAnalysisTool.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://raw.githubusercontent.com/Triky313/AlbionOnline-StatisticsAnalysis/main/s" +
+        [global::System.Configuration.DefaultSettingValueAttribute("https://raw.githubusercontent.com/ShotoBX/AlbionOnline-DataVault/main/s" +
             "rc/StatisticsAnalysisTool/ao-netsparkle-pre-release-update-check.xml")]
         public string AutoUpdatePreReleaseConfigUrl {
             get {

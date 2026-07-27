@@ -7,11 +7,11 @@ using System.Runtime.CompilerServices;
 // Allgemeine Informationen über eine Assembly werden über die folgenden
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
 // die einer Assembly zugeordnet sind.
-[assembly: AssemblyTitle("Statistics Analysis Tool")]
+[assembly: AssemblyTitle("AlbionOnline - DataVault")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("StatisticsAnalysisTool")]
-[assembly: AssemblyProduct("StatisticsAnalysisTool")]
+[assembly: AssemblyCompany("AlbionOnline-DataVault")]
+[assembly: AssemblyProduct("AlbionOnline-DataVault")]
 [assembly: AssemblyCopyright("Copyright ©  2026")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

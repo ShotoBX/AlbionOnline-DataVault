@@ -19,7 +19,7 @@
                        Text="{Binding ErrorText, RelativeSource={RelativeSource AncestorType=UserControl}, FallbackValue=ERROR}" />
             <TextBlock Grid.Row="1"
                        Style="{StaticResource Grid.Error.Bar.CopyLink}"
-                       Text="Copy to clipboard"
+                       Text="{Binding Translation.CopyToClipboard, FallbackValue=COPY__TO__CLIPBOARD}"
                        MouseLeftButtonUp="CopyToClipboard_MouseLeftButtonUp" />
         </Grid>
         <Border BorderThickness="1,0,0,0" BorderBrush="{StaticResource SolidColorBrush.Accent.Red.1}" />

@@ -26,7 +26,7 @@ internal static class HintBarClipboard
         var version = Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "Unknown";
         var textBuilder = new StringBuilder();
 
-        textBuilder.AppendLine("Statistics Analysis Tool diagnostic data");
+        textBuilder.AppendLine("AlbionOnline - DataVault diagnostic data");
         textBuilder.AppendLine($"Message type: {barType}");
         textBuilder.AppendLine($"Message: {message}");
         AppendException(textBuilder, exception);

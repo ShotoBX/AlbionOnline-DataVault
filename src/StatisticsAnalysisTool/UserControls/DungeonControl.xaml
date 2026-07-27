@@ -6,6 +6,7 @@
              xmlns:viewModels="clr-namespace:StatisticsAnalysisTool.ViewModels"
              xmlns:vwp="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel"
              xmlns:dungeon="clr-namespace:StatisticsAnalysisTool.Dungeon"
+             xmlns:wpf="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
              mc:Ignorable="d" 
              d:DesignHeight="1600" d:DesignWidth="1000"
              d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel}">
@@ -22,52 +23,137 @@
         <Grid Row="0" Margin="0,5,0,6" Grid.RowSpan="2">
             <ScrollViewer>
                 <Grid>
-                    <StackPanel Orientation="Vertical">
-                        <DockPanel>
-                            <ComboBox Width="200" Height="26" Margin="0,5,5,5" HorizontalAlignment="Left" VerticalAlignment="Top"
-                                      ItemsSource="{Binding DungeonBindings.DungeonStatTimeTypes}" 
-                                      SelectedItem="{Binding DungeonBindings.SelectedStatsTimeType}" 
-                                      IsSynchronizedWithCurrentItem="True" DisplayMemberPath="Name" SelectedValuePath="StatTimeType" />
+                    <StackPanel Orientation="Vertical" Margin="0,0,270,0">
 
-                            <ComboBox Width="200" Height="26" Margin="5,5" HorizontalAlignment="Left" VerticalAlignment="Top"
-                                      ItemsSource="{Binding DungeonBindings.DungeonStatsType}" 
-                                      SelectedItem="{Binding DungeonBindings.SelectedDungeonStatsType}" 
-                                      IsSynchronizedWithCurrentItem="True" DisplayMemberPath="Name" SelectedValuePath="StatsViewType" />
-                        </DockPanel>
-                        <ContentPresenter ContentTemplate="{StaticResource DungeonStatsFilterTemplate}" Content="{Binding DungeonBindings.DungeonStatsFilter}"/>
-                        <Separator Background="{StaticResource SolidColorBrush.Background.3}" Height="4" Margin="0,2,0,2" />
+                        <!-- Best Run + Efficiency by dungeon type -->
+                        <Grid Margin="0,0,0,14">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="320" />
+                                <ColumnDefinition Width="16" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
 
-                        <ContentPresenter ContentTemplate="{StaticResource Dungeon.Stats.Template}" Content="{Binding DungeonBindings.Stats}" Margin="0,10,0,0"/>
-                        <Separator Background="{StaticResource SolidColorBrush.Background.3}" Height="4" Margin="0,2,0,2" />
+                            <Border Grid.Column="0" Style="{StaticResource Style.Card}" Padding="16" Height="230">
+                                <Grid>
+                                    <TextBlock Text="{Binding DungeonBindings.TranslationEfficiencyEmpty, FallbackValue=DUNGEON_EFFICIENCY_EMPTY}"
+                                               Foreground="{StaticResource SolidColorBrush.TextSecondary}"
+                                               FontSize="13" TextWrapping="Wrap" VerticalAlignment="Center"
+                                               Visibility="{Binding DungeonBindings.BestRunEmptyVisibility}" />
 
-                        <StackPanel Orientation="Vertical" VerticalAlignment="Bottom" HorizontalAlignment="Left">
-                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" MinWidth="250" Margin="0,10,0,0">
-                                <Label Content="{Binding DungeonBindings.Translation.DeleteAndReset, FallbackValue=DELETE__AND__RESET}" 
-                                       Style="{StaticResource HeaderStyle.Tracking.Title}" Foreground="{StaticResource SolidColorBrush.Accent.Blue.2}" />
-                                <StackPanel Orientation="Horizontal">
-                                    <StackPanel Orientation="Vertical" Margin="0,0,5,0">
-                                        <Button Content="{Binding Translation.DeleteSelectedDungeons, FallbackValue=DELETE__SELECTED__DUNGEONS}" Height="26" MaxWidth="250" 
-                                                Style="{StaticResource Style.Button.Danger}" Margin="0,2,0,5" Click="BtnDeleteSelectedDungeons_Click" />
-                                        <Button Content="{Binding Translation.DeleteZeroFameDungeons, FallbackValue='DELETE__ZERO__FAME__DUNGEONS'}" Height="26" MaxWidth="250" 
-                                                Style="{StaticResource Style.Button.Danger}" Margin="0,2,0,5" Click="BtnDeleteZeroFameDungeons_Click" />
+                                    <StackPanel Orientation="Vertical" Visibility="{Binding DungeonBindings.BestRunVisibility}">
+                                        <TextBlock Text="{Binding DungeonBindings.TranslationBestRun, FallbackValue=DUNGEON_BEST_RUN}"
+                                                   Foreground="{StaticResource SolidColorBrush.Accent.Blue.2}" FontSize="15" FontWeight="SemiBold" Margin="0,0,0,12" />
+
+                                        <StackPanel Orientation="Horizontal" Visibility="{Binding DungeonBindings.BestRun.MostValuableLootVisibility}">
+                                            <Image Source="{Binding DungeonBindings.BestRun.MostValuableLoot.Item.Icon, IsAsync=True}" Width="48" Height="48" />
+                                            <StackPanel Orientation="Vertical" Margin="10,0,0,0" VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding DungeonBindings.BestRun.MostValuableLoot.Item.LocalizedName, IsAsync=True}"
+                                                           Foreground="{StaticResource SolidColorBrush.Text.1}" FontWeight="SemiBold" TextWrapping="Wrap" MaxWidth="220" />
+                                                <TextBlock Text="{Binding DungeonBindings.BestRun.MostValuableLoot.EstimatedMarketValue.DoubleValue, StringFormat={}{0:N0}, IsAsync=True}"
+                                                           Foreground="{StaticResource SolidColorBrush.Accent.Blue.2}" />
+                                            </StackPanel>
+                                        </StackPanel>
+
+                                        <StackPanel Orientation="Vertical" Margin="0,14,0,0">
+                                            <TextBlock Text="{Binding DungeonBindings.BestRun.MainMapName, IsAsync=True}" Foreground="{StaticResource SolidColorBrush.Text.1}" TextTrimming="CharacterEllipsis" />
+                                            <TextBlock Foreground="{StaticResource SolidColorBrush.TextSecondary}" FontSize="12" Margin="0,2,0,0">
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat="{}{0:dd.MM.yyyy HH:mm}">
+                                                        <Binding Path="DungeonBindings.BestRun.EnterDungeonFirstTime" IsAsync="True" />
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                        </StackPanel>
+
+                                        <StackPanel Orientation="Horizontal" Margin="0,14,0,0">
+                                            <TextBlock Text="{Binding DungeonBindings.TranslationTotalLootedValue, FallbackValue=TOTAL_LOOT_VALUE}"
+                                                       Foreground="{StaticResource SolidColorBrush.TextSecondary}" FontSize="12" Margin="0,0,8,0" VerticalAlignment="Center" />
+                                            <TextBlock Text="{Binding DungeonBindings.BestRun.TotalValue, StringFormat={}{0:N0}, IsAsync=True}"
+                                                       Foreground="{StaticResource SolidColorBrush.Accent.Green.2}" FontSize="18" FontWeight="SemiBold" />
+                                        </StackPanel>
                                     </StackPanel>
-                                    <StackPanel Orientation="Vertical" Margin="5,0,0,0">
-                                        <Button Content="{Binding Translation.ResetDungeonTracking, FallbackValue=RESET__DUNGEON__TRACKING}" Height="26" MaxWidth="250" 
-                                                Margin="0,2,0,5" Style="{StaticResource Style.Button.Danger}" Click="BtnDungeonTrackingReset_Click" />
-                                        <Button Content="{Binding Translation.ResetTodaysDungeons, FallbackValue='RESET__TODAYS__DUNGEONS'}" Height="26" MaxWidth="250" 
-                                                Style="{StaticResource Style.Button.Danger}" Margin="0,2,0,5" Click="BtnResetTodaysDungeons_Click" />
+                                </Grid>
+                            </Border>
+
+                            <Border Grid.Column="2" Style="{StaticResource Style.Card}" Padding="16" Height="230">
+                                <Grid>
+                                    <TextBlock Text="{Binding DungeonBindings.TranslationEfficiencyEmpty, FallbackValue=DUNGEON_EFFICIENCY_EMPTY}"
+                                               Foreground="{StaticResource SolidColorBrush.TextSecondary}"
+                                               FontSize="13" TextWrapping="Wrap" VerticalAlignment="Center"
+                                               Visibility="{Binding DungeonBindings.DungeonEfficiencyEmptyVisibility}" />
+
+                                    <Grid Visibility="{Binding DungeonBindings.DungeonEfficiencyChartVisibility}">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="0" Text="{Binding DungeonBindings.TranslationEfficiencyByType, FallbackValue=DUNGEON_EFFICIENCY_BY_TYPE}"
+                                                   Foreground="{StaticResource SolidColorBrush.Accent.Blue.2}" FontSize="15" FontWeight="SemiBold" Margin="0,0,0,10" />
+                                        <wpf:CartesianChart Grid.Row="1"
+                                                             Series="{Binding DungeonBindings.SeriesDungeonEfficiency}"
+                                                             XAxes="{Binding DungeonBindings.XAxesDungeonEfficiency}"
+                                                             YAxes="{Binding DungeonBindings.YAxesDungeonEfficiency}"
+                                                             Background="Transparent"
+                                                             LegendPosition="Bottom" />
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                        </Grid>
+
+                        <!-- Filters -->
+                        <Border Style="{StaticResource Style.Card}" Padding="16" Margin="0,0,0,14">
+                            <StackPanel Orientation="Vertical">
+                                <DockPanel>
+                                    <ComboBox Width="200" MinHeight="32" Margin="0,5,5,5" HorizontalAlignment="Left" VerticalAlignment="Top"
+                                              ItemsSource="{Binding DungeonBindings.DungeonStatTimeTypes}"
+                                              SelectedItem="{Binding DungeonBindings.SelectedStatsTimeType}"
+                                              IsSynchronizedWithCurrentItem="True" DisplayMemberPath="Name" SelectedValuePath="StatTimeType" />
+
+                                    <ComboBox Width="200" MinHeight="32" Margin="5,5" HorizontalAlignment="Left" VerticalAlignment="Top"
+                                              ItemsSource="{Binding DungeonBindings.DungeonStatsType}"
+                                              SelectedItem="{Binding DungeonBindings.SelectedDungeonStatsType}"
+                                              IsSynchronizedWithCurrentItem="True" DisplayMemberPath="Name" SelectedValuePath="StatsViewType" />
+                                </DockPanel>
+                                <ContentPresenter ContentTemplate="{StaticResource DungeonStatsFilterTemplate}" Content="{Binding DungeonBindings.DungeonStatsFilter}"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Stats -->
+                        <Border Style="{StaticResource Style.Card}" Padding="16" Margin="0,0,0,14">
+                            <ContentPresenter ContentTemplate="{StaticResource Dungeon.Stats.Template}" Content="{Binding DungeonBindings.Stats}"/>
+                        </Border>
+
+                        <!-- Delete / reset actions -->
+                        <Border Style="{StaticResource Style.Card}" Padding="16">
+                            <StackPanel Orientation="Vertical" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" MinWidth="250">
+                                    <Label Content="{Binding DungeonBindings.Translation.DeleteAndReset, FallbackValue=DELETE__AND__RESET}"
+                                           Style="{StaticResource HeaderStyle.Tracking.Title}" Foreground="{StaticResource SolidColorBrush.Accent.Blue.2}" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <StackPanel Orientation="Vertical" Margin="0,0,5,0">
+                                            <Button Content="{Binding Translation.DeleteSelectedDungeons, FallbackValue=DELETE__SELECTED__DUNGEONS}" Height="26" MaxWidth="250"
+                                                    Style="{StaticResource Style.Button.Danger}" Margin="0,2,0,5" Click="BtnDeleteSelectedDungeons_Click" />
+                                            <Button Content="{Binding Translation.DeleteZeroFameDungeons, FallbackValue='DELETE__ZERO__FAME__DUNGEONS'}" Height="26" MaxWidth="250"
+                                                    Style="{StaticResource Style.Button.Danger}" Margin="0,2,0,5" Click="BtnDeleteZeroFameDungeons_Click" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Vertical" Margin="5,0,0,0">
+                                            <Button Content="{Binding Translation.ResetDungeonTracking, FallbackValue=RESET__DUNGEON__TRACKING}" Height="26" MaxWidth="250"
+                                                    Margin="0,2,0,5" Style="{StaticResource Style.Button.Danger}" Click="BtnDungeonTrackingReset_Click" />
+                                            <Button Content="{Binding Translation.ResetTodaysDungeons, FallbackValue='RESET__TODAYS__DUNGEONS'}" Height="26" MaxWidth="250"
+                                                    Style="{StaticResource Style.Button.Danger}" Margin="0,2,0,5" Click="BtnResetTodaysDungeons_Click" />
+                                        </StackPanel>
                                     </StackPanel>
                                 </StackPanel>
+                                <ContentControl Margin="0,0,0,0" ContentTemplate="{StaticResource DungeonOptionsObjectTemplate}" Content="{Binding DungeonBindings.DungeonOptionsObject}" />
                             </StackPanel>
-                            <ContentControl Margin="0,0,0,0" ContentTemplate="{StaticResource DungeonOptionsObjectTemplate}" Content="{Binding DungeonBindings.DungeonOptionsObject}" />
-                        </StackPanel>
+                        </Border>
 
                     </StackPanel>
 
                     <StackPanel HorizontalAlignment="Right" Width="250" Height="auto" VerticalAlignment="Top">
-                        <DockPanel Height="auto" VerticalAlignment="Top">
+                        <Border Style="{StaticResource Style.Card}" Padding="12">
                             <ContentControl ContentTemplate="{StaticResource DungeonCloseTimerTemplate}" Content="{Binding DungeonBindings.DungeonCloseTimer}" />
-                        </DockPanel>
+                        </Border>
                     </StackPanel>
                 </Grid>
             </ScrollViewer>

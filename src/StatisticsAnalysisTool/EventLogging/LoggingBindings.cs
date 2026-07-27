@@ -1440,6 +1440,58 @@ public class LoggingBindings : BaseViewModel
         }
     }
 
+    public long LootSplitTotalValue
+    {
+        get;
+        private set
+        {
+            field = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public int LootSplitParticipantCount
+    {
+        get;
+        private set
+        {
+            field = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public long LootSplitFairShare
+    {
+        get;
+        private set
+        {
+            field = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public void RecalculateLootSplit()
+    {
+        var participants = LootingPlayers.Where(x => x.LootingPlayerVisibility == Visibility.Visible).ToList();
+        var lootedValueByName = participants.ToDictionary(x => x.PlayerName, x => x.TotalEstimatedMarketValue);
+
+        var result = LootSplitCalculator.Calculate(lootedValueByName);
+
+        LootSplitTotalValue = result.TotalValue;
+        LootSplitParticipantCount = result.ParticipantCount;
+        LootSplitFairShare = result.FairShare;
+
+        foreach (var participant in participants)
+        {
+            participant.FairShareBalance = result.BalanceByName.GetValueOrDefault(participant.PlayerName, 0);
+        }
+
+        foreach (var nonParticipant in LootingPlayers.Except(participants))
+        {
+            nonParticipant.FairShareBalance = 0;
+        }
+    }
+
     public ObservableCollection<VaultContainerLogItem> VaultLogItems
     {
         get;

@@ -20,7 +20,9 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Threading;
+using Wpf.Ui.Appearance;
 
 namespace StatisticsAnalysisTool;
 
@@ -39,10 +41,17 @@ public partial class App
         {
             Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
+            var baseDirectoryMigrationMessage = AppDataMigration.MigrateBaseDirectoryRename();
             AppDataPaths.EnsureBaseDirectory();
             var migrationMessages = AppDataMigration.MigrateLegacyRuntimeData();
             AppDataPaths.EnsureRuntimeDirectories();
             InitLogger();
+            ApplicationAccentColorManager.Apply(Color.FromRgb(0x00, 0xB8, 0xFF), ApplicationTheme.Dark);
+            ConfigureLiveCharts();
+            if (baseDirectoryMigrationMessage != null)
+            {
+                AppDataMigration.LogMessages([baseDirectoryMigrationMessage]);
+            }
             AppDataMigration.LogMessages(migrationMessages);
             Log.Information("Tool started with v{Version}", Assembly.GetExecutingAssembly().GetName().Version);
 
@@ -109,7 +118,7 @@ public partial class App
             {
                 Log.Fatal(ex, "An unexpected fatal error has occurred.");
                 MessageBox.Show("An unexpected error has occurred.",
-                    "Statistics Analysis Tool",
+                    "AlbionOnline - DataVault",
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
             }
@@ -163,6 +172,19 @@ public partial class App
         return false;
     }
 
+
+    /// <summary>
+    /// LiveCharts2 defaults to black legend/tooltip text, invisible on this app's dark theme.
+    /// Per-axis label colors still need to be set where axes are constructed (StatisticController,
+    /// DamageMeterBindings) since axis paints aren't covered by this global setting.
+    /// </summary>
+    private static void ConfigureLiveCharts()
+    {
+        LiveChartsCore.LiveCharts.Configure(settings => settings
+            .WithLegendTextPaint(new LiveChartsCore.SkiaSharpView.Painting.SolidColorPaint(new SkiaSharp.SKColor(0xE9, 0xED, 0xF1)))
+            .WithTooltipTextPaint(new LiveChartsCore.SkiaSharpView.Painting.SolidColorPaint(new SkiaSharp.SKColor(0xE9, 0xED, 0xF1)))
+            .WithTooltipBackgroundPaint(new LiveChartsCore.SkiaSharpView.Painting.SolidColorPaint(new SkiaSharp.SKColor(0x1A, 0x1A, 0x1D))));
+    }
 
     private static void InitLogger()
     {

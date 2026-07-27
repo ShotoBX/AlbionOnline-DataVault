@@ -228,6 +228,87 @@ public static class ApiController
         }
     }
 
+    public static async Task<GameInfoGuildsResponse> GetGameInfoGuildFromJsonAsync(string guildId)
+    {
+        if (string.IsNullOrEmpty(guildId))
+        {
+            return null;
+        }
+
+        var url = $"{GetServerBaseUrlByCurrentServer()}/api/gameinfo/guilds/{guildId}";
+
+        using var clientHandler = new HttpClientHandler
+        {
+            SslProtocols = System.Security.Authentication.SslProtocols.Tls13 | System.Security.Authentication.SslProtocols.Tls12,
+            ServerCertificateCustomValidationCallback = (_, _, _, _) => true
+        };
+
+        using var client = new HttpClient(clientHandler)
+        {
+            Timeout = TimeSpan.FromSeconds(120)
+        };
+
+        try
+        {
+            using var response = await client.GetAsync(url);
+            using var content = response.Content;
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return null;
+            }
+
+            return JsonSerializer.Deserialize<GameInfoGuildsResponse>(await content.ReadAsStringAsync());
+        }
+        catch (Exception e)
+        {
+            DebugConsole.WriteError(MethodBase.GetCurrentMethod()?.DeclaringType, e);
+            Log.Error(e, "{message}", MethodBase.GetCurrentMethod()?.DeclaringType);
+            return null;
+        }
+    }
+
+    public static async Task<List<SearchPlayerResponse>> GetGameInfoGuildMembersFromJsonAsync(string guildId)
+    {
+        var values = new List<SearchPlayerResponse>();
+        if (string.IsNullOrEmpty(guildId))
+        {
+            return values;
+        }
+
+        var url = $"{GetServerBaseUrlByCurrentServer()}/api/gameinfo/guilds/{guildId}/members";
+
+        using var clientHandler = new HttpClientHandler
+        {
+            SslProtocols = System.Security.Authentication.SslProtocols.Tls13 | System.Security.Authentication.SslProtocols.Tls12,
+            ServerCertificateCustomValidationCallback = (_, _, _, _) => true
+        };
+
+        using var client = new HttpClient(clientHandler)
+        {
+            Timeout = TimeSpan.FromSeconds(120)
+        };
+
+        try
+        {
+            using var response = await client.GetAsync(url);
+            using var content = response.Content;
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return values;
+            }
+
+            return JsonSerializer.Deserialize<List<SearchPlayerResponse>>(await content.ReadAsStringAsync()) ?? values;
+        }
+        catch (Exception e)
+        {
+            DebugConsole.WriteError(MethodBase.GetCurrentMethod()?.DeclaringType, e);
+            Log.Error(e, "{message}", MethodBase.GetCurrentMethod()?.DeclaringType);
+            return values;
+        }
+    }
+
     public static async Task<List<GameInfoPlayerKillsDeaths>> GetGameInfoPlayerKillsDeathsFromJsonAsync(string userid, GameInfoPlayersType gameInfoPlayersType)
     {
         var values = new List<GameInfoPlayerKillsDeaths>();

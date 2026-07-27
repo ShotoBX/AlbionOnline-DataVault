@@ -1,6 +1,7 @@
 ﻿using StatisticsAnalysisTool.Common;
 using StatisticsAnalysisTool.Common.UserSettings;
 using StatisticsAnalysisTool.Localization;
+using StatisticsAnalysisTool.Notification;
 using StatisticsAnalysisTool.Properties;
 using StatisticsAnalysisTool.ViewModels;
 using System;
@@ -68,7 +69,7 @@ public sealed class DungeonCloseTimer : BaseViewModel
         }
     }
 
-    public void UpdateTimer(object sender, EventArgs e)
+    public async void UpdateTimer(object sender, EventArgs e)
     {
         var duration = _endTime - DateTime.UtcNow;
         TimerString = duration.ToString("hh\\:mm\\:ss");
@@ -81,6 +82,8 @@ public sealed class DungeonCloseTimer : BaseViewModel
             {
                 SoundController.PlayAlertSound(AppDataPaths.SoundFile(Settings.Default.DungeonClosedSoundFileName));
             }
+
+            await DiscordWebhookService.SendDungeonClosedAsync();
 
             _dispatcherTimer.Stop();
         }

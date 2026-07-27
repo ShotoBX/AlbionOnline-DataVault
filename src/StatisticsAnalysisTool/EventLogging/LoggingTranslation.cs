@@ -62,4 +62,8 @@ public class LoggingTranslation
     public static string DeleteChestLogs => LocalizationController.Translation("DELETE_CHEST_LOGS");
     public static string DeleteAllLogs => LocalizationController.Translation("DELETE_ALL_LOGS");
     public static string RemovePlayerFromLootComparator => LocalizationController.Translation("REMOVE_PLAYER_FROM_LOOT_COMPARATOR");
+    public static string LootSplitTotal => LocalizationController.Translation("LOOT_SPLIT_TOTAL");
+    public static string LootSplitFairShare => LocalizationController.Translation("LOOT_SPLIT_FAIR_SHARE");
+    public static string LootSplitRecalculate => LocalizationController.Translation("LOOT_SPLIT_RECALCULATE");
+    public static string LootSplitBalance => LocalizationController.Translation("LOOT_SPLIT_BALANCE");
 }

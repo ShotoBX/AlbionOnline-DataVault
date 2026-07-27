@@ -7,28 +7,208 @@
              xmlns:vwp="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel"
              xmlns:viewModels="clr-namespace:StatisticsAnalysisTool.ViewModels"
              xmlns:gl="clr-namespace:System.Globalization;assembly=System.Runtime"
+             xmlns:wpf="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
+             xmlns:damageMeter="clr-namespace:StatisticsAnalysisTool.DamageMeter"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel}">
     <Grid>
-        <TabControl SelectedIndex="1" Background="Transparent">
-            <TabItem Header="{Binding GuildBindings.TranslationLootLogChecker, FallbackValue=LOOT_LOG_CHECKER}" Visibility="Collapsed">
-                <!--<StackPanel Orientation="Vertical">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30">
-                        <Button Content="{Binding GuildBindings.TranslationReset, FallbackValue=RESET}" Margin="5,0" Height="26" Width="100" />
+        <TabControl SelectedIndex="0" Background="Transparent">
+            <TabItem Header="{Binding GuildBindings.TranslationGuildOverview, FallbackValue=GUILD_OVERVIEW}">
+                <ScrollViewer>
+                    <StackPanel Margin="16" Orientation="Vertical">
+                        <Border Style="{StaticResource Style.Card}" Padding="24" Visibility="{Binding GuildBindings.GuildOverviewEmptyVisibility}">
+                            <StackPanel HorizontalAlignment="Center">
+                                <TextBlock Text="{Binding GuildBindings.TranslationGuildOverviewEmpty, FallbackValue=GUILD_OVERVIEW_EMPTY}"
+                                           Foreground="{StaticResource SolidColorBrush.TextSecondary}" TextWrapping="Wrap" TextAlignment="Center" MaxWidth="420" Margin="0,0,0,14" />
+                                <Button Content="{Binding GuildBindings.TranslationGuildOverviewRefresh, FallbackValue=GUILD_OVERVIEW_REFRESH}"
+                                        HorizontalAlignment="Center" MinWidth="160" Click="BtnRefreshGuildOverview_Click" />
+                            </StackPanel>
+                        </Border>
+
+                        <StackPanel Visibility="{Binding GuildBindings.GuildOverviewContentVisibility}">
+                            <Border Style="{StaticResource Style.Card}" Padding="18" Margin="0,0,0,14">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0">
+                                        <TextBlock Text="{Binding GuildBindings.GuildInfo.Name}" Foreground="{StaticResource SolidColorBrush.Text.1}" FontSize="20" FontWeight="Bold" />
+                                        <TextBlock Foreground="{StaticResource SolidColorBrush.TextSecondary}" FontSize="12" Margin="0,4,0,0">
+                                            <Run Text="{Binding GuildBindings.TranslationGuildOverviewFounder, Mode=OneWay}" />
+                                            <Run Text=": " />
+                                            <Run Text="{Binding GuildBindings.GuildInfo.FounderName, Mode=OneWay}" />
+                                            <Run Text="    " />
+                                            <Run Text="{Binding GuildBindings.TranslationGuildOverviewFounded, Mode=OneWay}" />
+                                            <Run Text=": " />
+                                            <Run Text="{Binding GuildBindings.GuildInfo.Founded, StringFormat=d, Mode=OneWay}" />
+                                        </TextBlock>
+                                    </StackPanel>
+                                    <Button Grid.Column="1" Content="{Binding GuildBindings.TranslationGuildOverviewRefresh, FallbackValue=GUILD_OVERVIEW_REFRESH}"
+                                            VerticalAlignment="Top" MinWidth="120" Click="BtnRefreshGuildOverview_Click" />
+                                </Grid>
+                            </Border>
+
+                            <WrapPanel Margin="0,0,0,14">
+                                <Border Style="{StaticResource PlayerAnalysis.StatCard}">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding GuildBindings.TranslationGuildOverviewMembers, FallbackValue=GUILD_OVERVIEW_MEMBERS}" Style="{StaticResource PlayerAnalysis.StatLabel}" />
+                                        <TextBlock Text="{Binding GuildBindings.GuildInfo.MemberCount}" Style="{StaticResource PlayerAnalysis.StatValue}" />
+                                    </StackPanel>
+                                </Border>
+                                <Border Style="{StaticResource PlayerAnalysis.StatCard}">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding GuildBindings.TranslationGuildOverviewKillFame, FallbackValue=GUILD_OVERVIEW_KILL_FAME}" Style="{StaticResource PlayerAnalysis.StatLabel}" />
+                                        <TextBlock Text="{Binding GuildBindings.GuildInfo.KillFame, StringFormat={}{0:N0}}" Style="{StaticResource PlayerAnalysis.StatValue}" />
+                                    </StackPanel>
+                                </Border>
+                                <Border Style="{StaticResource PlayerAnalysis.StatCard}">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding GuildBindings.TranslationGuildOverviewDeathFame, FallbackValue=GUILD_OVERVIEW_DEATH_FAME}" Style="{StaticResource PlayerAnalysis.StatLabel}" />
+                                        <TextBlock Text="{Binding GuildBindings.GuildInfo.DeathFame, StringFormat={}{0:N0}}" Style="{StaticResource PlayerAnalysis.StatValue}" />
+                                    </StackPanel>
+                                </Border>
+                                <Border Style="{StaticResource PlayerAnalysis.StatCard}">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding GuildBindings.TranslationGuildOverviewAlliance, FallbackValue=GUILD_OVERVIEW_ALLIANCE}" Style="{StaticResource PlayerAnalysis.StatLabel}" />
+                                        <TextBlock Text="{Binding GuildBindings.GuildInfo.AllianceTag}" Style="{StaticResource PlayerAnalysis.StatValue}" />
+                                    </StackPanel>
+                                </Border>
+                            </WrapPanel>
+
+                            <Border Style="{StaticResource Style.Card}" Padding="14">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding GuildBindings.TranslationGuildOverviewRanking, FallbackValue=GUILD_OVERVIEW_RANKING}"
+                                               Foreground="{StaticResource SolidColorBrush.Text.1}" FontSize="15" FontWeight="SemiBold" Margin="0,0,0,10" />
+                                    <ItemsControl ItemsSource="{Binding GuildBindings.GuildMembers}" ItemTemplate="{StaticResource GuildOverview.MemberRowTemplate}" />
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
                     </StackPanel>
-                    <StackPanel>
-                        <Grid>
-                            <vwp:VirtualizingItemsControl Margin="0,64,0,0" Width="430" ItemsSource="{Binding VaultBindings.VaultContainerContent, IsAsync=True, Mode=OneWay}" ItemTemplate="{StaticResource ContainerItemTemplate}"              
-                                                          VirtualizingPanel.CacheLengthUnit="Item"
-                                                          VirtualizingPanel.CacheLength="10,10"
-                                                          VirtualizingPanel.ScrollUnit="Pixel"
-                                                          VirtualizingPanel.VirtualizationMode="Recycling"
-                                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                                          ScrollViewer.VerticalScrollBarVisibility="Visible" />
-                        </Grid>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="{Binding GuildBindings.TranslationBattleReport, FallbackValue=BATTLE_REPORT}">
+                <ScrollViewer>
+                    <StackPanel Margin="16" Orientation="Vertical">
+                        <Border Style="{StaticResource Style.Card}" Padding="24" Visibility="{Binding GuildBindings.BattleReportEmptyStateVisibility}">
+                            <StackPanel HorizontalAlignment="Center">
+                                <TextBlock Text="{Binding GuildBindings.TranslationBattleReportEmpty, FallbackValue=BATTLE_REPORT_EMPTY}"
+                                           Foreground="{StaticResource SolidColorBrush.TextSecondary}" TextWrapping="Wrap" TextAlignment="Center" MaxWidth="420" />
+                            </StackPanel>
+                        </Border>
+
+                        <StackPanel Visibility="{Binding GuildBindings.BattleReportMvpVisibility}">
+                            <Border Style="{StaticResource Style.Card}" Padding="18" Margin="0,0,0,14">
+                                <StackPanel Orientation="Horizontal">
+                                    <Border Width="48" Height="48" CornerRadius="24" Background="{StaticResource SolidColorBrush.Hover}" Margin="0,0,14,0">
+                                        <TextBlock Text="{Binding GuildBindings.BattleReportMvp.NameInitial}" FontWeight="Bold" FontSize="18"
+                                                   Foreground="{StaticResource SolidColorBrush.Text.1}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Border>
+                                    <StackPanel VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding GuildBindings.TranslationBattleReportMvp, FallbackValue=MVP}"
+                                                   Foreground="{StaticResource SolidColorBrush.Accent.Blue.2}" FontSize="12" FontWeight="SemiBold" />
+                                        <TextBlock Text="{Binding GuildBindings.BattleReportMvp.Name}" Foreground="{StaticResource SolidColorBrush.Text.1}" FontSize="18" FontWeight="Bold" />
+                                        <TextBlock Foreground="{StaticResource SolidColorBrush.TextSecondary}" FontSize="12">
+                                            <Run Text="{Binding GuildBindings.BattleReportMvp.DamageShortString, Mode=OneWay}" />
+                                            <Run Text=" dmg" />
+                                        </TextBlock>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <WrapPanel Margin="0,0,0,14">
+                                <Border Style="{StaticResource PlayerAnalysis.StatCard}">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding GuildBindings.TranslationBattleReportMembers, FallbackValue=BATTLE_REPORT_MEMBERS}" Style="{StaticResource PlayerAnalysis.StatLabel}" />
+                                        <TextBlock Text="{Binding GuildBindings.BattleReportMembers.Count}" Style="{StaticResource PlayerAnalysis.StatValue}" />
+                                    </StackPanel>
+                                </Border>
+                                <Border Style="{StaticResource PlayerAnalysis.StatCard}">
+                                    <StackPanel>
+                                        <TextBlock Text="{x:Static damageMeter:DamageMeterBindings.TranslationTotalDamage}" Style="{StaticResource PlayerAnalysis.StatLabel}" />
+                                        <TextBlock Text="{Binding GuildBindings.BattleReportTotalDamage, StringFormat={}{0:N0}}" Style="{StaticResource PlayerAnalysis.StatValue}" />
+                                    </StackPanel>
+                                </Border>
+                                <Border Style="{StaticResource PlayerAnalysis.StatCard}">
+                                    <StackPanel>
+                                        <TextBlock Text="{x:Static damageMeter:DamageMeterBindings.TranslationTotalHealing}" Style="{StaticResource PlayerAnalysis.StatLabel}" />
+                                        <TextBlock Text="{Binding GuildBindings.BattleReportTotalHealing, StringFormat={}{0:N0}}" Style="{StaticResource PlayerAnalysis.StatValue}" />
+                                    </StackPanel>
+                                </Border>
+                            </WrapPanel>
+
+                            <Border Style="{StaticResource Style.Card}" Padding="14" Margin="0,0,0,14">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding GuildBindings.TranslationBattleReportTopContributors, FallbackValue=BATTLE_REPORT_TOP_CONTRIBUTORS}"
+                                               Foreground="{StaticResource SolidColorBrush.Text.1}" FontSize="15" FontWeight="SemiBold" Margin="0,0,0,10" />
+                                    <wpf:CartesianChart Series="{Binding GuildBindings.SeriesBattleReportContribution}"
+                                                        XAxes="{Binding GuildBindings.XAxesBattleReportContribution}"
+                                                        YAxes="{Binding GuildBindings.YAxesBattleReportContribution}"
+                                                        Height="240" Background="Transparent" LegendPosition="Top" AnimationsSpeed="0:0:0.4" />
+                                </StackPanel>
+                            </Border>
+
+                            <ItemsControl ItemsSource="{Binding GuildBindings.BattleReportMembers}" ItemTemplate="{StaticResource DamageMeterFragmentTemplate}" />
+                        </StackPanel>
                     </StackPanel>
-                </StackPanel>-->
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="{Binding GuildBindings.TranslationGuildLootCheck, FallbackValue=GUILD_LOOT_CHECK}">
+                <ScrollViewer>
+                    <StackPanel Margin="16" Orientation="Vertical">
+                        <Border Style="{StaticResource Style.Card}" Padding="24" Visibility="{Binding GuildBindings.LootCheckEmptyVisibility}">
+                            <StackPanel HorizontalAlignment="Center">
+                                <TextBlock Text="{Binding GuildBindings.TranslationGuildLootCheckEmpty, FallbackValue=GUILD_LOOT_CHECK_EMPTY}"
+                                           Foreground="{StaticResource SolidColorBrush.TextSecondary}" TextWrapping="Wrap" TextAlignment="Center" MaxWidth="420" Margin="0,0,0,14" />
+                                <Button Content="{Binding GuildBindings.TranslationGuildLootCheckRefresh, FallbackValue=GUILD_LOOT_CHECK_REFRESH}"
+                                        HorizontalAlignment="Center" MinWidth="160" Click="BtnRefreshLootCheck_Click" />
+                            </StackPanel>
+                        </Border>
+
+                        <StackPanel Visibility="{Binding GuildBindings.LootCheckContentVisibility}">
+                            <WrapPanel Margin="0,0,0,14">
+                                <Border Style="{StaticResource PlayerAnalysis.StatCard}">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding GuildBindings.TranslationGuildLootCheckResolved, FallbackValue=GUILD_LOOT_CHECK_RESOLVED}" Style="{StaticResource PlayerAnalysis.StatLabel}" />
+                                        <TextBlock Text="{Binding GuildBindings.LootCheckResolvedCount}" Style="{StaticResource PlayerAnalysis.StatValue}" Foreground="{StaticResource SolidColorBrush.Accent.Green.3}" />
+                                    </StackPanel>
+                                </Border>
+                                <Border Style="{StaticResource PlayerAnalysis.StatCard}">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding GuildBindings.TranslationGuildLootCheckLost, FallbackValue=GUILD_LOOT_CHECK_LOST}" Style="{StaticResource PlayerAnalysis.StatLabel}" />
+                                        <TextBlock Text="{Binding GuildBindings.LootCheckLostCount}" Style="{StaticResource PlayerAnalysis.StatValue}" Foreground="{StaticResource SolidColorBrush.Accent.Red.3}" />
+                                    </StackPanel>
+                                </Border>
+                                <Border Style="{StaticResource PlayerAnalysis.StatCard}">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding GuildBindings.TranslationGuildLootCheckUnknown, FallbackValue=GUILD_LOOT_CHECK_UNKNOWN}" Style="{StaticResource PlayerAnalysis.StatLabel}" />
+                                        <TextBlock Text="{Binding GuildBindings.LootCheckUnknownCount}" Style="{StaticResource PlayerAnalysis.StatValue}" />
+                                    </StackPanel>
+                                </Border>
+                                <Border Style="{StaticResource PlayerAnalysis.StatCard}">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding GuildBindings.TranslationGuildLootCheckDonated, FallbackValue=GUILD_LOOT_CHECK_DONATED}" Style="{StaticResource PlayerAnalysis.StatLabel}" />
+                                        <TextBlock Text="{Binding GuildBindings.LootCheckDonatedCount}" Style="{StaticResource PlayerAnalysis.StatValue}" Foreground="{StaticResource SolidColorBrush.Accent.Blue.2}" />
+                                    </StackPanel>
+                                </Border>
+                            </WrapPanel>
+
+                            <Border Style="{StaticResource Style.Card}" Padding="18">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="{Binding GuildBindings.TranslationGuildLootCheckHint, FallbackValue=GUILD_LOOT_CHECK_HINT}"
+                                               Foreground="{StaticResource SolidColorBrush.TextSecondary}" TextWrapping="Wrap" VerticalAlignment="Center" />
+                                    <Button Grid.Column="1" Content="{Binding GuildBindings.TranslationGuildLootCheckRefresh, FallbackValue=GUILD_LOOT_CHECK_REFRESH}"
+                                            MinWidth="120" Click="BtnRefreshLootCheck_Click" />
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
             </TabItem>
             <TabItem Header="{Binding GuildBindings.TranslationSiphonedEnergy, FallbackValue=SIPHONED_ENERGY}">
                 <Grid>

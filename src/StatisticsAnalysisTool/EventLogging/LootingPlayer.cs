@@ -100,6 +100,30 @@ public class LootingPlayer : BaseViewModel
     public Visibility TotalEstimatedMarketValueVisibility
         => TotalEstimatedMarketValue > 0 ? Visibility.Visible : Visibility.Collapsed;
 
+    private long _fairShareBalance;
+
+    /// <summary>
+    /// Set by LoggingBindings.RecalculateLootSplit(): how far this player's looted value is from an equal split
+    /// of the total pool. Positive = took more than their fair share, negative = took less.
+    /// </summary>
+    public long FairShareBalance
+    {
+        get => _fairShareBalance;
+        set
+        {
+            _fairShareBalance = value;
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(FairShareBalanceShortString));
+            OnPropertyChanged(nameof(FairShareBalanceVisibility));
+        }
+    }
+
+    public string FairShareBalanceShortString
+        => (_fairShareBalance >= 0 ? "+" : string.Empty) + _fairShareBalance.ToShortNumberString();
+
+    public Visibility FairShareBalanceVisibility
+        => _fairShareBalance != 0 ? Visibility.Visible : Visibility.Collapsed;
+
     private string BuildDisplayName()
     {
         if (string.IsNullOrWhiteSpace(PlayerName))

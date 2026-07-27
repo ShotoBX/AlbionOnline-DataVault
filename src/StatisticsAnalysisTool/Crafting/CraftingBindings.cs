@@ -3,6 +3,7 @@ using StatisticsAnalysisTool.Common;
 using StatisticsAnalysisTool.Common.UserSettings;
 using StatisticsAnalysisTool.Diagnostics;
 using StatisticsAnalysisTool.Enumerations;
+using StatisticsAnalysisTool.Exceptions;
 using StatisticsAnalysisTool.GameFileData;
 using StatisticsAnalysisTool.Localization;
 using StatisticsAnalysisTool.Models;
@@ -33,7 +34,7 @@ public class CraftingBindings : BaseViewModel
         "furniture"
     };
 
-    private static readonly MarketLocation[] SellPriceMarketLocations =
+    internal static readonly MarketLocation[] SellPriceMarketLocations =
     [
         MarketLocation.BlackMarket,
         MarketLocation.MartlockMarket,
@@ -68,6 +69,7 @@ public class CraftingBindings : BaseViewModel
     private string _salesTaxPercentText = FormatPercentInput(4m);
     private string _setupFeePercentText = FormatPercentInput(2.5m);
     private BlackMarketBindings _blackMarket;
+    private bool _isSyncingSourceLocations;
 
     public CraftingBindings()
     {
@@ -82,6 +84,15 @@ public class CraftingBindings : BaseViewModel
         SelectedDailyBonus = DailyBonusOptions.First();
         SelectedHideoutBonus = HideoutBonusOptions.First();
         RefreshCraftingLocations(null);
+
+        foreach (var location in ResourceMarketLocations)
+        {
+            SourcingCityFilters.Add(new SourcingCityFilterOption
+            {
+                Location = location.Key,
+                DisplayName = location.Value
+            });
+        }
 
         _ = LoadAsync();
     }
@@ -109,6 +120,8 @@ public class CraftingBindings : BaseViewModel
     public ObservableCollection<CategoryDropdownItem> ItemSubCategories2 { get; private set; } = [];
 
     public BlackMarketBindings BlackMarket => IsBlackMarketEnabled ? _blackMarket ??= new BlackMarketBindings() : null;
+
+    public CraftingOptimizerBindings Optimizer { get; } = new();
 
     public bool IsBlackMarketEnabled => SettingsController.CurrentSettings.Bm;
 
@@ -153,10 +166,16 @@ public class CraftingBindings : BaseViewModel
 
             field = value;
             OnPropertyChanged();
+            OnPropertyChanged(nameof(SelectedItemHeaderVisibility));
+            OnPropertyChanged(nameof(SelectedItemEmptyVisibility));
             ClearSellPriceOptions();
             ApplySelectedItem(value);
         }
     }
+
+    public Visibility SelectedItemHeaderVisibility => SelectedItem == null ? Visibility.Collapsed : Visibility.Visible;
+
+    public Visibility SelectedItemEmptyVisibility => SelectedItem == null ? Visibility.Visible : Visibility.Collapsed;
 
     public SavedCrafting SelectedSavedCrafting
     {
@@ -390,10 +409,212 @@ public class CraftingBindings : BaseViewModel
         set
         {
             field = value;
+            if (UseGlobalCity)
+            {
+                SyncResourceSourceLocationsToGlobal();
+            }
             OnPropertyChanged();
         }
     }
     = MarketLocation.CaerleonMarket;
+
+    #region Multi-city resource sourcing
+
+    /// <summary>
+    /// Buy-city choices for per-resource sourcing: the sellable market locations minus the Black
+    /// Market (players can only sell there, never buy resources from it).
+    /// </summary>
+    public KeyValuePair<MarketLocation, string>[] ResourceMarketLocations { get; } =
+        SellPriceMarketLocations
+            .Where(x => x != MarketLocation.BlackMarket)
+            .Select(x => new KeyValuePair<MarketLocation, string>(x, Locations.GetDisplayName(x)))
+            .ToArray();
+
+    public ObservableCollection<SourcingCityFilterOption> SourcingCityFilters { get; } = [];
+
+    public bool UseGlobalCity
+    {
+        get;
+        set
+        {
+            field = value;
+            if (value)
+            {
+                SyncResourceSourceLocationsToGlobal();
+            }
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(IsPerCitySourcingEnabled));
+            OnPropertyChanged(nameof(PerCitySourcingVisibility));
+        }
+    }
+    = true;
+
+    public bool IsPerCitySourcingEnabled => !UseGlobalCity;
+
+    public Visibility PerCitySourcingVisibility => UseGlobalCity ? Visibility.Collapsed : Visibility.Visible;
+
+    public bool IsOptimizingPurchase
+    {
+        get;
+        set
+        {
+            field = value;
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(IsNotOptimizingPurchase));
+        }
+    }
+
+    public bool IsNotOptimizingPurchase => !IsOptimizingPurchase;
+
+    public string OptimizationSummaryText
+    {
+        get;
+        set
+        {
+            field = value;
+            OnPropertyChanged();
+        }
+    }
+    = string.Empty;
+
+    public ICommand OptimizePurchaseCommand => field ??= new CommandHandler(_ => OptimizePurchaseAsync(), true);
+
+    private void SyncResourceSourceLocationsToGlobal()
+    {
+        _isSyncingSourceLocations = true;
+        try
+        {
+            foreach (var resource in Resources)
+            {
+                resource.SourceLocation = SelectedMarketLocation;
+            }
+        }
+        finally
+        {
+            _isSyncingSourceLocations = false;
+        }
+    }
+
+    /// <summary>
+    /// Per-row city change (only meaningful with "use global city" off): reload that resource's price
+    /// from the API for the newly picked city. UnitPrice's ValuesChanged then recalculates everything.
+    /// </summary>
+    private async void OnResourceSourceLocationChanged(CraftingResourceEntry resource)
+    {
+        if (resource == null || _isSyncingSourceLocations || _isLoading || IsOptimizingPurchase || UseGlobalCity)
+        {
+            return;
+        }
+
+        try
+        {
+            resource.UnitPrice = await LoadPriceAsync(resource.UniqueName, resource.SourceLocation, false);
+            StatusText = LocalizationController.Translation("CRAFTING_MARKET_PRICES_LOADED");
+        }
+        catch (Exception e)
+        {
+            DebugConsole.WriteError(MethodBase.GetCurrentMethod()?.DeclaringType, e);
+            Log.Error(e, "Resource price for city could not be loaded");
+            StatusText = LocalizationController.Translation("CRAFTING_MARKET_PRICES_COULD_NOT_BE_LOADED");
+        }
+    }
+
+    /// <summary>
+    /// Queries every allowed city's price for each resource, picks the cheapest per resource, and
+    /// reports the estimated savings vs buying everything in the current global city. Turns off
+    /// "use global city" so the per-row choices become visible/editable.
+    /// </summary>
+    private async void OptimizePurchaseAsync()
+    {
+        if (IsOptimizingPurchase)
+        {
+            return;
+        }
+
+        if (SelectedItem == null || Resources.Count == 0)
+        {
+            StatusText = LocalizationController.Translation("CRAFTING_SELECT_ITEM_BEFORE_LOADING_PRICES");
+            return;
+        }
+
+        var allowedLocations = SourcingCityFilters
+            .Where(x => !x.IsExcluded)
+            .Select(x => x.Location)
+            .ToHashSet();
+
+        if (allowedLocations.Count == 0)
+        {
+            OptimizationSummaryText = LocalizationController.Translation("CRAFTING_OPTIMIZE_NO_DATA");
+            return;
+        }
+
+        IsOptimizingPurchase = true;
+        OptimizationSummaryText = string.Empty;
+        StatusText = LocalizationController.Translation("CRAFTING_OPTIMIZING");
+
+        try
+        {
+            UseGlobalCity = false;
+
+            var globalLocation = SelectedMarketLocation;
+            var baselineTotal = 0m;
+            var optimizedTotal = 0m;
+            var comparableResources = 0;
+
+            foreach (var resource in Resources)
+            {
+                var prices = await ApiController.GetCityItemPricesFromJsonAsync(resource.UniqueName).ConfigureAwait(true) ?? [];
+
+                var best = ResourceMarketLocations
+                    .Where(x => allowedLocations.Contains(x.Key))
+                    .Select(x => new { Location = x.Key, Value = GetSellPriceOptionValue(prices, x.Key) })
+                    .Where(x => x.Value.Price > 0m)
+                    .OrderBy(x => x.Value.Price)
+                    .FirstOrDefault();
+
+                if (best == null)
+                {
+                    continue;
+                }
+
+                resource.SourceLocation = best.Location;
+                resource.UnitPrice = best.Value.Price;
+
+                var baselineValue = GetSellPriceOptionValue(prices, globalLocation);
+                if (baselineValue.Price > 0m)
+                {
+                    baselineTotal += baselineValue.Price * resource.GrossQuantity;
+                    optimizedTotal += best.Value.Price * resource.GrossQuantity;
+                    comparableResources++;
+                }
+
+                await Task.Delay(150).ConfigureAwait(true);
+            }
+
+            OptimizationSummaryText = comparableResources > 0
+                ? string.Format(LocalizationController.Translation("CRAFTING_OPTIMIZE_SAVINGS"),
+                    (baselineTotal - optimizedTotal).ToString("N0", CultureInfo.CurrentCulture),
+                    Locations.GetDisplayName(globalLocation))
+                : LocalizationController.Translation("CRAFTING_OPTIMIZE_NO_DATA");
+            StatusText = LocalizationController.Translation("CRAFTING_MARKET_PRICES_LOADED");
+        }
+        catch (TooManyRequestsException)
+        {
+            StatusText = LocalizationController.Translation("CRAFTING_OPTIMIZER_RATE_LIMITED");
+        }
+        catch (Exception e)
+        {
+            DebugConsole.WriteError(MethodBase.GetCurrentMethod()?.DeclaringType, e);
+            Log.Error(e, "Purchase optimization failed");
+            StatusText = LocalizationController.Translation("CRAFTING_MARKET_PRICES_COULD_NOT_BE_LOADED");
+        }
+        finally
+        {
+            IsOptimizingPurchase = false;
+        }
+    }
+
+    #endregion
 
     public decimal StationFee
     {
@@ -559,6 +780,17 @@ public class CraftingBindings : BaseViewModel
     public static string TranslationCosts => LocalizationController.Translation("COSTS");
     public static string TranslationCrafting => LocalizationController.Translation("CRAFTING");
     public static string TranslationCraftingLocation => LocalizationController.Translation("CRAFTING_LOCATION");
+    public static string TranslationCraftingSettingsSection => LocalizationController.Translation("CRAFTING_SETTINGS_SECTION");
+    public static string TranslationPricingFeesSection => LocalizationController.Translation("PRICING_FEES_SECTION");
+    public static string TranslationSelectItemToStart => LocalizationController.Translation("CRAFTING_SELECT_ITEM_TO_START");
+    public static string TranslationProfitabilitySection => LocalizationController.Translation("PROFITABILITY_SECTION");
+    public static string TranslationWeightSection => LocalizationController.Translation("WEIGHT");
+    public static string TranslationSubcategory1 => LocalizationController.Translation("SUBCATEGORY_1");
+    public static string TranslationSubcategory2 => LocalizationController.Translation("SUBCATEGORY_2");
+    public static string TranslationItemEnchantment => LocalizationController.Translation("ITEM_ENCHANTMENT");
+    public static string TranslationProfitable => LocalizationController.Translation("CRAFTING_PROFITABLE");
+    public static string TranslationNotProfitable => LocalizationController.Translation("CRAFTING_NOT_PROFITABLE");
+    public static string TranslationCategory => LocalizationController.Translation("CATEGORY");
     public static string TranslationDailyBonusRrr => LocalizationController.Translation("DAILY_BONUS_RRR");
     public static string TranslationDelete => LocalizationController.Translation("DELETE");
     public static string TranslationDetails => LocalizationController.Translation("DETAILS");
@@ -597,6 +829,10 @@ public class CraftingBindings : BaseViewModel
     public static string TranslationProfitPerItem => LocalizationController.Translation("PROFIT_PER_ITEM");
     public static string TranslationResource => LocalizationController.Translation("RESOURCE");
     public static string TranslationResources => LocalizationController.Translation("RESOURCES");
+    public static string TranslationUseGlobalCity => LocalizationController.Translation("USE_GLOBAL_CITY");
+    public static string TranslationOptimizePurchase => LocalizationController.Translation("OPTIMIZE_PURCHASE");
+    public static string TranslationBuyCity => LocalizationController.Translation("CRAFTING_BUY_CITY");
+    public static string TranslationExcludedCities => LocalizationController.Translation("CRAFTING_EXCLUDED_CITIES");
     public static string TranslationResults => LocalizationController.Translation("RESULTS");
     public static string TranslationReturnRatePercent => LocalizationController.Translation("RETURN_RATE_PERCENT");
     public static string TranslationRevenue => LocalizationController.Translation("REVENUE");
@@ -630,6 +866,7 @@ public class CraftingBindings : BaseViewModel
     public static string TranslationProfitPerItemTooltip => LocalizationController.Translation("CRAFTING_RESULT_PROFIT_PER_ITEM_TOOLTIP");
     public static string TranslationProfitTooltip => LocalizationController.Translation("CRAFTING_RESULT_PROFIT_TOOLTIP");
     public static string TranslationRoiTooltip => LocalizationController.Translation("CRAFTING_RESULT_ROI_TOOLTIP");
+    public static string TranslationSavedCraftingLoadTooltip => LocalizationController.Translation("CRAFTING_SAVED_CRAFTING_LOAD_TOOLTIP");
     public static string TranslationSalesGrossTooltip => LocalizationController.Translation("CRAFTING_RESULT_SALES_GROSS_TOOLTIP");
     public static string TranslationSalesNetTooltip => LocalizationController.Translation("CRAFTING_RESULT_SALES_NET_TOOLTIP");
     public static string TranslationSalesTaxTooltip => LocalizationController.Translation("CRAFTING_RESULT_SALES_TAX_TOOLTIP");
@@ -1019,7 +1256,7 @@ public class CraftingBindings : BaseViewModel
         {
             Id = string.Empty,
             Value = string.Empty,
-            DisplayName = string.Empty
+            DisplayName = LocalizationController.Translation("ALL")
         };
     }
 
@@ -1263,6 +1500,21 @@ public class CraftingBindings : BaseViewModel
     private void AddResource(CraftingResourceEntry resource)
     {
         resource.ValuesChanged = Recalculate;
+        resource.SourceLocationChanged = OnResourceSourceLocationChanged;
+
+        if (UseGlobalCity)
+        {
+            _isSyncingSourceLocations = true;
+            try
+            {
+                resource.SourceLocation = SelectedMarketLocation;
+            }
+            finally
+            {
+                _isSyncingSourceLocations = false;
+            }
+        }
+
         Resources.Add(resource);
     }
 
@@ -1407,7 +1659,7 @@ public class CraftingBindings : BaseViewModel
         IsSellPricePopupOpen = SellPriceOptions.Count > 0;
     }
 
-    private static async Task LoadPriceOptionsAsync(
+    internal static async Task LoadPriceOptionsAsync(
         string itemUniqueName,
         ObservableCollection<CraftingSellPriceOption> target,
         CraftingPricePreference pricePreference)
@@ -1485,7 +1737,7 @@ public class CraftingBindings : BaseViewModel
         IsSellPricePopupOpen = false;
     }
 
-    private static CraftingSellPriceOptionValue GetSellPriceOptionValue(IEnumerable<MarketResponse> prices, MarketLocation location)
+    internal static CraftingSellPriceOptionValue GetSellPriceOptionValue(IEnumerable<MarketResponse> prices, MarketLocation location)
     {
         var locationPrices = prices
             .Where(x => GetMarketLocationFromPrice(x) == location)
@@ -1525,7 +1777,7 @@ public class CraftingBindings : BaseViewModel
         return new CraftingSellPriceOptionValue((decimal) price, priceDate, priceDate.GetValueTimeStatus());
     }
 
-    private readonly record struct CraftingSellPriceOptionValue(decimal Price, DateTime PriceDate, ValueTimeStatus PriceDateStatus)
+    internal readonly record struct CraftingSellPriceOptionValue(decimal Price, DateTime PriceDate, ValueTimeStatus PriceDateStatus)
     {
         public static CraftingSellPriceOptionValue Empty => new(0m, DateTime.MinValue, ValueTimeStatus.NoValue);
     }
@@ -1752,7 +2004,7 @@ public class CraftingBindings : BaseViewModel
 
                 foreach (var resource in Resources)
                 {
-                    resource.UnitPrice = await LoadPriceAsync(resource.UniqueName, SelectedMarketLocation, false);
+                    resource.UnitPrice = await LoadPriceAsync(resource.UniqueName, UseGlobalCity ? SelectedMarketLocation : resource.SourceLocation, false);
                 }
 
                 if (Journal != null)
@@ -1776,7 +2028,7 @@ public class CraftingBindings : BaseViewModel
         }
     }
 
-    private static async Task<decimal> LoadPriceAsync(string uniqueName, MarketLocation location, bool useBuyPrice)
+    internal static async Task<decimal> LoadPriceAsync(string uniqueName, MarketLocation location, bool useBuyPrice)
     {
         var prices = await ApiController.GetCityItemPricesFromJsonAsync(uniqueName).ConfigureAwait(true);
         var locationName = Locations.GetParameterName(location);
@@ -1809,6 +2061,7 @@ public class CraftingBindings : BaseViewModel
             IsReturnable = resource.IsReturnable,
             MaxReturnQuantityPerRun = resource.MaxReturnQuantityPerRun,
             ResourceKind = resource.ResourceKind,
+            SourceLocation = resource.SourceLocation,
             Icon = resource.Icon
         }
         ;

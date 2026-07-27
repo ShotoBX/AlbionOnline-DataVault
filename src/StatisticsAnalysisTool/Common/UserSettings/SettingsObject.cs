@@ -94,8 +94,15 @@ public class SettingsObject
     public bool IsMapHistoryNaviTabActive { get; set; } = true;
     public bool IsPlayerInformationNaviTabActive { get; set; } = true;
     public bool IsGuildTabActive { get; set; } = true;
+    public bool IsArbitrageNaviTabActive { get; set; } = true;
     public bool IsNotificationFilterTradeActive { get; set; } = false;
     public bool IsNotificationTrackingStatusActive { get; set; } = false;
+    public bool IsEconomyStatsVisible { get; set; } = true;
+    public bool IsCraftingRecommendationVisible { get; set; } = true;
+    public string DiscordWebhookUrl { get; set; } = null;
+    public bool IsDiscordWebhookLootActive { get; set; } = false;
+    public bool IsDiscordWebhookDeathActive { get; set; } = false;
+    public bool IsDiscordWebhookDungeonClosedActive { get; set; } = false;
     public AutoDeleteGatheringStats AutoDeleteGatheringStats { get; set; } = AutoDeleteGatheringStats.NeverDelete;
     public OpenWorldAutoDeleteStats OpenWorldAutoDeleteStats { get; set; } = OpenWorldAutoDeleteStats.NeverDelete;
     public short ExactMatchPlayerNamesLineNumber { get; set; } = 0;

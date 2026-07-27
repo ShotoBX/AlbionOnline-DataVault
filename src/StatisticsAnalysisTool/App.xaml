@@ -1,6 +1,7 @@
 <Application x:Class="StatisticsAnalysisTool.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              DispatcherUnhandledException="Application_DispatcherUnhandledException"
              SessionEnding="OnSessionEnding"
              ShutdownMode="OnMainWindowClose">
@@ -14,6 +15,7 @@
                 <ResourceDictionary Source="Styles/MainWindowStyles.xaml" />
 
                 <ResourceDictionary Source="Styles/ItemWindowStyles.xaml" />
+                <ResourceDictionary Source="Styles/PlayerAnalysisWindowStyles.xaml" />
                 <ResourceDictionary Source="Styles/InfoWindowStyles.xaml" />
                 <ResourceDictionary Source="Styles/TabControlStyles.xaml" />
                 <ResourceDictionary Source="Styles/ItemSearchStyles.xaml" />
@@ -31,7 +33,19 @@
                 <ResourceDictionary Source="Styles/StorageHistoryStyle.xaml" />
                 <ResourceDictionary Source="Styles/DonationStyles.xaml" />
                 <ResourceDictionary Source="Styles/ThanksStyle.xaml" />
+
+                <!-- WPF-UI provides Mica/Acrylic backdrop support and design tokens; merged before HudStyles so the templates below win the implicit-style lookup for shared control types. -->
+                <ui:ThemesDictionary Theme="Dark" />
+                <ui:ControlsDictionary />
+
+                <!-- 2026 visual identity: rounded, soft-shadow, minimalist premium controls, overriding both the legacy flat styles above and WPF-UI's defaults. -->
+                <ResourceDictionary Source="Styles/HudStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <!-- App-wide typography: inherited FontFamily cascades to every window/control unless locally overridden. -->
+            <Style TargetType="{x:Type Window}">
+                <Setter Property="FontFamily" Value="Segoe UI Variable, Segoe UI, Inter, Segoe UI" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

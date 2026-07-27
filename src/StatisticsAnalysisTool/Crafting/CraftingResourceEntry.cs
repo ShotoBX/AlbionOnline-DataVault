@@ -1,4 +1,5 @@
 using StatisticsAnalysisTool.Common;
+using StatisticsAnalysisTool.Enumerations;
 using StatisticsAnalysisTool.Localization;
 using StatisticsAnalysisTool.ViewModels;
 using System;
@@ -12,7 +13,36 @@ public class CraftingResourceEntry : BaseViewModel
 {
     [JsonIgnore]
     public Action ValuesChanged { get; set; }
+
+    /// <summary>
+    /// Raised when the user picks a different buy city for this resource so CraftingBindings can
+    /// reload this row's price from the API. Set alongside ValuesChanged in AddResource.
+    /// </summary>
+    [JsonIgnore]
+    public Action<CraftingResourceEntry> SourceLocationChanged { get; set; }
+
     public string UniqueName { get; set; }
+
+    /// <summary>
+    /// City this resource is bought in (multi-city sourcing). While "use global city" is active this
+    /// mirrors CraftingBindings.SelectedMarketLocation; serialized so saved craftings keep the choice.
+    /// </summary>
+    public MarketLocation SourceLocation
+    {
+        get;
+        set
+        {
+            if (field == value)
+            {
+                return;
+            }
+
+            field = value;
+            OnPropertyChanged();
+            SourceLocationChanged?.Invoke(this);
+        }
+    }
+    = MarketLocation.CaerleonMarket;
 
     [JsonIgnore]
     public string DisplayName => ItemController.GetItemByUniqueName(UniqueName)?.LocalizedName ?? UniqueName ?? string.Empty;

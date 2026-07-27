@@ -5,6 +5,7 @@ using StatisticsAnalysisTool.Localization;
 using StatisticsAnalysisTool.Models.NetworkModel;
 using StatisticsAnalysisTool.Network.Events;
 using StatisticsAnalysisTool.Network.Manager;
+using StatisticsAnalysisTool.Notification;
 using System;
 using System.Threading.Tasks;
 
@@ -16,6 +17,11 @@ public class DiedEventHandler(TrackingController trackingController) : EventPack
     {
         trackingController.DungeonController?.SetDiedIfInDungeon(new DiedObject(value.Died, value.KilledBy, value.KilledByGuild));
         trackingController.PartyController.PlayerHasDied(value.Died);
+
+        if (value.Died == trackingController.EntityController.LocalUserData.Username)
+        {
+            await DiscordWebhookService.SendDeathAsync(value.Died, value.KilledBy);
+        }
 
         if (trackingController.IsKillTrackingEnabled)
         {

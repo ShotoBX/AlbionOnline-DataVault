@@ -90,7 +90,7 @@ public class CraftingRecipeResolver
         ;
     }
 
-    public CraftingRequirements GetCraftingRequirements(Item item)
+    public virtual CraftingRequirements GetCraftingRequirements(Item item)
     {
         if (item == null)
         {

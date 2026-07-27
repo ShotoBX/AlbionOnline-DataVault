@@ -51,6 +51,7 @@ public class DamageMeterFragment : BaseViewModel
         HealInPercent = damageMeterFragment.HealInPercent;
         HealPercentage = damageMeterFragment.HealPercentage;
         Name = damageMeterFragment.Name;
+        Guild = damageMeterFragment.Guild;
         CauserMainHand = damageMeterFragment.CauserMainHand;
         Spells = damageMeterFragment.Spells;
         TakenDamage = damageMeterFragment.TakenDamage;
@@ -68,6 +69,23 @@ public class DamageMeterFragment : BaseViewModel
         set
         {
             _name = value;
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(NameInitial));
+        }
+    }
+
+    /// <summary>
+    /// Albion's API exposes no player avatar images, so the UI shows this initials placeholder instead.
+    /// </summary>
+    public string NameInitial => string.IsNullOrEmpty(Name) ? "?" : Name[..1].ToUpperInvariant();
+
+    private string _guild;
+    public string Guild
+    {
+        get => _guild;
+        set
+        {
+            _guild = value;
             OnPropertyChanged();
         }
     }
@@ -361,6 +379,26 @@ public class DamageMeterFragment : BaseViewModel
 
     private ICommand _showSpells;
     public ICommand ShowSpells => _showSpells ??= new CommandHandler(PerformShowSpells, true);
+
+    private Visibility _analysisContainerVisibility = Visibility.Collapsed;
+
+    public Visibility AnalysisContainerVisibility
+    {
+        get => _analysisContainerVisibility;
+        set
+        {
+            _analysisContainerVisibility = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private void PerformToggleAnalysis(object value)
+    {
+        AnalysisContainerVisibility = AnalysisContainerVisibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+    }
+
+    private ICommand _toggleAnalysis;
+    public ICommand ToggleAnalysis => _toggleAnalysis ??= new CommandHandler(PerformToggleAnalysis, true);
 
     public static string TranslationCombatTime => LocalizationController.Translation("COMBAT_TIME");
     public static string TranslationHealingWithoutOverhealed => LocalizationController.Translation("HEALING_WITHOUT_OVERHEALED");

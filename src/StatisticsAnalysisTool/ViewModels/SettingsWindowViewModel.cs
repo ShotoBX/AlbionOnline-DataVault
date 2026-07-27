@@ -57,6 +57,12 @@ public class SettingsWindowViewModel : BaseViewModel
         // Proxy url
         ProxyUrlWithPort = SettingsController.CurrentSettings.ProxyUrlWithPort;
 
+        // Discord webhook
+        DiscordWebhookUrl = SettingsController.CurrentSettings.DiscordWebhookUrl;
+        IsDiscordWebhookLootActive = SettingsController.CurrentSettings.IsDiscordWebhookLootActive;
+        IsDiscordWebhookDeathActive = SettingsController.CurrentSettings.IsDiscordWebhookDeathActive;
+        IsDiscordWebhookDungeonClosedActive = SettingsController.CurrentSettings.IsDiscordWebhookDungeonClosedActive;
+
         // Backup interval by days
         InitDropDownDownByDays(BackupIntervalByDays);
         BackupIntervalByDaysSelection = BackupIntervalByDays.FirstOrDefault(x => x.Value == SettingsController.CurrentSettings.BackupIntervalByDays);
@@ -119,6 +125,10 @@ public class SettingsWindowViewModel : BaseViewModel
         SettingsController.CurrentSettings.DebugConsoleFilter = DebugConsoleFilter;
         SettingsController.CurrentSettings.IsOpenDebugConsoleWhenStartingTheToolChecked = IsOpenDebugConsoleWhenStartingTheToolChecked;
         SettingsController.CurrentSettings.ProxyUrlWithPort = ProxyUrlWithPort;
+        SettingsController.CurrentSettings.DiscordWebhookUrl = DiscordWebhookUrl;
+        SettingsController.CurrentSettings.IsDiscordWebhookLootActive = IsDiscordWebhookLootActive;
+        SettingsController.CurrentSettings.IsDiscordWebhookDeathActive = IsDiscordWebhookDeathActive;
+        SettingsController.CurrentSettings.IsDiscordWebhookDungeonClosedActive = IsDiscordWebhookDungeonClosedActive;
         SettingsController.CurrentSettings.MainTrackingCharacterName = MainTrackingCharacterName;
         SettingsController.CurrentSettings.MainGameFolderPath = MainGameFolderPath ?? string.Empty;
         SettingsController.CurrentSettings.BackupIntervalByDays = BackupIntervalByDaysSelection.Value;
@@ -192,6 +202,7 @@ public class SettingsWindowViewModel : BaseViewModel
         SetNaviTabVisibilityName(NavigationTabFilterType.StorageHistory, MainWindowTranslation.StorageHistory);
         SetNaviTabVisibilityName(NavigationTabFilterType.MapHistory, MainWindowTranslation.MapHistory);
         SetNaviTabVisibilityName(NavigationTabFilterType.PlayerInformation, MainWindowTranslation.PlayerInformation);
+        SetNaviTabVisibilityName(NavigationTabFilterType.Arbitrage, MainWindowTranslation.Arbitrage);
     }
 
     private void SetNaviTabVisibilityName(NavigationTabFilterType navigationTabFilterType, string name)
@@ -234,6 +245,7 @@ public class SettingsWindowViewModel : BaseViewModel
         SettingsController.CurrentSettings.IsStorageHistoryNaviTabActive = TabVisibilities?.FirstOrDefault(x => x?.NavigationTabFilterType == NavigationTabFilterType.StorageHistory)?.IsSelected ?? true;
         SettingsController.CurrentSettings.IsMapHistoryNaviTabActive = TabVisibilities?.FirstOrDefault(x => x?.NavigationTabFilterType == NavigationTabFilterType.MapHistory)?.IsSelected ?? true;
         SettingsController.CurrentSettings.IsPlayerInformationNaviTabActive = TabVisibilities?.FirstOrDefault(x => x?.NavigationTabFilterType == NavigationTabFilterType.PlayerInformation)?.IsSelected ?? true;
+        SettingsController.CurrentSettings.IsArbitrageNaviTabActive = TabVisibilities?.FirstOrDefault(x => x?.NavigationTabFilterType == NavigationTabFilterType.Arbitrage)?.IsSelected ?? true;
 
         mainWindowViewModel.DashboardTabVisibility = SettingsController.CurrentSettings.IsDashboardNaviTabActive.BoolToVisibility();
         mainWindowViewModel.ItemSearchTabVisibility = SettingsController.CurrentSettings.IsItemSearchNaviTabActive.BoolToVisibility();
@@ -249,6 +261,7 @@ public class SettingsWindowViewModel : BaseViewModel
         mainWindowViewModel.MapHistoryTabVisibility = SettingsController.CurrentSettings.IsMapHistoryNaviTabActive.BoolToVisibility();
         mainWindowViewModel.PlayerInformationTabVisibility = SettingsController.CurrentSettings.IsPlayerInformationNaviTabActive.BoolToVisibility();
         mainWindowViewModel.GuildTabVisibility = SettingsController.CurrentSettings.IsGuildTabActive.BoolToVisibility();
+        mainWindowViewModel.ArbitrageTabVisibility = SettingsController.CurrentSettings.IsArbitrageNaviTabActive.BoolToVisibility();
     }
 
     private void SetPacketFilter()
@@ -567,6 +580,11 @@ public class SettingsWindowViewModel : BaseViewModel
             IsSelected = SettingsController.CurrentSettings.IsPlayerInformationNaviTabActive,
             Name = MainWindowTranslation.PlayerInformation
         });
+        TabVisibilities.Add(new TabVisibilityFilter(NavigationTabFilterType.Arbitrage)
+        {
+            IsSelected = SettingsController.CurrentSettings.IsArbitrageNaviTabActive,
+            Name = MainWindowTranslation.Arbitrage
+        });
 
         var mainWindowViewModel = ServiceLocator.Resolve<MainWindowViewModel>();
         mainWindowViewModel.DashboardTabVisibility = SettingsController.CurrentSettings.IsDashboardNaviTabActive.BoolToVisibility();
@@ -583,6 +601,7 @@ public class SettingsWindowViewModel : BaseViewModel
         mainWindowViewModel.MapHistoryTabVisibility = SettingsController.CurrentSettings.IsMapHistoryNaviTabActive.BoolToVisibility();
         mainWindowViewModel.PlayerInformationTabVisibility = SettingsController.CurrentSettings.IsPlayerInformationNaviTabActive.BoolToVisibility();
         mainWindowViewModel.GuildTabVisibility = SettingsController.CurrentSettings.IsGuildTabActive.BoolToVisibility();
+        mainWindowViewModel.ArbitrageTabVisibility = SettingsController.CurrentSettings.IsArbitrageNaviTabActive.BoolToVisibility();
     }
 
     private void InitNotificationAreas()
@@ -969,6 +988,46 @@ public class SettingsWindowViewModel : BaseViewModel
     }
 
     public string ProxyUrlWithPort
+    {
+        get;
+        set
+        {
+            field = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string DiscordWebhookUrl
+    {
+        get;
+        set
+        {
+            field = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public bool IsDiscordWebhookLootActive
+    {
+        get;
+        set
+        {
+            field = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public bool IsDiscordWebhookDeathActive
+    {
+        get;
+        set
+        {
+            field = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public bool IsDiscordWebhookDungeonClosedActive
     {
         get;
         set

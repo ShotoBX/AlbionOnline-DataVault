@@ -169,6 +169,12 @@ public class CombatController
 
         _trackingController.EntityController.DetectUsedWeapon();
 
+        var fragmentsByCauser = new Dictionary<Guid, DamageMeterFragment>();
+        foreach (var existingFragment in damageMeter.ToList())
+        {
+            fragmentsByCauser.TryAdd(existingFragment.CauserGuid, existingFragment);
+        }
+
         foreach (var healthChangeObject in entities)
         {
             if (healthChangeObject.Value?.UserGuid == null)
@@ -176,18 +182,26 @@ public class CombatController
                 continue;
             }
 
-            var fragment = damageMeter.ToList().FirstOrDefault(x => x.CauserGuid == healthChangeObject.Value.UserGuid);
-            if (fragment != null)
+            if (fragmentsByCauser.TryGetValue(healthChangeObject.Value.UserGuid, out var fragment))
             {
                 await UpdateDamageMeterFragmentAsync(fragment, healthChangeObject, entities, currentTotalDamage, currentTotalHeal, currentTotalTakenDamage);
             }
             else
             {
-                await AddDamageMeterFragmentAsync(damageMeter, healthChangeObject, entities, currentTotalDamage, currentTotalHeal, currentTotalTakenDamage).ConfigureAwait(true);
+                var newFragment = await AddDamageMeterFragmentAsync(damageMeter, healthChangeObject, entities, currentTotalDamage, currentTotalHeal, currentTotalTakenDamage).ConfigureAwait(true);
+                if (newFragment != null)
+                {
+                    fragmentsByCauser[healthChangeObject.Value.UserGuid] = newFragment;
+                }
             }
-
-            Application.Current.Dispatcher.Invoke(() => _mainWindowViewModel.DamageMeterBindings?.SetDamageMeterSort());
         }
+
+        Application.Current.Dispatcher.Invoke(() =>
+        {
+            _mainWindowViewModel.DamageMeterBindings?.SetDamageMeterSort();
+            _mainWindowViewModel.DamageMeterBindings?.RebuildChartSeries();
+            _mainWindowViewModel.GuildBindings?.RebuildBattleReport(_mainWindowViewModel.DamageMeterBindings?.DamageMeter, _trackingController.EntityController.LocalUserData.GuildName);
+        });
 
         await RemoveDuplicatesAsync(_mainWindowViewModel?.DamageMeterBindings?.DamageMeter);
         _isUiUpdateActive = false;
@@ -247,6 +261,10 @@ public class CombatController
         if (healthChangeObjectValue != null)
         {
             fragment.CombatTime = healthChangeObjectValue.CombatTime;
+            if (!string.IsNullOrEmpty(healthChangeObjectValue.Guild))
+            {
+                fragment.Guild = healthChangeObjectValue.Guild;
+            }
             fragment.DamagePercentage = entities.GetDamagePercentage(healthChangeObjectValue.Damage);
             fragment.HealPercentage = entities.GetHealPercentage(healthChangeObjectValue.Heal);
             fragment.TakenDamagePercentage = entities.GetTakenDamagePercentage(healthChangeObjectValue.TakenDamage);
@@ -259,14 +277,14 @@ public class CombatController
         return 100.00 / (heal + overhealed) * overhealed;
     }
 
-    private static async Task AddDamageMeterFragmentAsync(ICollection<DamageMeterFragment> damageMeter, KeyValuePair<Guid, PlayerGameObject> healthChangeObject,
+    private static async Task<DamageMeterFragment> AddDamageMeterFragmentAsync(ICollection<DamageMeterFragment> damageMeter, KeyValuePair<Guid, PlayerGameObject> healthChangeObject,
         List<KeyValuePair<Guid, PlayerGameObject>> entities, long currentTotalDamage, long currentTotalHeal, long currentTotalTakenDamage)
     {
         if (healthChangeObject.Value == null
             || (double.IsNaN(healthChangeObject.Value.Damage) && double.IsNaN(healthChangeObject.Value.Heal) && double.IsNaN(healthChangeObject.Value.Overhealed))
             || (healthChangeObject.Value.Damage <= 0 && healthChangeObject.Value.Heal <= 0 && healthChangeObject.Value.Overhealed <= 0))
         {
-            return;
+            return null;
         }
 
         var healthChangeObjectValue = healthChangeObject.Value;
@@ -295,6 +313,7 @@ public class CombatController
             TakenDamagePercentage = entities.GetDamagePercentage(healthChangeObjectValue.TakenDamage),
 
             Name = healthChangeObjectValue.Name,
+            Guild = healthChangeObjectValue.Guild,
             CauserMainHand = item,
 
             Spells = spells
@@ -304,6 +323,8 @@ public class CombatController
         {
             damageMeter.Add(damageMeterFragment);
         });
+
+        return damageMeterFragment;
     }
 
     private static bool HasDamageMeterDupes(IEnumerable<DamageMeterFragment> damageMeter)
@@ -414,6 +435,8 @@ public class CombatController
         {
             _mainWindowViewModel?.DamageMeterBindings?.DamageMeter?.Clear();
             _mainWindowViewModel?.DamageMeterBindings?.ClearDamageStats();
+            _mainWindowViewModel?.DamageMeterBindings?.RebuildChartSeries();
+            _mainWindowViewModel?.GuildBindings?.RebuildBattleReport(_mainWindowViewModel.DamageMeterBindings?.DamageMeter, _trackingController.EntityController.LocalUserData.GuildName);
         });
     }
 

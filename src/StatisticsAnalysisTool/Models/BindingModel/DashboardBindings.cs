@@ -32,6 +32,7 @@ public class DashboardBindings : BaseViewModel
     private double _favorInPercent;
     private int _killsToday;
     private int _deathsToday;
+    private int _playersTracked;
     private int _killsThisWeek;
     private int _deathsThisWeek;
     private DateTime? _lastUpdate;
@@ -59,6 +60,16 @@ public class DashboardBindings : BaseViewModel
     private EFontAwesomeIcon _repairCostsStatsToggleIcon;
     private Visibility _activityChartVisibility;
     private EFontAwesomeIcon _activityChartToggleIcon;
+    private Visibility _economyStatsVisibility;
+    private EFontAwesomeIcon _economyStatsToggleIcon;
+    private Visibility _craftingRecommendationVisibility;
+    private EFontAwesomeIcon _craftingRecommendationToggleIcon;
+    private long _economySilverToday;
+    private long _economySilverThisWeek;
+    private long _economySilverLast90Days;
+    private long _economyFameToday;
+    private long _economyFameThisWeek;
+    private long _economyFameLast90Days;
     private string _translationKillsDeaths = TranslationKillsDeaths;
 
     public DashboardBindings()
@@ -79,6 +90,12 @@ public class DashboardBindings : BaseViewModel
 
         ActivityChartVisibility = SettingsController.CurrentSettings.IsActivityChartVisible ? Visibility.Visible : Visibility.Collapsed;
         ActivityChartToggleIcon = SettingsController.CurrentSettings.IsActivityChartVisible ? EFontAwesomeIcon.Solid_Minus : EFontAwesomeIcon.Solid_Plus;
+
+        EconomyStatsVisibility = SettingsController.CurrentSettings.IsEconomyStatsVisible ? Visibility.Visible : Visibility.Collapsed;
+        EconomyStatsToggleIcon = SettingsController.CurrentSettings.IsEconomyStatsVisible ? EFontAwesomeIcon.Solid_Minus : EFontAwesomeIcon.Solid_Plus;
+
+        CraftingRecommendationVisibility = SettingsController.CurrentSettings.IsCraftingRecommendationVisible ? Visibility.Visible : Visibility.Collapsed;
+        CraftingRecommendationToggleIcon = SettingsController.CurrentSettings.IsCraftingRecommendationVisible ? EFontAwesomeIcon.Solid_Minus : EFontAwesomeIcon.Solid_Plus;
     }
 
     #region Toggle
@@ -184,6 +201,108 @@ public class DashboardBindings : BaseViewModel
         set
         {
             _activityChartToggleIcon = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public Visibility EconomyStatsVisibility
+    {
+        get => _economyStatsVisibility;
+        set
+        {
+            _economyStatsVisibility = value;
+            SettingsController.CurrentSettings.IsEconomyStatsVisible = value == Visibility.Visible;
+            OnPropertyChanged();
+        }
+    }
+
+    public EFontAwesomeIcon EconomyStatsToggleIcon
+    {
+        get => _economyStatsToggleIcon;
+        set
+        {
+            _economyStatsToggleIcon = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public Visibility CraftingRecommendationVisibility
+    {
+        get => _craftingRecommendationVisibility;
+        set
+        {
+            _craftingRecommendationVisibility = value;
+            SettingsController.CurrentSettings.IsCraftingRecommendationVisible = value == Visibility.Visible;
+            OnPropertyChanged();
+        }
+    }
+
+    public EFontAwesomeIcon CraftingRecommendationToggleIcon
+    {
+        get => _craftingRecommendationToggleIcon;
+        set
+        {
+            _craftingRecommendationToggleIcon = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public long EconomySilverToday
+    {
+        get => _economySilverToday;
+        set
+        {
+            _economySilverToday = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public long EconomySilverThisWeek
+    {
+        get => _economySilverThisWeek;
+        set
+        {
+            _economySilverThisWeek = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public long EconomySilverLast90Days
+    {
+        get => _economySilverLast90Days;
+        set
+        {
+            _economySilverLast90Days = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public long EconomyFameToday
+    {
+        get => _economyFameToday;
+        set
+        {
+            _economyFameToday = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public long EconomyFameThisWeek
+    {
+        get => _economyFameThisWeek;
+        set
+        {
+            _economyFameThisWeek = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public long EconomyFameLast90Days
+    {
+        get => _economyFameLast90Days;
+        set
+        {
+            _economyFameLast90Days = value;
             OnPropertyChanged();
         }
     }
@@ -509,6 +628,16 @@ public class DashboardBindings : BaseViewModel
         }
     }
 
+    public int PlayersTracked
+    {
+        get => _playersTracked;
+        set
+        {
+            _playersTracked = value;
+            OnPropertyChanged();
+        }
+    }
+
     public int DeathsThisWeek
     {
         get => _deathsThisWeek;
@@ -669,4 +798,16 @@ public class DashboardBindings : BaseViewModel
     public static string TranslationRepairCosts => LocalizationController.Translation("REPAIR_COSTS");
     public static string TranslationActivityChart => LocalizationController.Translation("HISTORY");
     public static string TranslationFactionPoints => LocalizationController.Translation("FACTION_POINTS");
+    public static string TranslationEconomy => LocalizationController.Translation("ECONOMY");
+    public static string TranslationCraftingRecommendation => LocalizationController.Translation("CRAFTING_RECOMMENDATION");
+    public static string TranslationCombat => LocalizationController.Translation("COMBAT");
+    public static string TranslationSession => LocalizationController.Translation("SESSION");
+    public static string TranslationLast7Days => LocalizationController.Translation("LAST_7_DAYS");
+    public static string TranslationLast90Days => LocalizationController.Translation("ECONOMY_LAST_90_DAYS");
+    public static string TranslationPlayersTracked => LocalizationController.Translation("PLAYERS_TRACKED");
+    public static string TranslationFightCount => LocalizationController.Translation("FIGHT_COUNT");
+    public static string TranslationCurrentMap => LocalizationController.Translation("CURRENT_MAP");
+    public static string TranslationPartyMembers => LocalizationController.Translation("PARTY_MEMBERS");
+    public static string TranslationYourDps => LocalizationController.Translation("YOUR_DPS");
+    public static string TranslationYourHealing => LocalizationController.Translation("YOUR_HEALING");
 }

@@ -119,6 +119,21 @@ public partial class DashboardControl
         }
     }
 
+    private void EconomyStatsToggle_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        var vm = (MainWindowViewModel) DataContext;
+        if (vm.DashboardBindings.EconomyStatsVisibility == Visibility.Visible)
+        {
+            vm.DashboardBindings.EconomyStatsVisibility = Visibility.Collapsed;
+            vm.DashboardBindings.EconomyStatsToggleIcon = EFontAwesomeIcon.Solid_Plus;
+        }
+        else
+        {
+            vm.DashboardBindings.EconomyStatsVisibility = Visibility.Visible;
+            vm.DashboardBindings.EconomyStatsToggleIcon = EFontAwesomeIcon.Solid_Minus;
+        }
+    }
+
     private void ActivityChartToggle_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         var vm = (MainWindowViewModel) DataContext;
@@ -133,6 +148,61 @@ public partial class DashboardControl
             vm.DashboardBindings.ActivityChartToggleIcon = EFontAwesomeIcon.Solid_Minus;
             RefreshDailyChart();
         }
+    }
+
+    private void CraftingRecommendationToggle_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        var vm = (MainWindowViewModel) DataContext;
+        if (vm.DashboardBindings.CraftingRecommendationVisibility == Visibility.Visible)
+        {
+            vm.DashboardBindings.CraftingRecommendationVisibility = Visibility.Collapsed;
+            vm.DashboardBindings.CraftingRecommendationToggleIcon = EFontAwesomeIcon.Solid_Plus;
+        }
+        else
+        {
+            vm.DashboardBindings.CraftingRecommendationVisibility = Visibility.Visible;
+            vm.DashboardBindings.CraftingRecommendationToggleIcon = EFontAwesomeIcon.Solid_Minus;
+        }
+    }
+
+    private async void DashboardCraftingRecommendationScan_Click(object sender, RoutedEventArgs e)
+    {
+        if (DataContext is not MainWindowViewModel mainWindowViewModel)
+        {
+            return;
+        }
+
+        await mainWindowViewModel.CraftingBindings.Optimizer.ScanAsync();
+    }
+
+    private void DashboardCraftingRecommendationCancel_Click(object sender, RoutedEventArgs e)
+    {
+        if (DataContext is not MainWindowViewModel mainWindowViewModel)
+        {
+            return;
+        }
+
+        mainWindowViewModel.CraftingBindings.Optimizer.CancelScan();
+    }
+
+    private async void DashboardRefiningRecommendationScan_Click(object sender, RoutedEventArgs e)
+    {
+        if (DataContext is not MainWindowViewModel mainWindowViewModel)
+        {
+            return;
+        }
+
+        await mainWindowViewModel.RefiningBindings.Optimizer.ScanAsync();
+    }
+
+    private void DashboardRefiningRecommendationCancel_Click(object sender, RoutedEventArgs e)
+    {
+        if (DataContext is not MainWindowViewModel mainWindowViewModel)
+        {
+            return;
+        }
+
+        mainWindowViewModel.RefiningBindings.Optimizer.CancelScan();
     }
 
     private void DashboardChartRange_SelectionChanged(object sender, SelectionChangedEventArgs e)

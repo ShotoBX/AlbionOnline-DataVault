@@ -7,7 +7,7 @@ namespace StatisticsAnalysisTool.Common;
 
 public static class AppDataPaths
 {
-    private const string AppDataFolderName = "StatisticsAnalysisTool";
+    private const string AppDataFolderName = "AlbionOnline-DataVault";
     private const string InstancesDirectoryName = "Instances";
     private const string LegacyDefaultDirectoryName = "Default";
     private const string BackupsDirectoryName = "Backups";
@@ -25,7 +25,7 @@ public static class AppDataPaths
     private const string SoundDirectoryName = "Sounds";
     private const string LocalizationDirectoryName = "Localization";
     private const string LocalizationFileName = "localization.json";
-    private const string ExecutableFileName = "StatisticsAnalysisTool.exe";
+    private const string ExecutableFileName = "AlbionOnline-DataVault.exe";
     private static string _runtimeBaseDirectoryOverride;
     private static string _installationDirectoryOverride;
     private static string _legacyDefaultDirectoryOverride;

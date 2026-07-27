@@ -3,28 +3,35 @@
                     xmlns:networkModel="clr-namespace:StatisticsAnalysisTool.Models.NetworkModel"
                     xmlns:guild="clr-namespace:StatisticsAnalysisTool.Guild"
                     xmlns:common="clr-namespace:StatisticsAnalysisTool.Common"
-                    xmlns:storageHistory="clr-namespace:StatisticsAnalysisTool.StorageHistory">
+                    xmlns:models="clr-namespace:StatisticsAnalysisTool.Models">
 
-    <DataTemplate x:Key="LootLogCheck.ContainerItem.Template" DataType="{x:Type storageHistory:ContainerItem}">
-        <Grid Height="80" Width="80" Margin="1">
-            <Grid Background="{StaticResource SolidColorBrush.Background.3}">
-                <Image Source="{Binding Item.Icon, IsAsync=True, Mode=OneWay}" Stretch="Fill" VerticalAlignment="Bottom" HorizontalAlignment="Right" />
-                <Border VerticalAlignment="Bottom" HorizontalAlignment="Right">
-                    <Border.Style>
-                        <Style TargetType="{x:Type Border}">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Quantity}" Value="0">
-                                    <Setter Property="Visibility" Value="Hidden"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Border.Style>
-                    <Viewbox StretchDirection="DownOnly" Stretch="Uniform" Width="16" Height="16" Margin="0,0,12,14">
-                        <TextBlock Text="{Binding Quantity}" Foreground="{StaticResource SolidColorBrush.Text.1}" />
-                    </Viewbox>
-                </Border>
+    <Style x:Key="GuildOverview.MemberRow" TargetType="{x:Type Border}">
+        <Setter Property="CornerRadius" Value="6" />
+        <Setter Property="Padding" Value="10,8" />
+        <Setter Property="Background" Value="Transparent" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{StaticResource SolidColorBrush.Hover}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <DataTemplate x:Key="GuildOverview.MemberRowTemplate" DataType="{x:Type models:SearchPlayerResponse}">
+        <Border Style="{StaticResource GuildOverview.MemberRow}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="140" />
+                    <ColumnDefinition Width="140" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="{Binding Name}" Foreground="{StaticResource SolidColorBrush.Text.1}"
+                           VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                <TextBlock Grid.Column="1" Text="{Binding KillFame, StringFormat={}{0:N0}}" Foreground="{StaticResource SolidColorBrush.Accent.Red.3}"
+                           FontWeight="SemiBold" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,20,0" />
+                <TextBlock Grid.Column="2" Text="{Binding DeathFame, StringFormat={}{0:N0}}" Foreground="{StaticResource SolidColorBrush.TextSecondary}"
+                           VerticalAlignment="Center" HorizontalAlignment="Right" />
             </Grid>
-        </Grid>
+        </Border>
     </DataTemplate>
 
     <DataTemplate x:Key="ManuallySiphonedEnergy.Template" DataType="{x:Type guild:ManuallySiphonedEnergy}">
@@ -38,7 +45,7 @@
                     <StackPanel Orientation="Horizontal">
                         <StackPanel Orientation="Vertical" Width="200" Margin="0,0,5,0">
                             <Label Content="{Binding TranslationCharacterName, FallbackValue=CHARACTER_NAME}" Width="auto" VerticalAlignment="Top" />
-                            <TextBox Text="{Binding CharacterName, UpdateSourceTrigger=PropertyChanged}" Width="auto" Height="24" VerticalContentAlignment="Center" />
+                            <TextBox Text="{Binding CharacterName, UpdateSourceTrigger=PropertyChanged}" Width="auto" MinHeight="32" VerticalContentAlignment="Center" />
                         </StackPanel>
 
                         <StackPanel Orientation="Vertical" Width="120" Margin="5,0">
@@ -53,7 +60,7 @@
 
                         <StackPanel Orientation="Vertical" Width="80" Margin="5,0">
                             <Label Content="{Binding TranslationQuantity, FallbackValue=QUANTITY}" Width="auto" VerticalAlignment="Top" />
-                            <TextBox Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" Height="24" common:TextBoxHelper.OnlyNumeric="Double" />
+                            <TextBox Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" MinHeight="32" common:TextBoxHelper.OnlyNumeric="Double" />
                         </StackPanel>
                     </StackPanel>
 

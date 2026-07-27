@@ -20,6 +20,7 @@ public partial class ItemWindow
     public ItemWindow(Item item)
     {
         InitializeComponent();
+        WindowBackdropController.ApplyMicaBackdrop(this);
         _windowChromeController = new WindowChromeController(
             this,
             MaximizedButton,

@@ -1,6 +1,6 @@
-#define MyAppName "Statistics Analysis Tool"
+#define MyAppName "AlbionOnline - DataVault"
 #define MyAppPublisher "Aaron Schultz"
-#define MyAppExeName "StatisticsAnalysisTool.exe"
+#define MyAppExeName "AlbionOnline-DataVault.exe"
 #define MyAppId "{{6D7ED979-FC39-4D6A-83A4-6493E2C61A16}}"
 
 #ifndef MyAppVersion
@@ -16,8 +16,8 @@ AppId={#MyAppId}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 AppPublisher={#MyAppPublisher}
-AppPublisherURL=https://github.com/Triky313/AlbionOnline-StatisticsAnalysis
-DefaultDirName={autopf}\Statistics Analysis Tool
+AppPublisherURL=https://github.com/ShotoBX/AlbionOnline-DataVault
+DefaultDirName={autopf}\AlbionOnline - DataVault
 DefaultGroupName={#MyAppName}
 UsePreviousAppDir=no
 DisableDirPage=no

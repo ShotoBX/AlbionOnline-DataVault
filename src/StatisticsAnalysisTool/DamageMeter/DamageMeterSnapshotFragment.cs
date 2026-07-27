@@ -26,6 +26,7 @@ public sealed class DamageMeterSnapshotFragment : BaseViewModel
     public DamageMeterSnapshotFragment(DamageMeterFragment damageMeterFragment)
     {
         Name = damageMeterFragment.Name;
+        Guild = damageMeterFragment.Guild;
         CauserGuid = damageMeterFragment.CauserGuid;
         CombatTime = damageMeterFragment.CombatTime;
         Damage = damageMeterFragment.Damage;
@@ -62,6 +63,13 @@ public sealed class DamageMeterSnapshotFragment : BaseViewModel
     }
 
     public string Name { get; init; }
+    public string Guild { get; init; }
+
+    /// <summary>
+    /// Albion's API exposes no player avatar images, so the UI shows this initials placeholder instead.
+    /// </summary>
+    public string NameInitial => string.IsNullOrEmpty(Name) ? "?" : Name[..1].ToUpperInvariant();
+
     public Guid CauserGuid { get; init; }
     public bool IsDamageMeterShowing { get; set; } = true;
     public TimeSpan CombatTime { get; init; }
@@ -210,6 +218,26 @@ public sealed class DamageMeterSnapshotFragment : BaseViewModel
 
     private ICommand _showSpells;
     public ICommand ShowSpells => _showSpells ??= new CommandHandler(PerformShowSpells, true);
+
+    private Visibility _analysisContainerVisibility = Visibility.Collapsed;
+
+    public Visibility AnalysisContainerVisibility
+    {
+        get => _analysisContainerVisibility;
+        set
+        {
+            _analysisContainerVisibility = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private void PerformToggleAnalysis(object value)
+    {
+        AnalysisContainerVisibility = AnalysisContainerVisibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+    }
+
+    private ICommand _toggleAnalysis;
+    public ICommand ToggleAnalysis => _toggleAnalysis ??= new CommandHandler(PerformToggleAnalysis, true);
 
     public string TranslationCombatTime => LocalizationController.Translation("COMBAT_TIME");
     public static string TranslationDmgPercent => LocalizationController.Translation("DMG_PERCENT");

@@ -24,7 +24,12 @@ public class MainWindowTranslation
     public static string Type => LocalizationController.Translation("TYPE");
     public static string Note => LocalizationController.Translation("NOTE");
     public static string Status => LocalizationController.Translation("STATUS");
+    public static string NavCombat => LocalizationController.Translation("COMBAT");
+    public static string NavEconomy => LocalizationController.Translation("ECONOMY");
+    public static string NavTracking => LocalizationController.Translation("TRACKING");
+    public static string NavSocial => LocalizationController.Translation("SOCIAL");
     public static string ShowOnlyItemsWithAlertOn => LocalizationController.Translation("SHOW_ONLY_ITEMS_WITH_ALERT_ON");
+    public static string SearchItemPlaceholder => LocalizationController.Translation("SEARCH_ITEM_PLACEHOLDER");
     public static string ShowOnlyFavorites => LocalizationController.Translation("SHOW_ONLY_FAVORITES");
     public static string IsAlertActive => LocalizationController.Translation("IS_ALERT_ACTIVATE");
     public static string UndercuttingPrice => LocalizationController.Translation("UNDERCUTTING_PRICE");
@@ -148,6 +153,7 @@ public class MainWindowTranslation
     public static string Or => LocalizationController.Translation("OR");
     public static string SelectDeselectAll => LocalizationController.Translation("SELECT_DESELECT_ALL");
     public static string Gathering => LocalizationController.Translation("GATHERING");
+    public static string Arbitrage => LocalizationController.Translation("ARBITRAGE");
     public static string Crafting => LocalizationController.Translation("CRAFTING");
     public static string CopyShortDamageMeterToTheClipboard => LocalizationController.Translation("COPY_SHORT_DAMAGE_METER_TO_THE_CLIPBOARD");
     public static string OnlyDamageToPlayersCounts => LocalizationController.Translation("ONLY_DAMAGE_TO_PLAYERS_COUNTS");

@@ -1,6 +1,606 @@
 {
   "translations": [
     {
+      "tuid": "LOOT_SPLIT_TOTAL",
+      "tuv": [
+        {
+          "lang": "en-US",
+          "seg": "Total loot value:"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Valor total del loot:"
+        }
+      ]
+    },
+    {
+      "tuid": "LOOT_SPLIT_FAIR_SHARE",
+      "tuv": [
+        {
+          "lang": "en-US",
+          "seg": "Fair share per person:"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Parte justa por persona:"
+        }
+      ]
+    },
+    {
+      "tuid": "LOOT_SPLIT_RECALCULATE",
+      "tuv": [
+        {
+          "lang": "en-US",
+          "seg": "Recalculate split"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Recalcular reparto"
+        }
+      ]
+    },
+    {
+      "tuid": "LOOT_SPLIT_BALANCE",
+      "tuv": [
+        {
+          "lang": "en-US",
+          "seg": "Balance"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Balance"
+        }
+      ]
+    },
+    {
+      "tuid": "ECONOMY",
+      "tuv": [
+        {
+          "lang": "en-US",
+          "seg": "Economy"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Economía"
+        }
+      ]
+    },
+    {
+      "tuid": "ECONOMY_LAST_90_DAYS",
+      "tuv": [
+        {
+          "lang": "en-US",
+          "seg": "Last 90 days"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Últimos 90 días"
+        }
+      ]
+    },
+    {
+      "tuid": "ARBITRAGE",
+      "tuv": [
+        {
+          "lang": "en-US",
+          "seg": "Arbitrage"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Arbitraje"
+        }
+      ]
+    },
+    {
+      "tuid": "ARBITRAGE_WATCHLIST",
+      "tuv": [
+        {
+          "lang": "en-US",
+          "seg": "Watchlist"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Lista de seguimiento"
+        }
+      ]
+    },
+    {
+      "tuid": "ARBITRAGE_ADD",
+      "tuv": [
+        {
+          "lang": "en-US",
+          "seg": "Add"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Agregar"
+        }
+      ]
+    },
+    {
+      "tuid": "ARBITRAGE_SCAN",
+      "tuv": [
+        {
+          "lang": "en-US",
+          "seg": "Scan"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Escanear"
+        }
+      ]
+    },
+    {
+      "tuid": "ARBITRAGE_BUY_AT",
+      "tuv": [
+        {
+          "lang": "en-US",
+          "seg": "Buy at"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Comprar en"
+        }
+      ]
+    },
+    {
+      "tuid": "ARBITRAGE_SELL_AT",
+      "tuv": [
+        {
+          "lang": "en-US",
+          "seg": "Sell at"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Vender en"
+        }
+      ]
+    },
+    {
+      "tuid": "ARBITRAGE_BUY_CITY",
+      "tuv": [
+        {
+          "lang": "en-US",
+          "seg": "Buy city"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Ciudad compra"
+        }
+      ]
+    },
+    {
+      "tuid": "ARBITRAGE_SELL_CITY",
+      "tuv": [
+        {
+          "lang": "en-US",
+          "seg": "Sell city"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Ciudad venta"
+        }
+      ]
+    },
+    {
+      "tuid": "ARBITRAGE_ANY_CITY",
+      "tuv": [
+        {
+          "lang": "en-US",
+          "seg": "Any (best price)"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Cualquiera (mejor precio)"
+        }
+      ]
+    },
+    {
+      "tuid": "ARBITRAGE_CATEGORY_SCAN",
+      "tuv": [
+        {
+          "lang": "en-US",
+          "seg": "Scan by category"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Escanear por categoría"
+        }
+      ]
+    },
+    {
+      "tuid": "ARBITRAGE_CATEGORY",
+      "tuv": [
+        {
+          "lang": "en-US",
+          "seg": "Category"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Categoría"
+        }
+      ]
+    },
+    {
+      "tuid": "ARBITRAGE_TIER_RANGE",
+      "tuv": [
+        {
+          "lang": "en-US",
+          "seg": "Tier range (optional)"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Rango de tier (opcional)"
+        }
+      ]
+    },
+    {
+      "tuid": "ARBITRAGE_SCAN_CATEGORY",
+      "tuv": [
+        {
+          "lang": "en-US",
+          "seg": "Scan category"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Escanear categoría"
+        }
+      ]
+    },
+    {
+      "tuid": "ARBITRAGE_MARGIN",
+      "tuv": [
+        {
+          "lang": "en-US",
+          "seg": "Margin"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Margen"
+        }
+      ]
+    },
+    {
+      "tuid": "ARBITRAGE_SCANNING",
+      "tuv": [
+        {
+          "lang": "en-US",
+          "seg": "Scanning {0}/{1}: {2}"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Escaneando {0}/{1}: {2}"
+        }
+      ]
+    },
+    {
+      "tuid": "ARBITRAGE_DONE",
+      "tuv": [
+        {
+          "lang": "en-US",
+          "seg": "Done - {0} opportunities found"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Listo - {0} oportunidades encontradas"
+        }
+      ]
+    },
+    {
+      "tuid": "ARBITRAGE_CANCELLED",
+      "tuv": [
+        {
+          "lang": "en-US",
+          "seg": "Scan cancelled"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Escaneo cancelado"
+        }
+      ]
+    },
+    {
+      "tuid": "ARBITRAGE_RATE_LIMITED",
+      "tuv": [
+        {
+          "lang": "en-US",
+          "seg": "Stopped: the price API rate-limited this scan, try again shortly"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Detenido: la API de precios limitó la tasa de peticiones, intenta de nuevo en un momento"
+        }
+      ]
+    },
+    {
+      "tuid": "ARBITRAGE_ERROR",
+      "tuv": [
+        {
+          "lang": "en-US",
+          "seg": "An error occurred while scanning"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Ocurrió un error durante el escaneo"
+        }
+      ]
+    },
+    {
+      "tuid": "CRAFTING_OPTIMIZER",
+      "tuv": [
+        {
+          "lang": "en-US",
+          "seg": "Optimizer"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Optimizador"
+        }
+      ]
+    },
+    {
+      "tuid": "CRAFTING_OPTIMIZER_SCAN",
+      "tuv": [
+        {
+          "lang": "en-US",
+          "seg": "Scan"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Escanear"
+        }
+      ]
+    },
+    {
+      "tuid": "CRAFTING_OPTIMIZER_CANCEL_SCAN",
+      "tuv": [
+        {
+          "lang": "en-US",
+          "seg": "Cancel"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Cancelar"
+        }
+      ]
+    },
+    {
+      "tuid": "CRAFTING_OPTIMIZER_ROI",
+      "tuv": [
+        {
+          "lang": "en-US",
+          "seg": "ROI"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "ROI"
+        }
+      ]
+    },
+    {
+      "tuid": "CRAFTING_OPTIMIZER_PROFIT_PER_ITEM",
+      "tuv": [
+        {
+          "lang": "en-US",
+          "seg": "Profit / item"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Beneficio / objeto"
+        }
+      ]
+    },
+    {
+      "tuid": "CRAFTING_OPTIMIZER_SCANNING",
+      "tuv": [
+        {
+          "lang": "en-US",
+          "seg": "Scanning {0}/{1}: {2}"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Escaneando {0}/{1}: {2}"
+        }
+      ]
+    },
+    {
+      "tuid": "CRAFTING_OPTIMIZER_DONE",
+      "tuv": [
+        {
+          "lang": "en-US",
+          "seg": "Done - {0} profitable recipes found"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Listo - {0} recetas rentables encontradas"
+        }
+      ]
+    },
+    {
+      "tuid": "CRAFTING_OPTIMIZER_CANCELLED",
+      "tuv": [
+        {
+          "lang": "en-US",
+          "seg": "Scan cancelled"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Escaneo cancelado"
+        }
+      ]
+    },
+    {
+      "tuid": "CRAFTING_OPTIMIZER_RATE_LIMITED",
+      "tuv": [
+        {
+          "lang": "en-US",
+          "seg": "Stopped: the price API rate-limited this scan, try again shortly"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Detenido: la API de precios limitó la tasa de peticiones, intenta de nuevo en un momento"
+        }
+      ]
+    },
+    {
+      "tuid": "CRAFTING_OPTIMIZER_ERROR",
+      "tuv": [
+        {
+          "lang": "en-US",
+          "seg": "An error occurred while scanning"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Ocurrió un error durante el escaneo"
+        }
+      ]
+    },
+    {
+      "tuid": "DISCORD_WEBHOOK",
+      "tuv": [
+        {
+          "lang": "en-US",
+          "seg": "Discord"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Discord"
+        },
+        {
+          "lang": "de-DE",
+          "seg": "Discord"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Discord"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Discord"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "Discord"
+        }
+      ]
+    },
+    {
+      "tuid": "DISCORD_WEBHOOK_URL",
+      "tuv": [
+        {
+          "lang": "en-US",
+          "seg": "Discord webhook URL"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "URL del webhook de Discord"
+        },
+        {
+          "lang": "de-DE",
+          "seg": "Discord-Webhook-URL"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "URL du webhook Discord"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "URL вебхука Discord"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "Discord Webhook 网址"
+        }
+      ]
+    },
+    {
+      "tuid": "DISCORD_NOTIFY_ON_LOOT",
+      "tuv": [
+        {
+          "lang": "en-US",
+          "seg": "Notify on loot"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Notificar al obtener loot"
+        },
+        {
+          "lang": "de-DE",
+          "seg": "Bei Beute benachrichtigen"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Notifier lors du butin"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Уведомлять о добыче"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "获得战利品时通知"
+        }
+      ]
+    },
+    {
+      "tuid": "DISCORD_NOTIFY_ON_DEATH",
+      "tuv": [
+        {
+          "lang": "en-US",
+          "seg": "Notify on death"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Notificar al morir"
+        },
+        {
+          "lang": "de-DE",
+          "seg": "Bei Tod benachrichtigen"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Notifier à la mort"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Уведомлять о смерти"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "死亡时通知"
+        }
+      ]
+    },
+    {
+      "tuid": "DISCORD_NOTIFY_ON_DUNGEON_CLOSED",
+      "tuv": [
+        {
+          "lang": "en-US",
+          "seg": "Notify on dungeon closed"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Notificar al cerrarse la mazmorra"
+        },
+        {
+          "lang": "de-DE",
+          "seg": "Benachrichtigen, wenn Dungeon geschlossen wird"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Notifier à la fermeture du donjon"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Уведомлять о закрытии подземелья"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "地下城关闭时通知"
+        }
+      ]
+    },
+    {
       "tuid": "LANGUAGE",
       "tuv": [
         {
@@ -17590,7 +18190,7 @@
         },
         {
           "lang": "pt-BR",
-          "seg": "Para aparecer o dano de outros jogadores ser reconhecido, o StatisticsAnalysisTool primeiro precisa ser ativada e então você deve sair e entrar do grupo."
+          "seg": "Para aparecer o dano de outros jogadores ser reconhecido, o AlbionOnline-DataVault primeiro precisa ser ativada e então você deve sair e entrar do grupo."
         },
         {
           "lang": "ru-RU",
@@ -18067,7 +18667,7 @@
         },
         {
           "lang": "pt-BR",
-          "seg": "Diretório do StatisticsAnalysisTool"
+          "seg": "Diretório do AlbionOnline-DataVault"
         },
         {
           "lang": "ru-RU",
@@ -18120,7 +18720,7 @@
         },
         {
           "lang": "pt-BR",
-          "seg": "Abrir Diretório do StatisticsAnalysisTool"
+          "seg": "Abrir Diretório do AlbionOnline-DataVault"
         },
         {
           "lang": "ru-RU",
@@ -18162,6 +18762,10 @@
         {
           "lang": "zh-CN",
           "seg": "打开用户数据目录"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Abrir directorio de datos de usuario"
         }
       ]
     },
@@ -18236,6 +18840,10 @@
         {
           "lang": "zh-CN",
           "seg": "关闭调试控制台"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Cerrar consola de depuración"
         }
       ]
     },
@@ -18261,6 +18869,10 @@
         {
           "lang": "zh-CN",
           "seg": "调试控制台参数"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Parámetros de la consola de depuración"
         }
       ]
     },
@@ -20853,7 +21465,7 @@
         },
         {
           "lang": "es-ES",
-          "seg": "3. Inicie Statistics Analysis Tool (reinicie una vez)"
+          "seg": "3. Inicie AlbionOnline - DataVault (reinicie una vez)"
         },
         {
           "lang": "fr-FR",
@@ -20865,7 +21477,7 @@
         },
         {
           "lang": "ko-KR",
-          "seg": "3. Statistics Analysis Tool 시작(한 번 재시작)"
+          "seg": "3. AlbionOnline - DataVault 시작(한 번 재시작)"
         },
         {
           "lang": "pl-PL",
@@ -20877,7 +21489,7 @@
         },
         {
           "lang": "ru-RU",
-          "seg": "3. Запустите Statistics Analysis Tool (Перезапустите его)"
+          "seg": "3. Запустите AlbionOnline - DataVault (Перезапустите его)"
         },
         {
           "lang": "zh-CN",
@@ -32905,6 +33517,10 @@
         {
           "lang": "zh-CN",
           "seg": "Albion Data Project 源地址 (欧服)"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "URL base de Albion Data Project EUROPA"
         }
       ]
     },
@@ -34824,7 +35440,7 @@
         },
         {
           "lang": "pt-BR",
-          "seg": "Se as armas certas não forem exibidas no medidor de dano, isso geralmente se deve aos arquivos ItemList.json e Items.json desatualizados. Exclua manualmente esses arquivos da pasta do StatisticsAnalysis e reinicie o StatisticsAnalysisTool, então a versão mais recente dos arquivos será baixada e tudo deve funcionar normalmente."
+          "seg": "Se as armas certas não forem exibidas no medidor de dano, isso geralmente se deve aos arquivos ItemList.json e Items.json desatualizados. Exclua manualmente esses arquivos da pasta do AlbionOnline-DataVault e reinicie o AlbionOnline-DataVault, então a versão mais recente dos arquivos será baixada e tudo deve funcionar normalmente."
         },
         {
           "lang": "ru-RU",
@@ -35975,6 +36591,10 @@
         {
           "lang": "zh-CN",
           "seg": "启动路径下的另一应用"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Ruta de otra aplicación a iniciar"
         }
       ]
     },
@@ -36242,6 +36862,10 @@
         {
           "lang": "zh-CN",
           "seg": "Game folder path"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Ruta de la carpeta del juego"
         }
       ]
     },
@@ -36394,6 +37018,10 @@
         {
           "lang": "zh-CN",
           "seg": "迷雾地下城"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Mazmorra de las Nieblas"
         }
       ]
     },
@@ -36591,6 +37219,10 @@
         {
           "lang": "zh-CN",
           "seg": "最贵战利品"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Botín más valioso"
         }
       ]
     },
@@ -36907,6 +37539,10 @@
         {
           "lang": "zh-CN",
           "seg": "类型"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Tipo"
         }
       ]
     },
@@ -36948,6 +37584,10 @@
         {
           "lang": "zh-CN",
           "seg": "HCE (远征)"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Expedición HCE"
         }
       ]
     },
@@ -37829,6 +38469,10 @@
         {
           "lang": "ru-RU",
           "seg": "Поставщик пакетов"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Proveedor de paquetes"
         }
       ]
     },
@@ -37854,6 +38498,10 @@
         {
           "lang": "zh-CN",
           "seg": "网络适配器"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Adaptadores de red"
         }
       ]
     },
@@ -37879,6 +38527,10 @@
         {
           "lang": "zh-CN",
           "seg": "重新开始网络追踪"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Reiniciar seguimiento de red"
         }
       ]
     },
@@ -37970,6 +38622,10 @@
         {
           "lang": "ru-RU",
           "seg": "Группа"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Grupo"
         }
       ]
     },
@@ -38045,6 +38701,10 @@
         {
           "lang": "ru-RU",
           "seg": "Используемый звук предупреждения о смерти"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Sonido de alerta de muerte usado"
         }
       ]
     },
@@ -38220,6 +38880,10 @@
         {
           "lang": "zh-CN",
           "seg": "打开事件验证"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Abrir validación de eventos"
         }
       ]
     },
@@ -38395,6 +39059,10 @@
         {
           "lang": "zh-CN",
           "seg": "备份存储目录路径"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Ruta del directorio de almacenamiento de copias de seguridad"
         }
       ]
     },
@@ -38691,7 +39359,8 @@
         {
           "lang": "ru-RU",
           "seg": "Добавьте логи сундука"
-        },{
+        },
+        {
           "lang": "zh-CN",
           "seg": "加载箱子日志（文本）"
         }
@@ -39198,6 +39867,10 @@
         {
           "lang": "zh-CN",
           "seg": "代理"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Proxy"
         }
       ]
     },
@@ -39223,6 +39896,10 @@
         {
           "lang": "zh-CN",
           "seg": "更改需要重启工具"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "El cambio requiere reiniciar la herramienta"
         }
       ]
     },
@@ -40013,6 +40690,10 @@
         {
           "lang": "zh-CN",
           "seg": "保本价格"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Precio de equilibrio"
         }
       ]
     },
@@ -40063,6 +40744,10 @@
         {
           "lang": "zh-CN",
           "seg": "每件物品的利润"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Beneficio por objeto"
         }
       ]
     },
@@ -40163,6 +40848,10 @@
         {
           "lang": "zh-CN",
           "seg": "启动工具时打开调试控制台"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Abrir consola de depuración al iniciar la herramienta"
         }
       ]
     },
@@ -40188,6 +40877,10 @@
         {
           "lang": "zh-CN",
           "seg": "调试"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Depuración"
         }
       ]
     },
@@ -41472,6 +42165,10 @@
         {
           "lang": "zh-CN",
           "seg": "投资回报率"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "ROI"
         }
       ]
     },
@@ -42001,6 +42698,180 @@
       ]
     },
     {
+      "tuid": "BATTLE_REPORT",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Kampfbericht"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Battle Report"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Reporte de batalla"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Rapport de Combat"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Отчёт о бое"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "战斗报告"
+        }
+      ]
+    },
+    {
+      "tuid": "BATTLE_REPORT_DESCRIPTION",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Zusammenfassung des Kampfes deiner Gildenmitglieder im aktuellen Kampf."
+        },
+        {
+          "lang": "en-US",
+          "seg": "Summary of your guildmates' combat in the current fight."
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Resumen del combate de tus compañeros de guild en la pelea actual."
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Résumé du combat de vos membres de guilde dans le combat en cours."
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Сводка боя ваших соратников по гильдии в текущей схватке."
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "当前战斗中公会成员的战斗摘要。"
+        }
+      ]
+    },
+    {
+      "tuid": "BATTLE_REPORT_MVP",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "MVP"
+        },
+        {
+          "lang": "en-US",
+          "seg": "MVP"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "MVP"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "MVP"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "MVP"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "MVP"
+        }
+      ]
+    },
+    {
+      "tuid": "BATTLE_REPORT_MEMBERS",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Gildenmitglieder im Kampf"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Guild members in combat"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Miembros de la guild en combate"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Membres de la guilde au combat"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Члены гильдии в бою"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "参战的公会成员"
+        }
+      ]
+    },
+    {
+      "tuid": "BATTLE_REPORT_EMPTY",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Derzeit kämpft kein Gildenmitglied."
+        },
+        {
+          "lang": "en-US",
+          "seg": "No guild members are currently in combat."
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Ningún miembro de tu guild está en combate ahora mismo."
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Aucun membre de la guilde n'est actuellement au combat."
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Сейчас никто из гильдии не участвует в бою."
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "目前没有公会成员在战斗中。"
+        }
+      ]
+    },
+    {
+      "tuid": "BATTLE_REPORT_TOP_CONTRIBUTORS",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Top-Mitwirkende"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Top Contributors"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Top contribuyentes"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Meilleurs Contributeurs"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Лучшие участники"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "顶尖贡献者"
+        }
+      ]
+    },
+    {
       "tuid": "EFFECTIVE_HEALING",
       "tuv": [
         {
@@ -42172,6 +43043,470 @@
         {
           "lang": "zh-CN",
           "seg": "战斗次数"
+        }
+      ]
+    },
+    {
+      "tuid": "DAMAGE_TAKEN_PERCENT",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Erlittener Schaden %"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Damage Taken %"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "% de daño recibido"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "% de dégâts subis"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "% полученного урона"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "承受伤害百分比"
+        }
+      ]
+    },
+    {
+      "tuid": "OVERVIEW",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Übersicht"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Overview"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Resumen"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Aperçu"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Обзор"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "概览"
+        }
+      ]
+    },
+    {
+      "tuid": "SKILLS",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Fähigkeiten"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Skills"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Habilidades"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Compétences"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Навыки"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "技能"
+        }
+      ]
+    },
+    {
+      "tuid": "HEALING",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Heilung"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Healing"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Curación"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Soins"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Лечение"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "治疗"
+        }
+      ]
+    },
+    {
+      "tuid": "TIMELINE",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Zeitleiste"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Timeline"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Línea de tiempo"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Chronologie"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Хронология"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "时间线"
+        }
+      ]
+    },
+    {
+      "tuid": "SESSION",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Sitzung"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Session"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Sesión"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Session"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Сессия"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "会话"
+        }
+      ]
+    },
+    {
+      "tuid": "COMBAT",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Kampf"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Combat"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Combate"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Combat"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Бой"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "战斗"
+        }
+      ]
+    },
+    {
+      "tuid": "SOCIAL",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Sozial"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Social"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Social"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Social"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Социальное"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "社交"
+        }
+      ]
+    },
+    {
+      "tuid": "CHARTS",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Diagramme"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Charts"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Gráficas"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Graphiques"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Графики"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "图表"
+        }
+      ]
+    },
+    {
+      "tuid": "DAMAGE_DISTRIBUTION",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Schadensverteilung"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Damage Distribution"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Distribución de daño"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Répartition des dégâts"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Распределение урона"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "伤害分布"
+        }
+      ]
+    },
+    {
+      "tuid": "PARTY_CONTRIBUTION",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Gruppenbeitrag"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Party Contribution"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Contribución del grupo"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Contribution du groupe"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Вклад группы"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "队伍贡献"
+        }
+      ]
+    },
+    {
+      "tuid": "SEARCH_ITEM_PLACEHOLDER",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Gegenstand suchen..."
+        },
+        {
+          "lang": "en-US",
+          "seg": "Search item..."
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Buscar objeto..."
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Rechercher un objet..."
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Поиск предмета..."
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "搜索物品..."
+        }
+      ]
+    },
+    {
+      "tuid": "PLAYERS_TRACKED",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Erfasste Spieler"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Players Tracked"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Jugadores rastreados"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Joueurs suivis"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Отслеживаемые игроки"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "已追踪玩家"
+        }
+      ]
+    },
+    {
+      "tuid": "PARTY_MEMBERS",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Gruppenmitglieder"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Party Members"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Miembros del grupo"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Membres du groupe"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Участники группы"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "队伍成员"
+        }
+      ]
+    },
+    {
+      "tuid": "YOUR_DPS",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Dein DPS"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Your DPS"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Tu DPS"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Vos DPS"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Ваш DPS"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "你的DPS"
+        }
+      ]
+    },
+    {
+      "tuid": "YOUR_HEALING",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Deine Heilung"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Your Healing"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Tu curación"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Vos soins"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Ваше лечение"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "你的治疗"
         }
       ]
     },
@@ -42497,6 +43832,10 @@
         {
           "lang": "zh-CN",
           "seg": "次数"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Número de tandas"
         }
       ]
     },
@@ -42522,6 +43861,10 @@
         {
           "lang": "zh-CN",
           "seg": "专注点"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Foco"
         }
       ]
     },
@@ -42547,6 +43890,10 @@
         {
           "lang": "zh-CN",
           "seg": "每日返还率加成"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Bonificación diaria RRR"
         }
       ]
     },
@@ -42572,6 +43919,10 @@
         {
           "lang": "zh-CN",
           "seg": "藏身地堡加成"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Bonificación de escondite"
         }
       ]
     },
@@ -42597,6 +43948,10 @@
         {
           "lang": "zh-CN",
           "seg": "制造地点"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Ubicación de fabricación"
         }
       ]
     },
@@ -42622,6 +43977,10 @@
         {
           "lang": "zh-CN",
           "seg": "返还率 %"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Porcentaje de retorno"
         }
       ]
     },
@@ -42647,6 +44006,10 @@
         {
           "lang": "zh-CN",
           "seg": "市场价格"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Mercado de precios"
         }
       ]
     },
@@ -42672,6 +44035,10 @@
         {
           "lang": "zh-CN",
           "seg": "制造站费用"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Tarifa de estación"
         }
       ]
     },
@@ -42697,6 +44064,10 @@
         {
           "lang": "zh-CN",
           "seg": "使用费 / 100食物"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Tarifa cobrada por usar la estación de fabricación."
         }
       ]
     },
@@ -42722,6 +44093,10 @@
         {
           "lang": "zh-CN",
           "seg": "销售税 %"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Porcentaje de impuesto de venta"
         }
       ]
     },
@@ -42747,6 +44122,10 @@
         {
           "lang": "zh-CN",
           "seg": "售价"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Precio de venta"
         }
       ]
     },
@@ -42772,6 +44151,10 @@
         {
           "lang": "zh-CN",
           "seg": "新建"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Nuevo"
         }
       ]
     },
@@ -42797,6 +44180,10 @@
         {
           "lang": "zh-CN",
           "seg": "删除"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Eliminar"
         }
       ]
     },
@@ -42822,6 +44209,10 @@
         {
           "lang": "zh-CN",
           "seg": "价格"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Precios"
         }
       ]
     },
@@ -42847,6 +44238,10 @@
         {
           "lang": "zh-CN",
           "seg": "资源"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Recursos"
         }
       ]
     },
@@ -42872,6 +44267,10 @@
         {
           "lang": "zh-CN",
           "seg": "毛利润"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Bruto"
         }
       ]
     },
@@ -42897,6 +44296,10 @@
         {
           "lang": "zh-CN",
           "seg": "预期收益"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Retorno esperado"
         }
       ]
     },
@@ -42922,6 +44325,10 @@
         {
           "lang": "zh-CN",
           "seg": "净收益"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Neto"
         }
       ]
     },
@@ -42947,6 +44354,10 @@
         {
           "lang": "zh-CN",
           "seg": "价格"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Precio"
         }
       ]
     },
@@ -42972,6 +44383,10 @@
         {
           "lang": "zh-CN",
           "seg": "净成本"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Coste neto"
         }
       ]
     },
@@ -42997,6 +44412,10 @@
         {
           "lang": "zh-CN",
           "seg": "显示资源图标"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Icono del recurso."
         }
       ]
     },
@@ -43022,6 +44441,10 @@
         {
           "lang": "zh-CN",
           "seg": "所需资源的名称"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Nombre del recurso."
         }
       ]
     },
@@ -43047,6 +44470,10 @@
         {
           "lang": "zh-CN",
           "seg": "资源类型，例如可返还、不可返还或特殊资源"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Tipo de recurso."
         }
       ]
     },
@@ -43072,6 +44499,10 @@
         {
           "lang": "zh-CN",
           "seg": "资源返还前的总需求"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Cantidad bruta necesaria antes del retorno de recursos."
         }
       ]
     },
@@ -43097,6 +44528,10 @@
         {
           "lang": "zh-CN",
           "seg": "基于资源返还率的预期返还量"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Cantidad esperada que se recuperará mediante el retorno de recursos."
         }
       ]
     },
@@ -43122,6 +44557,10 @@
         {
           "lang": "zh-CN",
           "seg": "预期返还后的净消耗"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Cantidad neta necesaria después del retorno de recursos."
         }
       ]
     },
@@ -43147,6 +44586,10 @@
         {
           "lang": "zh-CN",
           "seg": "资源单价"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Precio unitario del recurso."
         }
       ]
     },
@@ -43172,6 +44615,10 @@
         {
           "lang": "zh-CN",
           "seg": "预期返还后的银币成本"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Coste neto total del recurso."
         }
       ]
     },
@@ -43197,6 +44644,10 @@
         {
           "lang": "zh-CN",
           "seg": "日志"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Diarios"
         }
       ]
     },
@@ -43222,6 +44673,10 @@
         {
           "lang": "zh-CN",
           "seg": "空白日记价格"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Precio vacío"
         }
       ]
     },
@@ -43247,6 +44702,10 @@
         {
           "lang": "zh-CN",
           "seg": "填满日志价格"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Precio lleno"
         }
       ]
     },
@@ -43272,6 +44731,10 @@
         {
           "lang": "zh-CN",
           "seg": "空白"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Vacío"
         }
       ]
     },
@@ -43297,6 +44760,10 @@
         {
           "lang": "zh-CN",
           "seg": "已填满"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Lleno"
         }
       ]
     },
@@ -43322,6 +44789,10 @@
         {
           "lang": "zh-CN",
           "seg": "基于资源返还率的预期返还量"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Parcial"
         }
       ]
     },
@@ -43347,6 +44818,10 @@
         {
           "lang": "zh-CN",
           "seg": "部分填满"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Resultados"
         }
       ]
     },
@@ -43372,6 +44847,10 @@
         {
           "lang": "zh-CN",
           "seg": "产出"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Producción"
         }
       ]
     },
@@ -43397,6 +44876,10 @@
         {
           "lang": "zh-CN",
           "seg": "净销售额"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Ventas netas"
         }
       ]
     },
@@ -43422,6 +44905,10 @@
         {
           "lang": "zh-CN",
           "seg": "材料总成本"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Materiales brutos"
         }
       ]
     },
@@ -43447,6 +44934,10 @@
         {
           "lang": "zh-CN",
           "seg": "材料净额"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Materiales netos"
         }
       ]
     },
@@ -43472,6 +44963,10 @@
         {
           "lang": "zh-CN",
           "seg": "不可返还"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "No retornable"
         }
       ]
     },
@@ -43497,6 +44992,10 @@
         {
           "lang": "zh-CN",
           "seg": "制造站"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Estación"
         }
       ]
     },
@@ -43522,6 +45021,10 @@
         {
           "lang": "zh-CN",
           "seg": "日记成本"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Costes de diarios"
         }
       ]
     },
@@ -43547,6 +45050,10 @@
         {
           "lang": "zh-CN",
           "seg": "日记收入"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Ingresos por diarios"
         }
       ]
     },
@@ -43572,6 +45079,10 @@
         {
           "lang": "zh-CN",
           "seg": "制造前重量"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Peso antes"
         }
       ]
     },
@@ -43597,6 +45108,10 @@
         {
           "lang": "zh-CN",
           "seg": "制造后重量"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Peso después"
         }
       ]
     },
@@ -43622,6 +45137,10 @@
         {
           "lang": "zh-CN",
           "seg": "已保存的制造记录"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Fabricaciones guardadas"
         }
       ]
     },
@@ -43647,6 +45166,10 @@
         {
           "lang": "zh-CN",
           "seg": "物品"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Objeto"
         }
       ]
     },
@@ -43672,6 +45195,10 @@
         {
           "lang": "zh-CN",
           "seg": "详细信息"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Detalles"
         }
       ]
     },
@@ -43697,6 +45224,10 @@
         {
           "lang": "zh-CN",
           "seg": "主要成本"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Costes principales"
         }
       ]
     },
@@ -43722,6 +45253,10 @@
         {
           "lang": "zh-CN",
           "seg": "已更改"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Modificado"
         }
       ]
     },
@@ -43747,6 +45282,10 @@
         {
           "lang": "zh-CN",
           "seg": "空"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Ninguno"
         }
       ]
     },
@@ -43772,6 +45311,10 @@
         {
           "lang": "zh-CN",
           "seg": "预期返还率"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "RRR esperado"
         }
       ]
     },
@@ -43872,6 +45415,10 @@
         {
           "lang": "zh-CN",
           "seg": "请先选择物品再保存"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Selecciona un objeto antes de guardar."
         }
       ]
     },
@@ -43897,6 +45444,10 @@
         {
           "lang": "zh-CN",
           "seg": "制造已保存"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Fabricación guardada."
         }
       ]
     },
@@ -43922,6 +45473,10 @@
         {
           "lang": "zh-CN",
           "seg": "制造已删除"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Fabricación eliminada."
         }
       ]
     },
@@ -43947,6 +45502,10 @@
         {
           "lang": "zh-CN",
           "seg": "制造已加载"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Fabricación cargada."
         }
       ]
     },
@@ -43972,6 +45531,10 @@
         {
           "lang": "zh-CN",
           "seg": "新制造已开始"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Nueva fabricación iniciada."
         }
       ]
     },
@@ -43997,6 +45560,10 @@
         {
           "lang": "zh-CN",
           "seg": "请先选择物品再加载价格"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Selecciona un objeto antes de cargar los precios."
         }
       ]
     },
@@ -44022,6 +45589,10 @@
         {
           "lang": "zh-CN",
           "seg": "市场价格已加载"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Precios de mercado cargados."
         }
       ]
     },
@@ -44047,6 +45618,10 @@
         {
           "lang": "zh-CN",
           "seg": "市场价格无法加载"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "No se pudieron cargar los precios de mercado."
         }
       ]
     },
@@ -44247,6 +45822,10 @@
         {
           "lang": "zh-CN",
           "seg": "毛销售额"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Ventas brutas"
         }
       ]
     },
@@ -44272,6 +45851,10 @@
         {
           "lang": "zh-CN",
           "seg": "销售税"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Impuesto de venta"
         }
       ]
     },
@@ -44297,6 +45880,39 @@
         {
           "lang": "zh-CN",
           "seg": "输入制造次数后产出的物品数量"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Cantidad de objetos producidos por esta fabricación."
+        }
+      ]
+    },
+    {
+      "tuid": "CRAFTING_SAVED_CRAFTING_LOAD_TOOLTIP",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Klicken, um diese gespeicherte Konfiguration in den Rechner zu laden."
+        },
+        {
+          "lang": "en-US",
+          "seg": "Click to load this saved configuration into the calculator."
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Haz clic para cargar esta configuración guardada en la calculadora."
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Cliquez pour charger cette configuration enregistrée dans le calculateur."
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Нажмите, чтобы загрузить эту сохранённую конфигурацию в калькулятор."
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "点击以将此已保存的配置加载到计算器中。"
         }
       ]
     },
@@ -44322,6 +45938,10 @@
         {
           "lang": "zh-CN",
           "seg": "扣除材料成本、站点成本、其他成本、税费及日志成本，并计入日志收入后的利润"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Beneficio total tras restar todos los costes de los ingresos."
         }
       ]
     },
@@ -44347,6 +45967,10 @@
         {
           "lang": "zh-CN",
           "seg": "利润除以产出的数量"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Beneficio obtenido por cada objeto fabricado."
         }
       ]
     },
@@ -44372,6 +45996,10 @@
         {
           "lang": "zh-CN",
           "seg": "利润与总投入成本的比值"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Retorno de la inversión: beneficio en relación con el coste total."
         }
       ]
     },
@@ -44397,6 +46025,10 @@
         {
           "lang": "zh-CN",
           "seg": "盈亏平衡时的最低单品售价"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Precio de venta mínimo necesario para cubrir todos los costes."
         }
       ]
     },
@@ -44422,6 +46054,10 @@
         {
           "lang": "zh-CN",
           "seg": "扣除销售税前的销售收入"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Ingresos totales antes de impuestos."
         }
       ]
     },
@@ -44447,6 +46083,10 @@
         {
           "lang": "zh-CN",
           "seg": "从毛销售额中扣除的销售税"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Impuesto aplicado a la venta en el mercado."
         }
       ]
     },
@@ -44472,6 +46112,10 @@
         {
           "lang": "zh-CN",
           "seg": "销售收入减去销售税和建筑费后的净收入"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Ingresos totales después de impuestos."
         }
       ]
     },
@@ -44497,6 +46141,10 @@
         {
           "lang": "zh-CN",
           "seg": "从毛销售额中扣除的建筑费"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Tarifa de configuración cobrada al colocar la orden de venta."
         }
       ]
     },
@@ -44522,6 +46170,10 @@
         {
           "lang": "zh-CN",
           "seg": "总投资成本（包括净材料、建筑费用、日记成本及其他成本）"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Suma de todos los costes de esta fabricación."
         }
       ]
     },
@@ -44547,6 +46199,10 @@
         {
           "lang": "zh-CN",
           "seg": "资源返还前的材料成本"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Coste total de los materiales antes de aplicar el retorno de recursos."
         }
       ]
     },
@@ -44572,6 +46228,10 @@
         {
           "lang": "zh-CN",
           "seg": "预期资源返还后的材料成本"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Coste de los materiales después de aplicar el retorno de recursos."
         }
       ]
     },
@@ -44597,6 +46257,10 @@
         {
           "lang": "zh-CN",
           "seg": "即资源返还机制中，那些不被返还的资源的成本"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Materiales que no se recuperan mediante el retorno de recursos."
         }
       ]
     },
@@ -44622,6 +46286,10 @@
         {
           "lang": "zh-CN",
           "seg": "根据每100食物的使用费以及物品所消耗的食物量，计算出的制造站费用。"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Tarifa cobrada por usar la estación de fabricación."
         }
       ]
     },
@@ -44647,6 +46315,10 @@
         {
           "lang": "zh-CN",
           "seg": "手动输入的额外成本，已计入利润、投资回报率及保本价格中"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Costes adicionales introducidos manualmente."
         }
       ]
     },
@@ -44672,6 +46344,10 @@
         {
           "lang": "zh-CN",
           "seg": "所需空白日记的成本"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Coste de los diarios vacíos utilizados durante la fabricación."
         }
       ]
     },
@@ -44697,6 +46373,10 @@
         {
           "lang": "zh-CN",
           "seg": "填满日记的预期收入"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Ingresos estimados por la venta de los diarios llenos obtenidos."
         }
       ]
     },
@@ -44722,6 +46402,10 @@
         {
           "lang": "zh-CN",
           "seg": "制造前资源与日记的总重量"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Peso total antes de la fabricación."
         }
       ]
     },
@@ -44747,6 +46431,10 @@
         {
           "lang": "zh-CN",
           "seg": "制造后物品和日记的总重量"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Peso total después de la fabricación."
         }
       ]
     },
@@ -45445,6 +47133,10 @@
         {
           "lang": "zh-CN",
           "seg": "每小时获得声望"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Fama por hora"
         }
       ]
     },
@@ -45470,6 +47162,10 @@
         {
           "lang": "zh-CN",
           "seg": "每小时获得银币"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Plata por hora"
         }
       ]
     },
@@ -45741,6 +47437,14 @@
         {
           "lang": "zh-CN",
           "seg": "用户所在服务器"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Servidor de inicio para datos de usuario"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Сервер запуска для пользовательских данных приложения"
         }
       ]
     },
@@ -45762,6 +47466,14 @@
         {
           "lang": "zh-CN",
           "seg": "此选项用于控制在应用启动时、尚未通过网络数据包检测到《阿尔比恩》游戏之前，加载哪个服务器的数据。在游戏过程中，服务器会自动被检测到；当服务器发生变更时，当前数据会先被保存，然后再加载对应服务器的数据"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Esta selección controla qué datos de servidor se cargan al iniciar la aplicación antes de que Albion Online haya sido detectado a partir de los paquetes de red. Durante el juego, el servidor se detecta automáticamente; cuando el servidor cambia, los datos actuales se guardan primero y luego se cargan los datos del servidor correspondiente."
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Этот выбор определяет, какие серверные данные загружаются при запуске приложения до того, как Albion Online будет обнаружен по сетевым пакетам. Во время игры сервер определяется автоматически; при смене сервера текущие данные сначала сохраняются, а затем загружаются данные соответствующего сервера."
         }
       ]
     },
@@ -46749,6 +48461,1427 @@
         {
           "lang": "zh-TW",
           "seg": "已偵測到位置"
+        }
+      ]
+    },
+    {
+      "tuid": "BLACK_MARKET",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Schwarzmarkt"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Black Market"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Mercado Negro"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Marché noir"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Чёрный рынок"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "黑市"
+        }
+      ]
+    },
+    {
+      "tuid": "CRAFTING_SETTINGS_SECTION",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Fertigungseinstellungen"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Crafting settings"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Ajustes de fabricación"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Paramètres de fabrication"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Настройки крафта"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "制作设置"
+        }
+      ]
+    },
+    {
+      "tuid": "PRICING_FEES_SECTION",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Preise & Gebühren"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Pricing & fees"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Precios y tarifas"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Prix et frais"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Цены и сборы"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "价格与费用"
+        }
+      ]
+    },
+    {
+      "tuid": "CRAFTING_SELECT_ITEM_TO_START",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Wähle oben ein Objekt aus, um zu beginnen"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Select an item above to get started"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Selecciona un objeto arriba para empezar"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Sélectionnez un objet ci-dessus pour commencer"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Выберите предмет выше, чтобы начать"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "请在上方选择一个物品以开始"
+        }
+      ]
+    },
+    {
+      "tuid": "PROFITABILITY_SECTION",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Rentabilität"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Profitability"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Rentabilidad"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Rentabilité"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Рентабельность"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "盈利能力"
+        }
+      ]
+    },
+    {
+      "tuid": "SUBCATEGORY_1",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Unterkategorie 1"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Subcategory 1"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Subcategoría 1"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Sous-catégorie 1"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Подкатегория 1"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "子类别 1"
+        }
+      ]
+    },
+    {
+      "tuid": "SUBCATEGORY_2",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Unterkategorie 2"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Subcategory 2"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Subcategoría 2"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Sous-catégorie 2"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Подкатегория 2"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "子类别 2"
+        }
+      ]
+    },
+    {
+      "tuid": "ITEM_ENCHANTMENT",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Verzauberung"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Enchantment"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Encantamiento"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Enchantement"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Зачарование"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "附魔"
+        }
+      ]
+    },
+    {
+      "tuid": "CRAFTING_PROFITABLE",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Rentabel"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Profitable"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Rentable"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Rentable"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Прибыльно"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "有利可图"
+        }
+      ]
+    },
+    {
+      "tuid": "CRAFTING_NOT_PROFITABLE",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Nicht rentabel"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Not profitable"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "No rentable"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Non rentable"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Убыточно"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "无利可图"
+        }
+      ]
+    },
+    {
+      "tuid": "DUNGEON_BEST_RUN",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Bester Lauf"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Best run"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Mejor tirada"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Meilleure run"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Лучший забег"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "最佳战绩"
+        }
+      ]
+    },
+    {
+      "tuid": "DUNGEON_EFFICIENCY_BY_TYPE",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Effizienz nach Dungeon-Typ"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Efficiency by dungeon type"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Eficiencia por tipo de mazmorra"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Efficacité par type de donjon"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Эффективность по типу подземелья"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "各类型地下城效率"
+        }
+      ]
+    },
+    {
+      "tuid": "DUNGEON_EFFICIENCY_EMPTY",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Noch keine Daten. Betrete eine Mazmorra, um deine Effizienz pro Stunde zu sehen."
+        },
+        {
+          "lang": "en-US",
+          "seg": "No data yet. Enter a dungeon to see your efficiency per hour."
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Todavía no hay datos. Entra en una mazmorra para ver tu eficiencia por hora."
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Pas encore de données. Entrez dans un donjon pour voir votre efficacité par heure."
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Пока нет данных. Войдите в подземелье, чтобы увидеть эффективность в час."
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "暂无数据。进入地下城以查看你的每小时效率。"
+        }
+      ]
+    },
+    {
+      "tuid": "REFINING",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Raffinierung"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Refining"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Refinamiento"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Raffinage"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Переработка"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "精炼"
+        }
+      ]
+    },
+    {
+      "tuid": "REFINING_OPTIMIZER",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Raffinierungs-Optimierer"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Refining optimizer"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Optimizador de refinamiento"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Optimiseur de raffinage"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Оптимизатор переработки"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "精炼优化器"
+        }
+      ]
+    },
+    {
+      "tuid": "RESOURCE_TYPE",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Ressourcentyp"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Resource type"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Tipo de recurso"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Type de ressource"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Тип ресурса"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "资源类型"
+        }
+      ]
+    },
+    {
+      "tuid": "REFINING_LOCATION",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Raffinierungsort"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Refining location"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Ubicación de refinamiento"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Lieu de raffinage"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Место переработки"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "精炼地点"
+        }
+      ]
+    },
+    {
+      "tuid": "REFINING_SETTINGS_SECTION",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Raffinierungseinstellungen"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Refining settings"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Ajustes de refinamiento"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Paramètres de raffinage"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Настройки переработки"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "精炼设置"
+        }
+      ]
+    },
+    {
+      "tuid": "REFINING_BUY_MARKET_LOCATION",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Einkaufsstadt (Rohstoffe)"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Buy city (raw resources)"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Ciudad de compra (recursos crudos)"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Ville d'achat (ressources brutes)"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Город покупки (сырьё)"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "购买城市（原材料）"
+        }
+      ]
+    },
+    {
+      "tuid": "REFINING_SELL_MARKET_LOCATION",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Verkaufsstadt (Raffiniert)"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Sell city (refined)"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Ciudad de venta (recursos refinados)"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Ville de vente (raffiné)"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Город продажи (переработанное)"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "出售城市（精炼品）"
+        }
+      ]
+    },
+    {
+      "tuid": "ARBITRAGE_BEST_OPPORTUNITY",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Beste Gelegenheit"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Best opportunity"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Mejor oportunidad"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Meilleure opportunité"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Лучшая возможность"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "最佳机会"
+        }
+      ]
+    },
+    {
+      "tuid": "ARBITRAGE_BEST_OPPORTUNITY_EMPTY",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Füge Objekte zur Beobachtungsliste hinzu und starte einen Scan, um Gelegenheiten zu sehen."
+        },
+        {
+          "lang": "en-US",
+          "seg": "Add items to the watchlist and scan to see opportunities."
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Añade objetos a la lista de seguimiento y escanea para ver oportunidades."
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Ajoutez des objets à la liste de suivi et scannez pour voir les opportunités."
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Добавьте предметы в список отслеживания и запустите сканирование, чтобы увидеть возможности."
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "将物品添加到关注列表并扫描以查看机会。"
+        }
+      ]
+    },
+    {
+      "tuid": "CRAFTING_RECOMMENDATION",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Fertigungsempfehlung"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Crafting Recommendation"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Recomendación de fabricación"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Recommandation de fabrication"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Рекомендация по крафту"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "制作推荐"
+        }
+      ]
+    },
+    {
+      "tuid": "GUILD_OVERVIEW",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Übersicht"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Overview"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Resumen"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Aperçu"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Обзор"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "概览"
+        }
+      ]
+    },
+    {
+      "tuid": "GUILD_OVERVIEW_EMPTY",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Es wurde noch keine Gilde erkannt. Öffne dein Gildenmenü im Spiel oder klicke auf Aktualisieren."
+        },
+        {
+          "lang": "en-US",
+          "seg": "No guild detected yet. Open your guild menu in-game or press Refresh."
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Todavía no se detectó ningún gremio. Abre el menú de tu gremio en el juego o pulsa Actualizar."
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Aucune guilde détectée pour l'instant. Ouvrez le menu de votre guilde en jeu ou cliquez sur Actualiser."
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Гильдия пока не обнаружена. Откройте меню гильдии в игре или нажмите «Обновить»."
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "尚未检测到公会。请在游戏内打开公会菜单或点击刷新。"
+        }
+      ]
+    },
+    {
+      "tuid": "GUILD_OVERVIEW_REFRESH",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Aktualisieren"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Refresh"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Actualizar"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Actualiser"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Обновить"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "刷新"
+        }
+      ]
+    },
+    {
+      "tuid": "GUILD_OVERVIEW_MEMBERS",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Mitglieder"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Members"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Miembros"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Membres"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Участники"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "成员"
+        }
+      ]
+    },
+    {
+      "tuid": "GUILD_OVERVIEW_FOUNDED",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Gegründet"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Founded"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Fundado"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Fondée"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Основана"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "创建于"
+        }
+      ]
+    },
+    {
+      "tuid": "GUILD_OVERVIEW_FOUNDER",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Gründer"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Founder"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Fundador"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Fondateur"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Основатель"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "创始人"
+        }
+      ]
+    },
+    {
+      "tuid": "GUILD_OVERVIEW_ALLIANCE",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Allianz"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Alliance"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Alianza"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Alliance"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Альянс"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "联盟"
+        }
+      ]
+    },
+    {
+      "tuid": "GUILD_OVERVIEW_KILL_FAME",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Tötungsruhm"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Kill Fame"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Fama de asesinatos"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Renommée de kills"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Слава за убийства"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "击杀荣誉"
+        }
+      ]
+    },
+    {
+      "tuid": "GUILD_OVERVIEW_DEATH_FAME",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Ruhmverlust durch Tode"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Death Fame"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Fama de muertes"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Renommée de morts"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Слава за смерти"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "死亡荣誉"
+        }
+      ]
+    },
+    {
+      "tuid": "GUILD_OVERVIEW_RANKING",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Mitgliederrangliste nach Ruhm"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Member ranking by fame"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Ranking de miembros por fama"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Classement des membres par renommée"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Рейтинг участников по славе"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "按荣誉排名的成员"
+        }
+      ]
+    },
+    {
+      "tuid": "GUILD_OVERVIEW_ERROR",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Gildeninformationen konnten nicht geladen werden."
+        },
+        {
+          "lang": "en-US",
+          "seg": "Could not load guild information."
+        },
+        {
+          "lang": "es-ES",
+          "seg": "No se pudo cargar la información del gremio."
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Impossible de charger les informations de la guilde."
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Не удалось загрузить информацию о гильдии."
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "无法加载公会信息。"
+        }
+      ]
+    },
+    {
+      "tuid": "GUILD_LOOT_CHECK",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Beuteüberprüfung"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Loot Verification"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Verificación de saqueo"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Vérification du butin"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Проверка добычи"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "战利品核查"
+        }
+      ]
+    },
+    {
+      "tuid": "GUILD_LOOT_CHECK_RESOLVED",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Geklärt"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Resolved"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Resueltos"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Résolus"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Подтверждено"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "已核实"
+        }
+      ]
+    },
+    {
+      "tuid": "GUILD_LOOT_CHECK_LOST",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Verloren"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Lost"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Perdidos"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Perdus"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Потеряно"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "丢失"
+        }
+      ]
+    },
+    {
+      "tuid": "GUILD_LOOT_CHECK_UNKNOWN",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Unbekannt"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Unknown"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Desconocidos"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Inconnus"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Неизвестно"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "未知"
+        }
+      ]
+    },
+    {
+      "tuid": "GUILD_LOOT_CHECK_DONATED",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Gespendet"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Donated"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Donados"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Donnés"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Пожертвовано"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "已捐赠"
+        }
+      ]
+    },
+    {
+      "tuid": "GUILD_LOOT_CHECK_EMPTY",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Noch keine Daten. Vergleiche deine Beuteprotokolle im Tab Protokollierung."
+        },
+        {
+          "lang": "en-US",
+          "seg": "No data yet. Compare your loot logs in the Logging tab."
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Todavía no hay datos. Compara los registros de saqueo en la pestaña Registro."
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Pas encore de données. Comparez vos journaux de butin dans l'onglet Journalisation."
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Данных пока нет. Сравните журналы добычи на вкладке «Журналирование»."
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "暂无数据。请在“日志”标签页中比对战利品记录。"
+        }
+      ]
+    },
+    {
+      "tuid": "GUILD_LOOT_CHECK_REFRESH",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Zusammenfassung aktualisieren"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Refresh summary"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Actualizar resumen"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Actualiser le résumé"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Обновить сводку"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "刷新摘要"
+        }
+      ]
+    },
+    {
+      "tuid": "GUILD_LOOT_CHECK_HINT",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Vollständige Details im Tab Protokollierung ansehen."
+        },
+        {
+          "lang": "en-US",
+          "seg": "See full detail in the Logging tab."
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Ver el detalle completo en la pestaña Registro."
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Voir le détail complet dans l'onglet Journalisation."
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Полные сведения смотрите на вкладке «Журналирование»."
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "在“日志”标签页查看完整详情。"
+        }
+      ]
+    },
+    {
+      "tuid": "USE_GLOBAL_CITY",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Globale Stadt verwenden"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Use global city"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Usar ciudad global"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Utiliser la ville globale"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Единый город закупки"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "使用全局城市"
+        }
+      ]
+    },
+    {
+      "tuid": "OPTIMIZE_PURCHASE",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Einkauf optimieren"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Optimize purchase"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Optimizar compra"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Optimiser l'achat"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Оптимизировать закупку"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "优化采购"
+        }
+      ]
+    },
+    {
+      "tuid": "CRAFTING_BUY_CITY",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Einkaufsstadt"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Buy city"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Ciudad compra"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Ville d'achat"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Город закупки"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "购买城市"
+        }
+      ]
+    },
+    {
+      "tuid": "CRAFTING_EXCLUDED_CITIES",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Städte ausschließen:"
+        },
+        {
+          "lang": "en-US",
+          "seg": "Exclude cities:"
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Excluir ciudades:"
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Exclure des villes :"
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Исключить города:"
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "排除城市："
+        }
+      ]
+    },
+    {
+      "tuid": "CRAFTING_OPTIMIZING",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Suche besten Preis je Ressource..."
+        },
+        {
+          "lang": "en-US",
+          "seg": "Finding the best price per resource..."
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Buscando el mejor precio por recurso..."
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Recherche du meilleur prix par ressource..."
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Поиск лучшей цены для каждого ресурса..."
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "正在为每种资源寻找最优价格…"
+        }
+      ]
+    },
+    {
+      "tuid": "CRAFTING_OPTIMIZE_SAVINGS",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Geschätzte Ersparnis: {0} Silber gegenüber dem Komplettkauf in {1}."
+        },
+        {
+          "lang": "en-US",
+          "seg": "Estimated savings: {0} silver vs. buying everything in {1}."
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Ahorro estimado: {0} de plata vs. comprar todo en {1}."
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Économie estimée : {0} d'argent par rapport à tout acheter à {1}."
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Экономия: {0} серебра по сравнению с закупкой всего в {1}."
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "预计节省：{0} 银币（相比全部在 {1} 购买）。"
+        }
+      ]
+    },
+    {
+      "tuid": "CRAFTING_OPTIMIZE_NO_DATA",
+      "tuv": [
+        {
+          "lang": "de-DE",
+          "seg": "Nicht genügend Preisdaten zum Vergleichen."
+        },
+        {
+          "lang": "en-US",
+          "seg": "Not enough price data to compare."
+        },
+        {
+          "lang": "es-ES",
+          "seg": "Sin datos de precios suficientes para comparar."
+        },
+        {
+          "lang": "fr-FR",
+          "seg": "Pas assez de données de prix pour comparer."
+        },
+        {
+          "lang": "ru-RU",
+          "seg": "Недостаточно данных о ценах для сравнения."
+        },
+        {
+          "lang": "zh-CN",
+          "seg": "价格数据不足，无法比较。"
         }
       ]
     }

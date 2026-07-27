@@ -48,7 +48,7 @@ public static class CraftingLocationData
         return data.Count >= 0;
     }
 
-    public static List<CraftingLocationOption> GetCraftingLocations(Item item)
+    public static List<CraftingLocationOption> GetCraftingLocations(Item item, bool useRefiningBonus = false)
     {
         var result = new Dictionary<string, CraftingLocationOption>(StringComparer.OrdinalIgnoreCase);
         var worldClusters = WorldData.MapData ?? [];
@@ -60,7 +60,7 @@ public static class CraftingLocationData
         foreach (var location in exactLocations)
         {
             var worldCluster = worldClusters.FirstOrDefault(x => string.Equals(x.Index, location.ClusterId, StringComparison.OrdinalIgnoreCase));
-            var option = CreateOption(location, worldCluster, item);
+            var option = CreateOption(location, worldCluster, item, useRefiningBonus);
             result[option.ClusterId] = option;
         }
 
@@ -72,7 +72,7 @@ public static class CraftingLocationData
                 continue;
             }
 
-            var option = CreateOption(templateLocation, worldCluster, item);
+            var option = CreateOption(templateLocation, worldCluster, item, useRefiningBonus);
             result.TryAdd(option.ClusterId, option);
         }
 
@@ -109,11 +109,11 @@ public static class CraftingLocationData
         return new CraftingLocationDataScope(previousLocations);
     }
 
-    private static CraftingLocationOption CreateOption(CraftingModifierLocationObject location, WorldJsonObject worldCluster, Item item)
+    private static CraftingLocationOption CreateOption(CraftingModifierLocationObject location, WorldJsonObject worldCluster, Item item, bool useRefiningBonus = false)
     {
         var clusterId = worldCluster?.Index ?? location.ClusterId;
         var displayName = worldCluster?.UniqueName ?? location.ClusterId;
-        var baseBonus = ParsePercent(location.CraftingBonus?.Value);
+        var baseBonus = ParsePercent(useRefiningBonus ? location.RefiningBonus?.Value : location.CraftingBonus?.Value);
         var matchingModifier = GetMatchingModifierPercent(location, item);
 
         return new CraftingLocationOption

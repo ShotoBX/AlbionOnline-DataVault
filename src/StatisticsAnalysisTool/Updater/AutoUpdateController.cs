@@ -1084,7 +1084,7 @@ public static class AutoUpdateController
     private static string GetProductTitle()
     {
         var attribute = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyTitleAttribute>();
-        return string.IsNullOrWhiteSpace(attribute?.Title) ? "Statistics Analysis Tool" : attribute.Title;
+        return string.IsNullOrWhiteSpace(attribute?.Title) ? "AlbionOnline - DataVault" : attribute.Title;
     }
 
     private static string GetRemindLaterText()

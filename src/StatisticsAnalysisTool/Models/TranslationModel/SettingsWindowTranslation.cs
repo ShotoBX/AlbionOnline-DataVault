@@ -70,4 +70,9 @@ public class SettingsWindowTranslation
     public static string DeathAlarmSoundUsed => LocalizationController.Translation("DEATH_ALERT_SOUND_USED");
     public static string BackupStorageDirectoryPath => LocalizationController.Translation("BACKUP_STORAGE_DIRECTORY_PATH");
     public static string Proxy => LocalizationController.Translation("PROXY");
+    public static string DiscordWebhook => LocalizationController.Translation("DISCORD_WEBHOOK");
+    public static string DiscordWebhookUrl => LocalizationController.Translation("DISCORD_WEBHOOK_URL");
+    public static string DiscordNotifyOnLoot => LocalizationController.Translation("DISCORD_NOTIFY_ON_LOOT");
+    public static string DiscordNotifyOnDeath => LocalizationController.Translation("DISCORD_NOTIFY_ON_DEATH");
+    public static string DiscordNotifyOnDungeonClosed => LocalizationController.Translation("DISCORD_NOTIFY_ON_DUNGEON_CLOSED");
 }

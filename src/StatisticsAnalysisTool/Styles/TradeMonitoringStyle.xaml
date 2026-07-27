@@ -475,19 +475,19 @@
                         </StackPanel>
                         <StackPanel Orientation="Vertical" Margin="5,0,0,5">
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                                <TextBox Text="{Binding MarketTaxRate}" Width="25" Height="20" common:TextBoxHelper.OnlyNumeric="Double" />
+                                <TextBox Text="{Binding MarketTaxRate}" Width="25" MinHeight="32" common:TextBoxHelper.OnlyNumeric="Double" />
                                 <Label Content="{Binding TranslationMarketTaxRate, FallbackValue=MARKET__TAX__RATE}" MinWidth="100" VerticalAlignment="Top" />
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal">
-                                <TextBox Text="{Binding MarketTaxSetupRate}" Width="25" Height="20" Margin="0,-2,0,0" common:TextBoxHelper.OnlyNumeric="Double" />
+                                <TextBox Text="{Binding MarketTaxSetupRate}" Width="25" MinHeight="32" Margin="0,-2,0,0" common:TextBoxHelper.OnlyNumeric="Double" />
                                 <Label Content="{Binding TranslationMarketTaxSetupRate, FallbackValue=MARKET__TAX__SETUP__RATE}" MinWidth="100" VerticalAlignment="Top" />
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>
                     
                     <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
-                        <ComboBox Width="200" Height="26" ItemsSource="{Binding DeleteTradesOlderThanSpecifiedDays}"
+                        <ComboBox Width="200" MinHeight="32" ItemsSource="{Binding DeleteTradesOlderThanSpecifiedDays}"
                                   SelectedItem="{Binding DeleteTradesOlderThanSpecifiedDaysSelection, IsAsync=true}"
                                   HorizontalAlignment="Left" DisplayMemberPath="Name" SelectedValuePath="Days" />
                         <CheckBox IsChecked="{Binding IsPlayerTradeMonitoringActive}"
@@ -508,7 +508,7 @@
                     <Label Content="{Binding TranslationAddTradeManually, FallbackValue=ADD_TRADE_MANUALLY}" Style="{StaticResource HeaderStyle.Tracking.Title}" Margin="2,5,0,0"
                            Foreground="{StaticResource SolidColorBrush.Accent.Blue.2}" />
 
-                    <ComboBox Width="200" Height="26" Margin="0,5,0,5" ItemsSource="{Binding ManuallyTradeTypes}" 
+                    <ComboBox Width="200" MinHeight="32" Margin="0,5,0,5" ItemsSource="{Binding ManuallyTradeTypes}"
                               SelectedItem="{Binding ManuallyTradeTypeSelection, IsAsync=true}" 
                               HorizontalAlignment="Left" DisplayMemberPath="Name" SelectedValuePath="Type" />
 

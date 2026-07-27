@@ -8,6 +8,7 @@ using StatisticsAnalysisTool.EventLogging.Notification;
 using StatisticsAnalysisTool.Localization;
 using StatisticsAnalysisTool.Models;
 using StatisticsAnalysisTool.Models.NetworkModel;
+using StatisticsAnalysisTool.Notification;
 using StatisticsAnalysisTool.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -37,9 +38,6 @@ public class LootController : ILootController
         _trackingController = trackingController;
         _mainWindowViewModel = mainWindowViewModel;
 
-#if DEBUG
-        _ = AddTestLootNotificationsAsync(20);
-#endif
     }
 
     public void RegisterEvents()
@@ -165,6 +163,7 @@ public class LootController : ILootController
         var notification = SetNotificationAsync(loot.LootedByName, loot.LootedFromName, lootedByUser?.Value?.Guild, lootedFromUser?.Value?.Guild, item, loot.Quantity);
         notification.SetClusterName(clusterName);
         await _trackingController.AddNotificationAsync(notification);
+        await DiscordWebhookService.SendLootAsync(loot.LootedByName, item, loot.Quantity);
 
         _lootLoggerObjects.Add(new LootLoggerObject
         {

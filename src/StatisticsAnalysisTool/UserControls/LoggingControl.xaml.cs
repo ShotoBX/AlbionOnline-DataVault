@@ -93,5 +93,11 @@ public partial class LoggingControl
         vm.LoggingBindings.ToggleLootComparatorInfoPopupVisibility();
     }
 
+    private void BtnRecalculateLootSplit_Click(object sender, RoutedEventArgs e)
+    {
+        var mainWindowViewModel = ServiceLocator.Resolve<MainWindowViewModel>();
+        mainWindowViewModel.LoggingBindings.RecalculateLootSplit();
+    }
+
     #endregion
 }

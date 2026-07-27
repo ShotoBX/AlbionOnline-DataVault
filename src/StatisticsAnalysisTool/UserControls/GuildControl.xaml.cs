@@ -76,4 +76,19 @@ public partial class GuildControl
 
         _isSelectAllActive = !_isSelectAllActive;
     }
+
+    private async void BtnRefreshGuildOverview_Click(object sender, RoutedEventArgs e)
+    {
+        var trackingController = ServiceLocator.Resolve<TrackingController>();
+        if (trackingController?.GuildController != null)
+        {
+            await trackingController.GuildController.LoadGuildOverviewAsync();
+        }
+    }
+
+    private void BtnRefreshLootCheck_Click(object sender, RoutedEventArgs e)
+    {
+        var trackingController = ServiceLocator.Resolve<TrackingController>();
+        trackingController?.GuildController?.RefreshLootCheckSummary();
+    }
 }

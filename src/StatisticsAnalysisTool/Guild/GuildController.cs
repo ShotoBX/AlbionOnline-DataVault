@@ -2,11 +2,14 @@ using Serilog;
 using StatisticsAnalysisTool.Common;
 using StatisticsAnalysisTool.Diagnostics;
 using StatisticsAnalysisTool.Enumerations;
+using StatisticsAnalysisTool.Localization;
+using StatisticsAnalysisTool.Models;
 using StatisticsAnalysisTool.Network.Manager;
 using StatisticsAnalysisTool.Properties;
 using StatisticsAnalysisTool.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -112,6 +115,86 @@ public class GuildController
             _mainWindowViewModel.GuildBindings.TotalSiphonedEnergyQuantity = grouped.Sum(x => x.Quantity.IntegerValue);
         });
     }
+
+    #region Guild Overview
+
+    /// <summary>
+    /// Fetches the local player's own guild from Albion's public gameinfo API (roster + kill/death fame) - unlike
+    /// Battle Report and Siphoned Energy, this doesn't depend on locally-observed packets, so it's available even
+    /// when not currently in combat. Resolves the guild name (from locally observed player data) to a guild id via
+    /// the same search endpoint already used for player search, then loads guild info + members in parallel.
+    /// </summary>
+    public async Task LoadGuildOverviewAsync()
+    {
+        var guildBindings = _mainWindowViewModel.GuildBindings;
+
+        if (guildBindings.IsLoadingGuildOverview)
+        {
+            return;
+        }
+
+        var guildName = _trackingController.EntityController.LocalUserData.GuildName;
+
+        if (string.IsNullOrWhiteSpace(guildName))
+        {
+            guildBindings.GuildInfo = null;
+            guildBindings.GuildMembers = [];
+            guildBindings.GuildOverviewStatusText = LocalizationController.Translation("GUILD_OVERVIEW_EMPTY");
+            return;
+        }
+
+        guildBindings.IsLoadingGuildOverview = true;
+
+        try
+        {
+            var searchResponse = await ApiController.GetGameInfoSearchFromJsonAsync(guildName);
+            var guildId = searchResponse?.SearchGuilds?.FirstOrDefault(x => string.Equals(x.Name, guildName, StringComparison.OrdinalIgnoreCase))?.Id;
+
+            if (string.IsNullOrWhiteSpace(guildId))
+            {
+                guildBindings.GuildInfo = null;
+                guildBindings.GuildMembers = [];
+                guildBindings.GuildOverviewStatusText = LocalizationController.Translation("GUILD_OVERVIEW_ERROR");
+                return;
+            }
+
+            var guildInfoTask = ApiController.GetGameInfoGuildFromJsonAsync(guildId);
+            var membersTask = ApiController.GetGameInfoGuildMembersFromJsonAsync(guildId);
+            await Task.WhenAll(guildInfoTask, membersTask);
+
+            var members = (membersTask.Result ?? []).OrderByDescending(x => x.KillFame ?? 0).ToList();
+
+            guildBindings.GuildInfo = guildInfoTask.Result;
+            guildBindings.GuildMembers = new ObservableCollection<SearchPlayerResponse>(members);
+            guildBindings.GuildOverviewStatusText = string.Empty;
+        }
+        catch (Exception e)
+        {
+            DebugConsole.WriteError(MethodBase.GetCurrentMethod()?.DeclaringType, e);
+            Log.Error(e, "{message}", MethodBase.GetCurrentMethod()?.DeclaringType);
+            guildBindings.GuildOverviewStatusText = LocalizationController.Translation("GUILD_OVERVIEW_ERROR");
+        }
+        finally
+        {
+            guildBindings.IsLoadingGuildOverview = false;
+        }
+    }
+
+    #endregion
+
+    #region Guild Loot Check
+
+    /// <summary>
+    /// Recomputes the guild-scoped loot verification summary from LoggingBindings.LootingPlayers - the same data
+    /// already produced by the Registro tab's Loot Log Checker (LoggingBindings.CompareLootLogsAsync). This is a
+    /// read-only projection, not a second comparator, so the two views can never drift out of sync.
+    /// </summary>
+    public void RefreshLootCheckSummary()
+    {
+        _mainWindowViewModel.GuildBindings.RefreshLootCheckSummary(_mainWindowViewModel.LoggingBindings.LootingPlayers);
+    }
+
+    #endregion
 
     public async Task RemoveTradesByIdsAsync(IEnumerable<int> hashCodes)
     {

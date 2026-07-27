@@ -1,4 +1,8 @@
 using FontAwesome5;
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.Painting;
+using SkiaSharp;
 using StatisticsAnalysisTool.Cluster;
 using StatisticsAnalysisTool.Common;
 using StatisticsAnalysisTool.Common.UserSettings;
@@ -133,6 +137,123 @@ public class DamageMeterBindings : BaseViewModel, IAsyncInitialization
             _damageMeter = value;
             OnPropertyChanged();
         }
+    }
+
+    private static readonly SKColor[] ChartPalette =
+    [
+        new SKColor(0x00, 0xB8, 0xFF), new SKColor(0x3D, 0xDC, 0x84), new SKColor(0xFF, 0xB7, 0x4D),
+        new SKColor(0xFF, 0x5C, 0x5C), new SKColor(0xB8, 0x84, 0xFF), new SKColor(0x4D, 0xE0, 0xE0),
+        new SKColor(0xE0, 0x9C, 0x4D), new SKColor(0x8C, 0xC7, 0xFF)
+    ];
+
+    private static SolidColorPaint AxisLabelPaint => new(new SKColor(0xA8, 0x99, 0x79));
+    private static SolidColorPaint AxisSeparatorPaint => new(new SKColor(0x24, 0x24, 0x28));
+
+    private ObservableCollection<ISeries> _seriesDamageDistribution = [];
+    private ObservableCollection<ISeries> _seriesPartyContribution = [];
+    private Axis[] _xAxesPartyContribution = [new Axis { LabelsPaint = AxisLabelPaint, SeparatorsPaint = AxisSeparatorPaint }];
+    private Axis[] _yAxesPartyContribution = [new Axis { LabelsPaint = AxisLabelPaint, SeparatorsPaint = AxisSeparatorPaint }];
+
+    public ObservableCollection<ISeries> SeriesDamageDistribution
+    {
+        get => _seriesDamageDistribution;
+        set
+        {
+            _seriesDamageDistribution = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public ObservableCollection<ISeries> SeriesPartyContribution
+    {
+        get => _seriesPartyContribution;
+        set
+        {
+            _seriesPartyContribution = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public Axis[] XAxesPartyContribution
+    {
+        get => _xAxesPartyContribution;
+        set
+        {
+            _xAxesPartyContribution = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public Axis[] YAxesPartyContribution
+    {
+        get => _yAxesPartyContribution;
+        set
+        {
+            _yAxesPartyContribution = value;
+            OnPropertyChanged();
+        }
+    }
+
+    /// <summary>
+    /// Re-visualizes the current DamageMeter fragments (already party-scoped - only party members
+    /// accrue damage/heal in this collection) as chart series. No new tracking; every value here is
+    /// already computed by CombatController and shown as text in the Meter list.
+    /// </summary>
+    public void RebuildChartSeries()
+    {
+        var players = _damageMeter.Where(x => x.Damage > 0 || x.Heal > 0).ToList();
+
+        var distribution = new ObservableCollection<ISeries>();
+        for (var i = 0; i < players.Count; i++)
+        {
+            var player = players[i];
+            var color = ChartPalette[i % ChartPalette.Length];
+            distribution.Add(new PieSeries<double>
+            {
+                Name = player.Name,
+                Values = [player.Damage],
+                Fill = new SolidColorPaint(color),
+                ToolTipLabelFormatter = point => $"{player.Name}: {point.Coordinate.PrimaryValue.ToChartTooltipNumberString()}"
+            });
+        }
+
+        SeriesDamageDistribution = distribution;
+
+        SeriesPartyContribution =
+        [
+            new ColumnSeries<long>
+            {
+                Name = TranslationTotalDamage,
+                Values = players.Select(x => x.Damage).ToList(),
+                Fill = new SolidColorPaint(new SKColor(0xFF, 0x5C, 0x5C))
+            },
+            new ColumnSeries<long>
+            {
+                Name = TranslationTotalHealing,
+                Values = players.Select(x => x.Heal).ToList(),
+                Fill = new SolidColorPaint(new SKColor(0x3D, 0xDC, 0x84))
+            }
+        ];
+
+        XAxesPartyContribution =
+        [
+            new Axis
+            {
+                Labels = players.Select(x => x.Name).ToArray(),
+                LabelsRotation = 15,
+                LabelsPaint = AxisLabelPaint,
+                SeparatorsPaint = AxisSeparatorPaint
+            }
+        ];
+
+        YAxesPartyContribution =
+        [
+            new Axis
+            {
+                LabelsPaint = AxisLabelPaint,
+                SeparatorsPaint = AxisSeparatorPaint
+            }
+        ];
     }
 
     public EFontAwesomeIcon DamageMeterActivationToggleIcon
@@ -632,7 +753,15 @@ public class DamageMeterBindings : BaseViewModel, IAsyncInitialization
     public static string TranslationLive => LocalizationController.Translation("LIVE");
     public static string TranslationMeter => LocalizationController.Translation("METER");
     public static string TranslationStats => LocalizationController.Translation("STATS");
+    public static string TranslationOverview => LocalizationController.Translation("OVERVIEW");
+    public static string TranslationSkills => LocalizationController.Translation("SKILLS");
+    public static string TranslationHealing => LocalizationController.Translation("HEALING");
+    public static string TranslationTimeline => LocalizationController.Translation("TIMELINE");
+    public static string TranslationDamageTakenPercent => LocalizationController.Translation("DAMAGE_TAKEN_PERCENT");
     public static string TranslationTopStats => LocalizationController.Translation("TOP_STATS");
+    public static string TranslationCharts => LocalizationController.Translation("CHARTS");
+    public static string TranslationDamageDistribution => LocalizationController.Translation("DAMAGE_DISTRIBUTION");
+    public static string TranslationPartyContribution => LocalizationController.Translation("PARTY_CONTRIBUTION");
     public static string TranslationYourStats => LocalizationController.Translation("YOUR_STATS");
     public static string TranslationYourStatsDamageSection => LocalizationController.Translation("YOUR_STATS_DAMAGE_SECTION");
     public static string TranslationYourStatsHealingSection => LocalizationController.Translation("YOUR_STATS_HEALING_SECTION");

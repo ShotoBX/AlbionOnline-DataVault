@@ -94,6 +94,7 @@ public class MainWindowViewModel : BaseViewModel
     private bool _isDamageMeterTrackingActive;
     private bool _isTrackingPartyLootOnly;
     private Axis[] _xAxesDashboardHourValues;
+    private Axis[] _yAxesDashboardHourValues;
     private ObservableCollection<ISeries> _seriesDashboardHourValues;
     private ObservableCollection<DashboardChartRangeOption> _dashboardChartRanges = [];
     private DashboardChartRangeOption _selectedDashboardChartRange;
@@ -120,6 +121,8 @@ public class MainWindowViewModel : BaseViewModel
     private GatheringBindings _gatheringBindings = new();
     private OpenWorldBindings _openWorldBindings = new();
     private CraftingBindings _craftingBindings = new();
+    private RefiningBindings _refiningBindings = new();
+    private ArbitrageBindings _arbitrageBindings = new();
     private Visibility _dashboardTabVisibility = Visibility.Visible;
     private Visibility _itemSearchTabVisibility = Visibility.Visible;
     private Visibility _loggingTabVisibility = Visibility.Visible;
@@ -134,6 +137,7 @@ public class MainWindowViewModel : BaseViewModel
     private Visibility _mapHistoryTabVisibility = Visibility.Visible;
     private Visibility _playerInformationTabVisibility = Visibility.Visible;
     private Visibility _guildTabVisibility = Visibility.Visible;
+    private Visibility _arbitrageTabVisibility = Visibility.Visible;
     private bool _isNavigationMenuOpen = true;
     private Visibility _toolTaskFrontViewVisibility = Visibility.Collapsed;
     private Visibility _statsDropDownVisibility = Visibility.Collapsed;
@@ -777,6 +781,7 @@ public class MainWindowViewModel : BaseViewModel
         }
     }
 
+
     public DamageMeterBindings DamageMeterBindings
     {
         get => _damageMeterBindings;
@@ -807,6 +812,16 @@ public class MainWindowViewModel : BaseViewModel
         }
     }
 
+    public ArbitrageBindings ArbitrageBindings
+    {
+        get => _arbitrageBindings;
+        set
+        {
+            _arbitrageBindings = value;
+            OnPropertyChanged();
+        }
+    }
+
     public OpenWorldBindings OpenWorldBindings
     {
         get => _openWorldBindings;
@@ -823,6 +838,16 @@ public class MainWindowViewModel : BaseViewModel
         set
         {
             _craftingBindings = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public RefiningBindings RefiningBindings
+    {
+        get => _refiningBindings;
+        set
+        {
+            _refiningBindings = value;
             OnPropertyChanged();
         }
     }
@@ -1373,6 +1398,16 @@ public class MainWindowViewModel : BaseViewModel
         }
     }
 
+    public Axis[] YAxesDashboardHourValues
+    {
+        get => _yAxesDashboardHourValues;
+        set
+        {
+            _yAxesDashboardHourValues = value;
+            OnPropertyChanged();
+        }
+    }
+
     public ObservableCollection<DashboardChartRangeOption> DashboardChartRanges
     {
         get => _dashboardChartRanges;
@@ -1500,6 +1535,7 @@ public class MainWindowViewModel : BaseViewModel
         {
             _loggingTabVisibility = value;
             OnPropertyChanged();
+            OnPropertyChanged(nameof(TrackingGroupHeaderVisibility));
         }
     }
 
@@ -1510,6 +1546,7 @@ public class MainWindowViewModel : BaseViewModel
         {
             _guildTabVisibility = value;
             OnPropertyChanged();
+            OnPropertyChanged(nameof(SocialGroupHeaderVisibility));
         }
     }
 
@@ -1520,6 +1557,7 @@ public class MainWindowViewModel : BaseViewModel
         {
             _dungeonsTabVisibility = value;
             OnPropertyChanged();
+            OnPropertyChanged(nameof(CombatGroupHeaderVisibility));
         }
     }
 
@@ -1530,6 +1568,7 @@ public class MainWindowViewModel : BaseViewModel
         {
             _damageMeterTabVisibility = value;
             OnPropertyChanged();
+            OnPropertyChanged(nameof(CombatGroupHeaderVisibility));
         }
     }
 
@@ -1540,6 +1579,7 @@ public class MainWindowViewModel : BaseViewModel
         {
             _tradeMonitoringTabVisibility = value;
             OnPropertyChanged();
+            OnPropertyChanged(nameof(EconomyGroupHeaderVisibility));
         }
     }
 
@@ -1550,6 +1590,7 @@ public class MainWindowViewModel : BaseViewModel
         {
             _openWorldTabVisibility = value;
             OnPropertyChanged();
+            OnPropertyChanged(nameof(CombatGroupHeaderVisibility));
         }
     }
 
@@ -1560,6 +1601,18 @@ public class MainWindowViewModel : BaseViewModel
         {
             _gatheringTabVisibility = value;
             OnPropertyChanged();
+            OnPropertyChanged(nameof(EconomyGroupHeaderVisibility));
+        }
+    }
+
+    public Visibility ArbitrageTabVisibility
+    {
+        get => _arbitrageTabVisibility;
+        set
+        {
+            _arbitrageTabVisibility = value;
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(EconomyGroupHeaderVisibility));
         }
     }
 
@@ -1570,6 +1623,7 @@ public class MainWindowViewModel : BaseViewModel
         {
             _craftingTabVisibility = value;
             OnPropertyChanged();
+            OnPropertyChanged(nameof(EconomyGroupHeaderVisibility));
         }
     }
 
@@ -1580,6 +1634,7 @@ public class MainWindowViewModel : BaseViewModel
         {
             _partyTabVisibility = value;
             OnPropertyChanged();
+            OnPropertyChanged(nameof(SocialGroupHeaderVisibility));
         }
     }
 
@@ -1590,6 +1645,7 @@ public class MainWindowViewModel : BaseViewModel
         {
             _storageHistoryTabVisibility = value;
             OnPropertyChanged();
+            OnPropertyChanged(nameof(EconomyGroupHeaderVisibility));
         }
     }
 
@@ -1600,6 +1656,7 @@ public class MainWindowViewModel : BaseViewModel
         {
             _mapHistoryTabVisibility = value;
             OnPropertyChanged();
+            OnPropertyChanged(nameof(TrackingGroupHeaderVisibility));
         }
     }
 
@@ -1610,8 +1667,43 @@ public class MainWindowViewModel : BaseViewModel
         {
             _playerInformationTabVisibility = value;
             OnPropertyChanged();
+            OnPropertyChanged(nameof(TrackingGroupHeaderVisibility));
         }
     }
+
+    /// <summary>
+    /// Derived, additive-only sidebar group-header visibility: a group's header auto-hides once every
+    /// tab in that group has been toggled off via Settings, so no orphaned label is left floating above nothing.
+    /// </summary>
+    public Visibility CombatGroupHeaderVisibility =>
+        DamageMeterTabVisibility == Visibility.Visible
+        || OpenWorldTabVisibility == Visibility.Visible
+        || DungeonsTabVisibility == Visibility.Visible
+            ? Visibility.Visible
+            : Visibility.Collapsed;
+
+    public Visibility EconomyGroupHeaderVisibility =>
+        TradeMonitoringTabVisibility == Visibility.Visible
+        || CraftingTabVisibility == Visibility.Visible
+        || ArbitrageTabVisibility == Visibility.Visible
+        || GatheringTabVisibility == Visibility.Visible
+        || ItemSearchTabVisibility == Visibility.Visible
+        || StorageHistoryTabVisibility == Visibility.Visible
+            ? Visibility.Visible
+            : Visibility.Collapsed;
+
+    public Visibility TrackingGroupHeaderVisibility =>
+        LoggingTabVisibility == Visibility.Visible
+        || MapHistoryTabVisibility == Visibility.Visible
+        || PlayerInformationTabVisibility == Visibility.Visible
+            ? Visibility.Visible
+            : Visibility.Collapsed;
+
+    public Visibility SocialGroupHeaderVisibility =>
+        PartyTabVisibility == Visibility.Visible
+        || GuildTabVisibility == Visibility.Visible
+            ? Visibility.Visible
+            : Visibility.Collapsed;
 
     public bool IsNavigationMenuOpen
     {

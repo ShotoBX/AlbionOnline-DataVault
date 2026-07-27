@@ -8,6 +8,41 @@ namespace StatisticsAnalysisTool.Common;
 
 public static class AppDataMigration
 {
+    /// <summary>The %LocalAppData% folder name used before the app was renamed to AlbionOnline-DataVault.</summary>
+    private const string PreviousAppDataFolderName = "StatisticsAnalysisTool";
+
+    /// <summary>
+    /// One-time rename of the whole %LocalAppData% base folder (Settings, Instances, Backups, everything) from the
+    /// old app name to the new one, so renaming the app doesn't look like it wiped every saved setting. Must run
+    /// before <see cref="AppDataPaths.EnsureBaseDirectory"/> creates the new (empty) folder, otherwise the "target
+    /// already exists" check below would skip the migration.
+    /// </summary>
+    public static AppDataMigrationMessage MigrateBaseDirectoryRename()
+    {
+        var oldBase = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), PreviousAppDataFolderName);
+        var newBase = AppDataPaths.BaseDirectory;
+
+        if (string.Equals(Path.GetFullPath(oldBase), Path.GetFullPath(newBase), StringComparison.OrdinalIgnoreCase))
+        {
+            return null;
+        }
+
+        if (!Directory.Exists(oldBase) || Directory.Exists(newBase))
+        {
+            return null;
+        }
+
+        try
+        {
+            Directory.Move(oldBase, newBase);
+            return AppDataMigrationMessage.Success(oldBase, newBase);
+        }
+        catch (Exception ex)
+        {
+            return AppDataMigrationMessage.Error(oldBase, newBase, ex);
+        }
+    }
+
     public static IReadOnlyCollection<AppDataMigrationMessage> MigrateLegacyRuntimeData()
     {
         var messages = new List<AppDataMigrationMessage>();

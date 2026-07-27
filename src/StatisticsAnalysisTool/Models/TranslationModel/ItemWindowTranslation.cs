@@ -48,4 +48,5 @@ public class ItemWindowTranslation
     public static string ShopCategory => LocalizationController.Translation("SHOP_CATEGORY");
     public static string ShopSubCategory => LocalizationController.Translation("SHOP_SUB_CATEGORY");
     public static string CanBeOvercharged => LocalizationController.Translation("CAN_BE_OVERCHARGED");
+    public static string CopyToClipboard => LocalizationController.Translation("COPY_TO_CLIPBOARD");
 }

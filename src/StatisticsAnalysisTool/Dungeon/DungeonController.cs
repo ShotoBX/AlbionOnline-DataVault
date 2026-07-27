@@ -51,7 +51,10 @@ public sealed class DungeonController
 
     private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-        _mainWindowViewModel?.DungeonBindings?.Stats.Set(_mainWindowViewModel?.DungeonBindings?.Dungeons);
+        var dungeonBindings = _mainWindowViewModel?.DungeonBindings;
+        var dungeons = dungeonBindings?.Dungeons?.ToList();
+        dungeonBindings?.Stats.Set(dungeons);
+        dungeonBindings?.RebuildDungeonInsights(dungeons, dungeonBindings.Stats);
     }
 
     public async Task AddDungeonAsync(MapType mapType, Guid? mapGuid, string sourceClusterIndex, WorldPosition? sourceExitPosition)
@@ -233,9 +236,9 @@ public sealed class DungeonController
                 return;
             }
 
-            await Application.Current.Dispatcher.InvokeAsync(async () =>
+            await Application.Current.Dispatcher.InvokeAsync(() =>
             {
-                for (var i = toDelete; i <= 0; i--)
+                for (var i = 0; i < toDelete; i++)
                 {
                     var dateTime = GetLowestDate(dungeons);
                     if (dateTime == null)
@@ -246,8 +249,6 @@ public sealed class DungeonController
                     var removableItem = dungeons?.FirstOrDefault(x => x.EnterDungeonFirstTime == dateTime);
                     dungeons?.Remove(removableItem);
                 }
-
-                await _mainWindowViewModel.DungeonBindings.UpdateFilteredDungeonsAsync();
             });
         }
         catch (Exception e)

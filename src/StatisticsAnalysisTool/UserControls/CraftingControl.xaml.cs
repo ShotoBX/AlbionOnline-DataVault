@@ -1,8 +1,10 @@
 using StatisticsAnalysisTool.Crafting;
 using StatisticsAnalysisTool.GameFileData;
 using StatisticsAnalysisTool.ViewModels;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -17,19 +19,14 @@ public partial class CraftingControl
         InitializeComponent();
     }
 
-    private void SavedCraftings_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void SavedCraftingRow_OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
         if (DataContext is not MainWindowViewModel mainWindowViewModel)
         {
             return;
         }
 
-        if (sender is not ListView listView)
-        {
-            return;
-        }
-
-        if (listView.SelectedItem is not SavedCrafting savedCrafting)
+        if (sender is not ListViewItem { DataContext: SavedCrafting savedCrafting })
         {
             return;
         }
@@ -334,6 +331,11 @@ public partial class CraftingControl
 
     private void CraftingControl_OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
     {
+        if (DataContext is not MainWindowViewModel mainWindowViewModel)
+        {
+            return;
+        }
+
         var source = e.OriginalSource as DependencyObject;
 
         if (!IsElementOrChildOf(source, CraftingItemSearchTextBox)
@@ -342,13 +344,23 @@ public partial class CraftingControl
             CloseItemSearch();
         }
 
-        if (IsElementOrChildOf(source, OutputUnitPriceTextBox)
-            || IsPriceOptionPopupClick(source))
+        if (!IsElementOrChildOf(source, OutputUnitPriceTextBox)
+            && !IsPriceOptionPopupClick(source))
         {
-            return;
+            CloseSellPriceOptions();
         }
 
-        CloseSellPriceOptions();
+        if (!IsElementOrChildOf(source, RefiningItemSearchTextBox)
+            && !IsItemSearchPopupClick(source))
+        {
+            mainWindowViewModel.RefiningBindings.CloseItemSearch();
+        }
+
+        if (!IsElementOrChildOf(source, RefiningOutputUnitPriceTextBox)
+            && !IsPriceOptionPopupClick(source))
+        {
+            mainWindowViewModel.RefiningBindings.CloseAllPriceOptionPopups();
+        }
     }
 
     private void FilterReset_MouseUp(object sender, MouseButtonEventArgs e)
@@ -361,6 +373,44 @@ public partial class CraftingControl
         mainWindowViewModel.CraftingBindings.BlackMarket?.ResetFilters();
     }
 
+    private async void OptimizerScan_Click(object sender, RoutedEventArgs e)
+    {
+        if (DataContext is not MainWindowViewModel mainWindowViewModel)
+        {
+            return;
+        }
+
+        await mainWindowViewModel.CraftingBindings.Optimizer.ScanAsync();
+    }
+
+    private void OptimizerCancel_Click(object sender, RoutedEventArgs e)
+    {
+        if (DataContext is not MainWindowViewModel mainWindowViewModel)
+        {
+            return;
+        }
+
+        mainWindowViewModel.CraftingBindings.Optimizer.CancelScan();
+    }
+
+    private ListSortDirection _optimizerLastSortDirection = ListSortDirection.Ascending;
+
+    private void OptimizerResultsColumnHeader_Click(object sender, RoutedEventArgs e)
+    {
+        if (DataContext is not MainWindowViewModel mainWindowViewModel
+            || sender is not GridViewColumnHeader { Tag: string sortBy })
+        {
+            return;
+        }
+
+        var view = (CollectionView) CollectionViewSource.GetDefaultView(mainWindowViewModel.CraftingBindings.Optimizer.Results);
+        _optimizerLastSortDirection = _optimizerLastSortDirection == ListSortDirection.Ascending ? ListSortDirection.Descending : ListSortDirection.Ascending;
+
+        view.SortDescriptions.Clear();
+        view.SortDescriptions.Add(new SortDescription(sortBy, _optimizerLastSortDirection));
+        view.Refresh();
+    }
+
     private void CraftingItemFilterReset_MouseUp(object sender, MouseButtonEventArgs e)
     {
         if (DataContext is not MainWindowViewModel mainWindowViewModel)
@@ -370,6 +420,250 @@ public partial class CraftingControl
 
         mainWindowViewModel.CraftingBindings.ResetItemFilters();
     }
+
+    #region Refining
+
+    private void ListBoxRefiningItemSearch_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (DataContext is not MainWindowViewModel mainWindowViewModel)
+        {
+            return;
+        }
+
+        if (sender is not ListBox listBox)
+        {
+            return;
+        }
+
+        if (listBox.SelectedItem is not CraftingItemSearchResult searchResult)
+        {
+            return;
+        }
+
+        mainWindowViewModel.RefiningBindings.SelectItemSearchResult(searchResult);
+        listBox.SelectedItem = null;
+    }
+
+    private void RefiningItemSearch_OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+    {
+        OpenRefiningItemSearch();
+    }
+
+    private void RefiningItemSearch_OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    {
+        OpenRefiningItemSearch();
+    }
+
+    private void OpenRefiningItemSearch()
+    {
+        if (DataContext is not MainWindowViewModel mainWindowViewModel)
+        {
+            return;
+        }
+
+        mainWindowViewModel.RefiningBindings.OpenItemSearch();
+    }
+
+    private void RefiningItemSearch_OnLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+    {
+        var newFocus = e.NewFocus as DependencyObject;
+
+        if (IsElementOrChildOf(newFocus, RefiningItemSearchTextBox)
+            || IsElementOrChildOf(newFocus, RefiningItemSearchListBox))
+        {
+            return;
+        }
+
+        if (DataContext is not MainWindowViewModel mainWindowViewModel)
+        {
+            return;
+        }
+
+        mainWindowViewModel.RefiningBindings.CloseItemSearch();
+    }
+
+    private void RefiningItemFilterReset_MouseUp(object sender, MouseButtonEventArgs e)
+    {
+        if (DataContext is not MainWindowViewModel mainWindowViewModel)
+        {
+            return;
+        }
+
+        mainWindowViewModel.RefiningBindings.ResetItemFilters();
+    }
+
+    private void RefiningLocationSearch_OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+    {
+        if (DataContext is not MainWindowViewModel mainWindowViewModel)
+        {
+            return;
+        }
+
+        mainWindowViewModel.RefiningBindings.OpenRefiningLocationSearch();
+    }
+
+    private void ListBoxRefiningLocation_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (DataContext is not MainWindowViewModel mainWindowViewModel)
+        {
+            return;
+        }
+
+        if (sender is not ListBox listBox)
+        {
+            return;
+        }
+
+        if (listBox.SelectedItem is not CraftingLocationOption location)
+        {
+            return;
+        }
+
+        mainWindowViewModel.RefiningBindings.SelectRefiningLocation(location);
+        listBox.SelectedItem = null;
+    }
+
+    private void RefiningOutputUnitPrice_OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+    {
+        if (DataContext is not MainWindowViewModel mainWindowViewModel)
+        {
+            return;
+        }
+
+        mainWindowViewModel.RefiningBindings.OpenSellPriceOptions();
+    }
+
+    private void RefiningOutputUnitPrice_OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    {
+        if (!ShouldOpenPricePopupOnMouseLeftButtonUp(sender))
+        {
+            return;
+        }
+
+        if (DataContext is not MainWindowViewModel mainWindowViewModel)
+        {
+            return;
+        }
+
+        mainWindowViewModel.RefiningBindings.OpenSellPriceOptions();
+    }
+
+    private void ListBoxRefiningSellPrice_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (DataContext is not MainWindowViewModel mainWindowViewModel)
+        {
+            return;
+        }
+
+        if (sender is not ListBox listBox)
+        {
+            return;
+        }
+
+        if (listBox.SelectedItem is not CraftingSellPriceOption sellPriceOption)
+        {
+            return;
+        }
+
+        mainWindowViewModel.RefiningBindings.SelectSellPriceOption(sellPriceOption);
+        listBox.SelectedItem = null;
+    }
+
+    private void RefiningResourcePrice_OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+    {
+        OpenRefiningResourcePriceOptions(sender);
+    }
+
+    private void RefiningResourcePrice_OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    {
+        if (!ShouldOpenPricePopupOnMouseLeftButtonUp(sender))
+        {
+            return;
+        }
+
+        OpenRefiningResourcePriceOptions(sender);
+    }
+
+    private void OpenRefiningResourcePriceOptions(object sender)
+    {
+        if (DataContext is not MainWindowViewModel mainWindowViewModel)
+        {
+            return;
+        }
+
+        if (sender is not FrameworkElement { DataContext: CraftingResourceEntry resource })
+        {
+            return;
+        }
+
+        mainWindowViewModel.RefiningBindings.OpenResourcePriceOptions(resource);
+    }
+
+    private void ListBoxRefiningResourcePrice_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (DataContext is not MainWindowViewModel mainWindowViewModel)
+        {
+            return;
+        }
+
+        if (sender is not ListBox listBox)
+        {
+            return;
+        }
+
+        if (listBox.Tag is not CraftingResourceEntry resource)
+        {
+            return;
+        }
+
+        if (listBox.SelectedItem is not CraftingSellPriceOption priceOption)
+        {
+            return;
+        }
+
+        mainWindowViewModel.RefiningBindings.SelectResourcePriceOption(resource, priceOption);
+        listBox.SelectedItem = null;
+    }
+
+    private async void RefiningOptimizerScan_Click(object sender, RoutedEventArgs e)
+    {
+        if (DataContext is not MainWindowViewModel mainWindowViewModel)
+        {
+            return;
+        }
+
+        await mainWindowViewModel.RefiningBindings.Optimizer.ScanAsync();
+    }
+
+    private void RefiningOptimizerCancel_Click(object sender, RoutedEventArgs e)
+    {
+        if (DataContext is not MainWindowViewModel mainWindowViewModel)
+        {
+            return;
+        }
+
+        mainWindowViewModel.RefiningBindings.Optimizer.CancelScan();
+    }
+
+    private ListSortDirection _refiningOptimizerLastSortDirection = ListSortDirection.Ascending;
+
+    private void RefiningOptimizerResultsColumnHeader_Click(object sender, RoutedEventArgs e)
+    {
+        if (DataContext is not MainWindowViewModel mainWindowViewModel
+            || sender is not GridViewColumnHeader { Tag: string sortBy })
+        {
+            return;
+        }
+
+        var view = (CollectionView) CollectionViewSource.GetDefaultView(mainWindowViewModel.RefiningBindings.Optimizer.Results);
+        _refiningOptimizerLastSortDirection = _refiningOptimizerLastSortDirection == ListSortDirection.Ascending ? ListSortDirection.Descending : ListSortDirection.Ascending;
+
+        view.SortDescriptions.Clear();
+        view.SortDescriptions.Add(new SortDescription(sortBy, _refiningOptimizerLastSortDirection));
+        view.Refresh();
+    }
+
+    #endregion
 
     private void OpenResourcePriceOptions(object sender)
     {
@@ -490,5 +784,48 @@ public partial class CraftingControl
         }
 
         return LogicalTreeHelper.GetParent(source);
+    }
+
+    private void PopupListBox_OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
+    {
+        if (sender is not ListBox listBox || FindDescendantScrollViewer(listBox) is not { } scrollViewer)
+        {
+            return;
+        }
+
+        var scrollSteps = System.Math.Max(1, System.Math.Abs(e.Delta) / Mouse.MouseWheelDeltaForOneLine);
+
+        for (var i = 0; i < scrollSteps; i++)
+        {
+            if (e.Delta > 0)
+            {
+                scrollViewer.LineUp();
+            }
+            else
+            {
+                scrollViewer.LineDown();
+            }
+        }
+
+        e.Handled = true;
+    }
+
+    private static ScrollViewer FindDescendantScrollViewer(DependencyObject root)
+    {
+        for (var i = 0; i < VisualTreeHelper.GetChildrenCount(root); i++)
+        {
+            var child = VisualTreeHelper.GetChild(root, i);
+            if (child is ScrollViewer scrollViewer)
+            {
+                return scrollViewer;
+            }
+
+            if (FindDescendantScrollViewer(child) is { } nested)
+            {
+                return nested;
+            }
+        }
+
+        return null;
     }
 }

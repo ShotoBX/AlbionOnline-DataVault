@@ -5,7 +5,9 @@ using StatisticsAnalysisTool.Network.Manager;
 using StatisticsAnalysisTool.ViewModels;
 using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Animation;
 
 namespace StatisticsAnalysisTool.Views;
 
@@ -20,6 +22,7 @@ public partial class MainWindow
     public MainWindow(MainWindowViewModel mainWindowViewModel)
     {
         InitializeComponent();
+        WindowBackdropController.ApplyMicaBackdrop(this);
         _windowChromeController = new WindowChromeController(
             this,
             MaximizedButton,
@@ -50,6 +53,17 @@ public partial class MainWindow
     private void Hotbar_MouseDown(object sender, MouseButtonEventArgs e)
     {
         _windowChromeController.DragMoveOnMouseDown(e);
+    }
+
+    private void SidebarTabControl_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (e.Source != SidebarTabControl
+            || SidebarTabControl.Template?.FindName("PART_SelectedContentHost", SidebarTabControl) is not ContentPresenter contentHost)
+        {
+            return;
+        }
+
+        contentHost.BeginAnimation(UIElement.OpacityProperty, new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(160)));
     }
 
     private void CloseButton_Click(object sender, RoutedEventArgs e)
@@ -86,5 +100,18 @@ public partial class MainWindow
     private void TatsDropDownOpenClose_PreviewMouseDown(object sender, RoutedEventArgs e)
     {
         _mainWindowViewModel?.SwitchStatsDropDownState();
+    }
+
+    private void HeaderSearchTextBox_GotFocus(object sender, RoutedEventArgs e)
+    {
+        if (SidebarTabControl.SelectedItem != ItemSearchTabItem)
+        {
+            SidebarTabControl.SelectedItem = ItemSearchTabItem;
+        }
+    }
+
+    private void SettingsShortcut_MouseUp(object sender, MouseButtonEventArgs e)
+    {
+        SidebarTabControl.SelectedItem = SettingsTabItem;
     }
 }

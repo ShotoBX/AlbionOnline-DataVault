@@ -17,6 +17,7 @@ public partial class DashboardWindow
     public DashboardWindow(MainWindowViewModel mainWindowViewModel)
     {
         InitializeComponent();
+        WindowBackdropController.ApplyMicaBackdrop(this);
         _windowChromeController = new WindowChromeController(
             this,
             MaximizedButton,

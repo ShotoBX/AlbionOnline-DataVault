@@ -10,7 +10,7 @@ public static class ShortcutController
     {
         // ReSharper disable once SuspiciousTypeConversion.Global
         var link = (IShellLink)new ShellLink();
-        link.SetDescription("Statistics Analysis Tool");
+        link.SetDescription("AlbionOnline - DataVault");
         link.SetPath(AppDataPaths.ExecutableFile);
 
         link.SetWorkingDirectory(AppDataPaths.InstallationDirectory);
@@ -18,6 +18,6 @@ public static class ShortcutController
         // ReSharper disable once SuspiciousTypeConversion.Global
         var file = (IPersistFile)link;
         string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-        file.Save(Path.Combine(desktopPath, "Statistics Analysis Tool.lnk"), false);
+        file.Save(Path.Combine(desktopPath, "AlbionOnline - DataVault.lnk"), false);
     }
 }

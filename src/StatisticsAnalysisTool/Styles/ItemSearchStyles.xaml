@@ -7,8 +7,9 @@
 
     <Style x:Key="ItemSearchTextBoxStyle" BasedOn="{StaticResource {x:Type TextBox}}" TargetType="TextBox">
         <Setter Property="HorizontalAlignment" Value="Left" />
-        <Setter Property="Height" Value="22" />
+        <Setter Property="Height" Value="34" />
         <Setter Property="Margin" Value="10,10,0,0" />
+        <Setter Property="Padding" Value="30,6,10,6" />
         <Setter Property="TextWrapping" Value="Wrap" />
         <Setter Property="VerticalAlignment" Value="Top" />
         <Setter Property="Width" Value="220" />

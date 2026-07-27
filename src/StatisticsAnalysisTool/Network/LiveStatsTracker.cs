@@ -252,5 +252,7 @@ public class LiveStatsTracker
         // Session-Timer
         var duration = now - _sessionStartUtc;
         _mainWindowViewModel.MainTrackerTimer = duration.ToTimerString();
+
+        _mainWindowViewModel.DashboardBindings.PlayersTracked = _trackingController.EntityController.GetAllEntities().Count;
     }
 }

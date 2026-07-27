@@ -1,9 +1,38 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:common="clr-namespace:StatisticsAnalysisTool.Common"
                     xmlns:fa5="http://schemas.fontawesome.com/icons/"
                     xmlns:damageMeter="clr-namespace:StatisticsAnalysisTool.DamageMeter"
                     xmlns:enumerations="clr-namespace:StatisticsAnalysisTool.Enumerations">
+
+    <ResourceDictionary.MergedDictionaries>
+        <!-- Needed so PlayerAnalysisInlinePanelTemplate below can resolve PlayerAnalysis.StatCard/StatLabel/StatValue/TimelineEntryTemplate:
+             StaticResource lookups used INSIDE a resource defined in this file only see this file's own keys plus whatever
+             is merged in here - they do NOT see sibling dictionaries merged separately at the App.xaml level. -->
+        <ResourceDictionary Source="PlayerAnalysisWindowStyles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- Per-metric accent gradients (combat summary redesign): Damage/Red-Orange, DPS/Blue, Healing/Green, Tank/Purple, Time/Cyan -->
+    <LinearGradientBrush x:Key="CombatSummary.Gradient.Damage" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="{StaticResource Color.Accent.Orange.2}" Offset="0" />
+        <GradientStop Color="{StaticResource Color.Accent.Red.4}" Offset="1" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="CombatSummary.Gradient.Dps" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="{StaticResource Color.Accent.Blue.1}" Offset="0" />
+        <GradientStop Color="{StaticResource Color.Accent.Blue.4}" Offset="1" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="CombatSummary.Gradient.Healing" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="{StaticResource Color.Accent.Green.2}" Offset="0" />
+        <GradientStop Color="{StaticResource Color.Accent.Green.4}" Offset="1" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="CombatSummary.Gradient.Tank" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="{StaticResource Color.Accent.Purple.2}" Offset="0" />
+        <GradientStop Color="{StaticResource Color.Accent.Purple.4}" Offset="1" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="CombatSummary.Gradient.Time" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="{StaticResource Color.Accent.Cyan.2}" Offset="0" />
+        <GradientStop Color="{StaticResource Color.Accent.Cyan.4}" Offset="1" />
+    </LinearGradientBrush>
 
     <!-- Damage meter icon -->
     <Style TargetType="Image" x:Key="DamageMeter.Icon">
@@ -93,351 +122,654 @@
 
     <!-- Spell bar -->
     <DataTemplate x:Key="SpellBarTemplate" DataType="{x:Type damageMeter:UsedSpellFragment}">
-        <Grid Height="auto" Width="auto" HorizontalAlignment="Stretch">
-            <ProgressBar common:ProgressBarSmoother.SmoothValue="{Binding DamageInPercent}" Minimum="0" Maximum="100" MinHeight="40" Height="auto" Margin="3,0,2,1" 
-                         VerticalAlignment="Top" Background="#00FFFFFF" BorderThickness="0" Foreground="{StaticResource SolidColorBrush.Accent.Blue.Transparent.3}" HorizontalAlignment="Stretch" />
-            <StackPanel Orientation="Horizontal">
-                <Grid Margin="10,0, 0, 0" HorizontalAlignment="Center" VerticalAlignment="Top">
-                    <Image Source="{Binding Item.Icon, IsAsync=True, Mode=OneWay}" Style="{StaticResource DamageMeter.Icon}" />
-                </Grid>
-                <Grid Margin="0,0, 0, 0" HorizontalAlignment="Center" VerticalAlignment="Top">
-                    <Image Style="{StaticResource DamageMeter.Spell.Icon.Selector}" />
-                </Grid>
-                <Label Content="{Binding LocalizationName}" Width="242" Margin="10,5, 0, 0" VerticalAlignment="Top" HorizontalContentAlignment="Left" />
+        <Border CornerRadius="8" Margin="0,0,0,2">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Background" Value="Transparent" />
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource SolidColorBrush.Hover}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <Grid Height="auto" Width="auto" HorizontalAlignment="Stretch">
+                <ProgressBar common:ProgressBarSmoother.SmoothValue="{Binding DamageInPercent}" Minimum="0" Maximum="100" MinHeight="40" Height="auto" Margin="3,0,2,1"
+                             VerticalAlignment="Top" Background="#00FFFFFF" BorderThickness="0" Foreground="{StaticResource SolidColorBrush.Accent.Blue.Transparent.3}" HorizontalAlignment="Stretch" />
+                <StackPanel Orientation="Horizontal">
+                    <Grid Margin="10,0, 0, 0" HorizontalAlignment="Center" VerticalAlignment="Top">
+                        <Image Source="{Binding Item.Icon, IsAsync=True, Mode=OneWay}" Style="{StaticResource DamageMeter.Icon}" />
+                    </Grid>
+                    <Grid Margin="0,0, 0, 0" HorizontalAlignment="Center" VerticalAlignment="Top">
+                        <Image Style="{StaticResource DamageMeter.Spell.Icon.Selector}" />
+                    </Grid>
+                    <Label Content="{Binding LocalizationName}" Width="242" Margin="10,5, 0, 0" VerticalAlignment="Top" HorizontalContentAlignment="Left" />
 
-                <Label Foreground="{StaticResource SolidColorBrush.Weapon.Text}" Content="{Binding DamagePercentage}" HorizontalContentAlignment="Left"
-                       ContentStringFormat="{}{0:N2}%" Width="68" Margin="0,5" VerticalAlignment="Top" />
+                    <Label Foreground="{StaticResource SolidColorBrush.Weapon.Text}" Content="{Binding DamagePercentage}" HorizontalContentAlignment="Left"
+                           ContentStringFormat="{}{0:N2}%" Width="68" Margin="0,5" VerticalAlignment="Top" />
 
-                <Label Style="{StaticResource DamageMeter.Category.DamageHeal.Color}" Content="{Binding DamageHealShortString}" HorizontalContentAlignment="Left"
-                       Width="82" FontWeight="Bold" Margin="0,5,0,0" VerticalAlignment="Top" />
+                    <Label Style="{StaticResource DamageMeter.Category.DamageHeal.Color}" Content="{Binding DamageHealShortString}" HorizontalContentAlignment="Left"
+                           Width="82" FontWeight="Bold" Margin="0,5,0,0" VerticalAlignment="Top" />
 
-                <Label Content="{Binding Ticks}" Width="70" FontWeight="Bold" Margin="0,5, 5, 0" VerticalAlignment="Top" HorizontalContentAlignment="Left" />
-            </StackPanel>
-        </Grid>
+                    <Label Content="{Binding Ticks}" Width="70" FontWeight="Bold" Margin="0,5, 5, 0" VerticalAlignment="Top" HorizontalContentAlignment="Left" />
+                </StackPanel>
+            </Grid>
+        </Border>
     </DataTemplate>
+
+    <!--
+        Inline analysis panel, expanded in place below a damage meter row (replaces the old
+        PlayerAnalysisWindow popup). DataContext is the DamageMeterFragment or
+        DamageMeterSnapshotFragment being expanded - both expose the same property names, so this
+        template's bindings work against either without any type-specific code.
+    -->
+    <DataTemplate x:Key="PlayerAnalysisInlinePanelTemplate">
+        <Border Style="{StaticResource Style.Card}" Margin="4,0,4,6" Padding="0">
+            <Grid Height="420">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TabControl Grid.Row="0" Grid.RowSpan="2" Background="Transparent" BorderThickness="0" Padding="16,14,16,0">
+                    <TabControl.Resources>
+                        <Style TargetType="TabPanel">
+                            <Setter Property="Margin" Value="0,0,0,14" />
+                        </Style>
+                    </TabControl.Resources>
+                    <TabItem Header="{x:Static damageMeter:DamageMeterBindings.TranslationOverview}" Style="{StaticResource CombatSummary.PillTabItem}">
+                        <ScrollViewer Margin="-16,14,-16,0" Padding="16,0">
+                            <WrapPanel>
+                                <Border Style="{StaticResource PlayerAnalysis.StatCard.Primary}">
+                                    <StackPanel>
+                                        <Border Style="{StaticResource PlayerAnalysis.StatIconBadge}" Background="{StaticResource CombatSummary.Gradient.Damage}">
+                                            <fa5:ImageAwesome Icon="Solid_Fire" Width="16" Height="16" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                        <TextBlock Text="{x:Static damageMeter:DamageMeterBindings.TranslationTotalDamage}" Style="{StaticResource PlayerAnalysis.StatLabel}" />
+                                        <TextBlock Text="{Binding DamageShortString, FallbackValue=0}" Style="{StaticResource PlayerAnalysis.StatValue}" />
+                                        <Border Style="{StaticResource PlayerAnalysis.StatAccentLine}" Background="{StaticResource SolidColorBrush.Accent.Orange.3}" />
+                                    </StackPanel>
+                                </Border>
+                                <Border Style="{StaticResource PlayerAnalysis.StatCard.Primary}">
+                                    <StackPanel>
+                                        <Border Style="{StaticResource PlayerAnalysis.StatIconBadge}" Background="{StaticResource CombatSummary.Gradient.Dps}">
+                                            <fa5:ImageAwesome Icon="Solid_Bolt" Width="16" Height="16" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                        <TextBlock Text="{x:Static damageMeter:DamageMeterBindings.TranslationTotalDps}" Style="{StaticResource PlayerAnalysis.StatLabel}" />
+                                        <TextBlock Text="{Binding DpsString, FallbackValue=0}" Style="{StaticResource PlayerAnalysis.StatValue}" />
+                                        <Border Style="{StaticResource PlayerAnalysis.StatAccentLine}" Background="{StaticResource SolidColorBrush.Accent.Blue.3}" />
+                                    </StackPanel>
+                                </Border>
+                                <Border Style="{StaticResource PlayerAnalysis.StatCard}">
+                                    <StackPanel>
+                                        <Border Style="{StaticResource PlayerAnalysis.StatIconBadge}" Background="{StaticResource CombatSummary.Gradient.Healing}">
+                                            <fa5:ImageAwesome Icon="Solid_Heartbeat" Width="16" Height="16" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                        <TextBlock Text="{x:Static damageMeter:DamageMeterBindings.TranslationTotalHealing}" Style="{StaticResource PlayerAnalysis.StatLabel}" />
+                                        <TextBlock Text="{Binding HealShortString, FallbackValue=0}" Style="{StaticResource PlayerAnalysis.StatValue}" />
+                                        <Border Style="{StaticResource PlayerAnalysis.StatAccentLine}" Background="{StaticResource SolidColorBrush.Accent.Green.3}" />
+                                    </StackPanel>
+                                </Border>
+                                <Border Style="{StaticResource PlayerAnalysis.StatCard}">
+                                    <StackPanel>
+                                        <Border Style="{StaticResource PlayerAnalysis.StatIconBadge}" Background="{StaticResource CombatSummary.Gradient.Tank}">
+                                            <fa5:ImageAwesome Icon="Solid_ShieldAlt" Width="16" Height="16" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                        <TextBlock Text="{x:Static damageMeter:DamageMeterBindings.TranslationDamageTaken}" Style="{StaticResource PlayerAnalysis.StatLabel}" />
+                                        <TextBlock Text="{Binding TakenDamageShortString, FallbackValue=0}" Style="{StaticResource PlayerAnalysis.StatValue}" />
+                                        <Border Style="{StaticResource PlayerAnalysis.StatAccentLine}" Background="{StaticResource SolidColorBrush.Accent.Purple.3}" />
+                                    </StackPanel>
+                                </Border>
+                                <Border Style="{StaticResource PlayerAnalysis.StatCard}">
+                                    <StackPanel>
+                                        <Border Style="{StaticResource PlayerAnalysis.StatIconBadge}" Background="{StaticResource CombatSummary.Gradient.Time}">
+                                            <fa5:ImageAwesome Icon="Solid_Stopwatch" Width="16" Height="16" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                        <TextBlock Text="{x:Static damageMeter:DamageMeterBindings.TranslationCombatTime}" Style="{StaticResource PlayerAnalysis.StatLabel}" />
+                                        <TextBlock Style="{StaticResource PlayerAnalysis.StatValue}">
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}{0:00}:{1:00}:{2:00}">
+                                                    <Binding Path="CombatTime.Hours" />
+                                                    <Binding Path="CombatTime.Minutes" />
+                                                    <Binding Path="CombatTime.Seconds" />
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                        <Border Style="{StaticResource PlayerAnalysis.StatAccentLine}" Background="{StaticResource SolidColorBrush.Accent.Cyan.3}" />
+                                    </StackPanel>
+                                </Border>
+                            </WrapPanel>
+                        </ScrollViewer>
+                    </TabItem>
+
+                    <TabItem Header="{x:Static damageMeter:DamageMeterBindings.TranslationSkills}" Style="{StaticResource CombatSummary.PillTabItem}">
+                        <ScrollViewer Margin="-16,14,-16,0" Padding="16,0">
+                            <ItemsControl ItemsSource="{Binding Spells, IsAsync=True}" ItemTemplate="{StaticResource SpellBarTemplate}" />
+                        </ScrollViewer>
+                    </TabItem>
+
+                    <TabItem Header="{x:Static damageMeter:DamageMeterBindings.TranslationDamageTaken}" Style="{StaticResource CombatSummary.PillTabItem}">
+                        <ScrollViewer Margin="-16,14,-16,0" Padding="16,0">
+                            <WrapPanel>
+                                <Border Style="{StaticResource PlayerAnalysis.StatCard.Primary}">
+                                    <StackPanel>
+                                        <Border Style="{StaticResource PlayerAnalysis.StatIconBadge}" Background="{StaticResource CombatSummary.Gradient.Tank}">
+                                            <fa5:ImageAwesome Icon="Solid_ShieldAlt" Width="16" Height="16" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                        <TextBlock Text="{x:Static damageMeter:DamageMeterBindings.TranslationDamageTaken}" Style="{StaticResource PlayerAnalysis.StatLabel}" />
+                                        <TextBlock Text="{Binding TakenDamageShortString, FallbackValue=0}" Style="{StaticResource PlayerAnalysis.StatValue}" />
+                                        <Border Style="{StaticResource PlayerAnalysis.StatAccentLine}" Background="{StaticResource SolidColorBrush.Accent.Purple.3}" />
+                                    </StackPanel>
+                                </Border>
+                                <Border Style="{StaticResource PlayerAnalysis.StatCard}">
+                                    <StackPanel>
+                                        <Border Style="{StaticResource PlayerAnalysis.StatIconBadge}" Background="{StaticResource CombatSummary.Gradient.Tank}">
+                                            <fa5:ImageAwesome Icon="Solid_ShieldAlt" Width="16" Height="16" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                        <TextBlock Text="{x:Static damageMeter:DamageMeterBindings.TranslationDamageTakenPercent}" Style="{StaticResource PlayerAnalysis.StatLabel}" />
+                                        <TextBlock Text="{Binding TakenDamagePercentage, StringFormat={}{0:N2}%, FallbackValue=0}" Style="{StaticResource PlayerAnalysis.StatValue}" />
+                                        <Border Style="{StaticResource PlayerAnalysis.StatAccentLine}" Background="{StaticResource SolidColorBrush.Accent.Purple.3}" />
+                                    </StackPanel>
+                                </Border>
+                            </WrapPanel>
+                        </ScrollViewer>
+                    </TabItem>
+
+                    <TabItem Header="{x:Static damageMeter:DamageMeterBindings.TranslationHealing}" Style="{StaticResource CombatSummary.PillTabItem}">
+                        <ScrollViewer Margin="-16,14,-16,0" Padding="16,0">
+                            <WrapPanel>
+                                <Border Style="{StaticResource PlayerAnalysis.StatCard.Primary}">
+                                    <StackPanel>
+                                        <Border Style="{StaticResource PlayerAnalysis.StatIconBadge}" Background="{StaticResource CombatSummary.Gradient.Healing}">
+                                            <fa5:ImageAwesome Icon="Solid_Heartbeat" Width="16" Height="16" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                        <TextBlock Text="{x:Static damageMeter:DamageMeterBindings.TranslationTotalHealing}" Style="{StaticResource PlayerAnalysis.StatLabel}" />
+                                        <TextBlock Text="{Binding HealShortString, FallbackValue=0}" Style="{StaticResource PlayerAnalysis.StatValue}" />
+                                        <Border Style="{StaticResource PlayerAnalysis.StatAccentLine}" Background="{StaticResource SolidColorBrush.Accent.Green.3}" />
+                                    </StackPanel>
+                                </Border>
+                                <Border Style="{StaticResource PlayerAnalysis.StatCard}">
+                                    <StackPanel>
+                                        <Border Style="{StaticResource PlayerAnalysis.StatIconBadge}" Background="{StaticResource CombatSummary.Gradient.Healing}">
+                                            <fa5:ImageAwesome Icon="Solid_Heartbeat" Width="16" Height="16" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                        <TextBlock Text="{x:Static damageMeter:DamageMeterBindings.TranslationEffectiveHealing}" Style="{StaticResource PlayerAnalysis.StatLabel}" />
+                                        <TextBlock Text="{Binding HpsString, FallbackValue=0}" Style="{StaticResource PlayerAnalysis.StatValue}" />
+                                        <Border Style="{StaticResource PlayerAnalysis.StatAccentLine}" Background="{StaticResource SolidColorBrush.Accent.Green.3}" />
+                                    </StackPanel>
+                                </Border>
+                                <Border Style="{StaticResource PlayerAnalysis.StatCard}">
+                                    <StackPanel>
+                                        <Border Style="{StaticResource PlayerAnalysis.StatIconBadge}" Background="{StaticResource CombatSummary.Gradient.Healing}">
+                                            <fa5:ImageAwesome Icon="Solid_Heart" Width="16" Height="16" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                        <TextBlock Text="{x:Static damageMeter:DamageMeterBindings.TranslationOverhealPercent}" Style="{StaticResource PlayerAnalysis.StatLabel}" />
+                                        <TextBlock Text="{Binding OverhealedPercentageOfTotalHealing, StringFormat={}{0:N2}%, FallbackValue=0}" Style="{StaticResource PlayerAnalysis.StatValue}" />
+                                        <Border Style="{StaticResource PlayerAnalysis.StatAccentLine}" Background="{StaticResource SolidColorBrush.Accent.Green.3}" />
+                                    </StackPanel>
+                                </Border>
+                            </WrapPanel>
+                        </ScrollViewer>
+                    </TabItem>
+
+                    <TabItem Header="{x:Static damageMeter:DamageMeterBindings.TranslationTimeline}" Style="{StaticResource CombatSummary.PillTabItem}">
+                        <ScrollViewer Margin="-16,14,-16,0" Padding="16,0">
+                            <ItemsControl ItemsSource="{Binding Spells, IsAsync=True}" ItemTemplate="{StaticResource PlayerAnalysis.TimelineEntryTemplate}" />
+                        </ScrollViewer>
+                    </TabItem>
+
+                    <TabItem Header="{x:Static damageMeter:DamageMeterBindings.TranslationStats}" Style="{StaticResource CombatSummary.PillTabItem}">
+                        <ScrollViewer Margin="-16,14,-16,0" Padding="16,0">
+                            <WrapPanel>
+                                <Border Style="{StaticResource PlayerAnalysis.StatCard.Primary}">
+                                    <StackPanel>
+                                        <Border Style="{StaticResource PlayerAnalysis.StatIconBadge}" Background="{StaticResource CombatSummary.Gradient.Damage}">
+                                            <fa5:ImageAwesome Icon="Solid_Fire" Width="16" Height="16" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                        <TextBlock Text="{x:Static damageMeter:DamageMeterBindings.TranslationTotalDamage}" Style="{StaticResource PlayerAnalysis.StatLabel}" />
+                                        <TextBlock Text="{Binding DamageShortString, FallbackValue=0}" Style="{StaticResource PlayerAnalysis.StatValue}" />
+                                        <Border Style="{StaticResource PlayerAnalysis.StatAccentLine}" Background="{StaticResource SolidColorBrush.Accent.Orange.3}" />
+                                    </StackPanel>
+                                </Border>
+                                <Border Style="{StaticResource PlayerAnalysis.StatCard.Primary}">
+                                    <StackPanel>
+                                        <Border Style="{StaticResource PlayerAnalysis.StatIconBadge}" Background="{StaticResource CombatSummary.Gradient.Dps}">
+                                            <fa5:ImageAwesome Icon="Solid_Bolt" Width="16" Height="16" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                        <TextBlock Text="{x:Static damageMeter:DamageMeterBindings.TranslationTotalDps}" Style="{StaticResource PlayerAnalysis.StatLabel}" />
+                                        <TextBlock Text="{Binding DpsString, FallbackValue=0}" Style="{StaticResource PlayerAnalysis.StatValue}" />
+                                        <Border Style="{StaticResource PlayerAnalysis.StatAccentLine}" Background="{StaticResource SolidColorBrush.Accent.Blue.3}" />
+                                    </StackPanel>
+                                </Border>
+                                <Border Style="{StaticResource PlayerAnalysis.StatCard}">
+                                    <StackPanel>
+                                        <Border Style="{StaticResource PlayerAnalysis.StatIconBadge}" Background="{StaticResource CombatSummary.Gradient.Healing}">
+                                            <fa5:ImageAwesome Icon="Solid_Heartbeat" Width="16" Height="16" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                        <TextBlock Text="{x:Static damageMeter:DamageMeterBindings.TranslationTotalHealing}" Style="{StaticResource PlayerAnalysis.StatLabel}" />
+                                        <TextBlock Text="{Binding HealShortString, FallbackValue=0}" Style="{StaticResource PlayerAnalysis.StatValue}" />
+                                        <Border Style="{StaticResource PlayerAnalysis.StatAccentLine}" Background="{StaticResource SolidColorBrush.Accent.Green.3}" />
+                                    </StackPanel>
+                                </Border>
+                                <Border Style="{StaticResource PlayerAnalysis.StatCard}">
+                                    <StackPanel>
+                                        <Border Style="{StaticResource PlayerAnalysis.StatIconBadge}" Background="{StaticResource CombatSummary.Gradient.Healing}">
+                                            <fa5:ImageAwesome Icon="Solid_Heart" Width="16" Height="16" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                        <TextBlock Text="{x:Static damageMeter:DamageMeterBindings.TranslationEffectiveHealing}" Style="{StaticResource PlayerAnalysis.StatLabel}" />
+                                        <TextBlock Text="{Binding HpsString, FallbackValue=0}" Style="{StaticResource PlayerAnalysis.StatValue}" />
+                                        <Border Style="{StaticResource PlayerAnalysis.StatAccentLine}" Background="{StaticResource SolidColorBrush.Accent.Green.3}" />
+                                    </StackPanel>
+                                </Border>
+                                <Border Style="{StaticResource PlayerAnalysis.StatCard}">
+                                    <StackPanel>
+                                        <Border Style="{StaticResource PlayerAnalysis.StatIconBadge}" Background="{StaticResource CombatSummary.Gradient.Tank}">
+                                            <fa5:ImageAwesome Icon="Solid_ShieldAlt" Width="16" Height="16" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                        <TextBlock Text="{x:Static damageMeter:DamageMeterBindings.TranslationDamageTaken}" Style="{StaticResource PlayerAnalysis.StatLabel}" />
+                                        <TextBlock Text="{Binding TakenDamageShortString, FallbackValue=0}" Style="{StaticResource PlayerAnalysis.StatValue}" />
+                                        <Border Style="{StaticResource PlayerAnalysis.StatAccentLine}" Background="{StaticResource SolidColorBrush.Accent.Purple.3}" />
+                                    </StackPanel>
+                                </Border>
+                                <Border Style="{StaticResource PlayerAnalysis.StatCard}">
+                                    <StackPanel>
+                                        <Border Style="{StaticResource PlayerAnalysis.StatIconBadge}" Background="{StaticResource CombatSummary.Gradient.Time}">
+                                            <fa5:ImageAwesome Icon="Solid_Stopwatch" Width="16" Height="16" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                        <TextBlock Text="{x:Static damageMeter:DamageMeterBindings.TranslationCombatTime}" Style="{StaticResource PlayerAnalysis.StatLabel}" />
+                                        <TextBlock Style="{StaticResource PlayerAnalysis.StatValue}">
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}{0:00}:{1:00}:{2:00}">
+                                                    <Binding Path="CombatTime.Hours" />
+                                                    <Binding Path="CombatTime.Minutes" />
+                                                    <Binding Path="CombatTime.Seconds" />
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                        <Border Style="{StaticResource PlayerAnalysis.StatAccentLine}" Background="{StaticResource SolidColorBrush.Accent.Cyan.3}" />
+                                    </StackPanel>
+                                </Border>
+                            </WrapPanel>
+                        </ScrollViewer>
+                    </TabItem>
+                </TabControl>
+            </Grid>
+        </Border>
+    </DataTemplate>
+
+    <!-- Modern player bar card: one unified frame (avatar, weapon icon, name, combat time) with a small
+         mode-specific value cluster (headline number, total+percent, progress bar) switched via the
+         existing Damage/TakenDamage/Heal stat-mode selector - same data, no new tracking. -->
+    <Style x:Key="DamageMeter.Card" TargetType="Border" BasedOn="{StaticResource Style.Card}">
+        <Setter Property="Margin" Value="4,3,4,3" />
+        <Setter Property="Padding" Value="14,10" />
+        <Setter Property="MinHeight" Value="64" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="BorderBrush" Value="{StaticResource SolidColorBrush.Accent.Blue.4}" />
+                <Setter Property="Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black" Direction="270" ShadowDepth="4" BlurRadius="18" Opacity="0.35" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="DamageMeter.WeaponIcon" TargetType="Image">
+        <Setter Property="Width" Value="28" />
+        <Setter Property="Height" Value="28" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0,0,10,0" />
+    </Style>
 
     <!-- Damage meter -->
     <DataTemplate x:Key="DamageMeterFragmentTemplate" DataType="{x:Type damageMeter:DamageMeterFragment}">
-        <Grid>
-            <Grid MinHeight="42" Height="auto">
-                <Grid.Style>
-                    <Style TargetType="{x:Type Grid}">
-                        <Setter Property="Visibility" Value="Collapsed" />
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding DamageMeterStyleFragmentType}" Value="{x:Static damageMeter:DamageMeterStyleFragmentType.Damage}">
-                                <Setter Property="Visibility" Value="Visible"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Grid.Style>
-                <Grid.InputBindings>
-                    <MouseBinding MouseAction="LeftClick" Command="{Binding ShowSpells}" />
-                </Grid.InputBindings>
-                <ProgressBar common:ProgressBarSmoother.SmoothValue="{Binding DamageInPercent}" Minimum="0" Maximum="100" 
-                              MinHeight="40" Height="auto" Margin="3,0,2,1" VerticalAlignment="Top" Background="#00FFFFFF" BorderThickness="0" 
-                             Style="{StaticResource DamageMeter.ProgressBar.Colors}" />
-                <ProgressBar common:ProgressBarSmoother.SmoothValue="{Binding HealInPercent}"
-                             Minimum="0" Maximum="100" Height="2" Margin="3,0,2,2" VerticalAlignment="Bottom" VerticalContentAlignment="Bottom" Background="#00FFFFFF" BorderThickness="0">
+        <StackPanel Orientation="Vertical">
+        <Border Style="{StaticResource DamageMeter.Card}">
+            <Border.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding ToggleAnalysis}" />
+            </Border.InputBindings>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="14" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource CombatSummary.Avatar}">
+                    <TextBlock Text="{Binding NameInitial}" Style="{StaticResource CombatSummary.AvatarInitial}" />
+                </Border>
+                <Image Grid.Row="0" Grid.Column="1" Source="{Binding CauserMainHand.Icon, IsAsync=True}" Style="{StaticResource DamageMeter.WeaponIcon}" />
+                <StackPanel Grid.Row="0" Grid.Column="2" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Name}" Style="{StaticResource CombatSummary.PlayerName}" />
+                    <Border Style="{StaticResource CombatSummary.DurationBadge}">
+                        <TextBlock Style="{StaticResource CombatSummary.DurationBadgeText}" ToolTip="{Binding TranslationCombatTime, FallbackValue='COMBAT_TIME'}">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0:00}:{1:00}:{2:00}">
+                                    <Binding Path="CombatTime.Hours" />
+                                    <Binding Path="CombatTime.Minutes" />
+                                    <Binding Path="CombatTime.Seconds" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </Border>
+                </StackPanel>
+
+                <!-- Damage mode -->
+                <Border Grid.Row="0" Grid.Column="3" VerticalAlignment="Center">
+                    <Border.Style>
+                        <Style TargetType="Border" BasedOn="{StaticResource CombatSummary.MetricChip}">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding DamageMeterStyleFragmentType}" Value="{x:Static damageMeter:DamageMeterStyleFragmentType.Damage}">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <StackPanel>
+                        <TextBlock Text="{x:Static damageMeter:DamageMeterBindings.TranslationTotalDps}" Style="{StaticResource CombatSummary.MetricChipLabel}" />
+                        <TextBlock Text="{Binding DpsString}" Style="{StaticResource CombatSummary.MetricChipValue}" Foreground="{StaticResource SolidColorBrush.Accent.Blue.2}" />
+                    </StackPanel>
+                </Border>
+                <Border Grid.Row="0" Grid.Column="4" VerticalAlignment="Center">
+                    <Border.Style>
+                        <Style TargetType="Border" BasedOn="{StaticResource CombatSummary.MetricChip}">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding DamageMeterStyleFragmentType}" Value="{x:Static damageMeter:DamageMeterStyleFragmentType.Damage}">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <StackPanel>
+                        <TextBlock Text="{Binding DamagePercentage, StringFormat={}{0:N1}%}" Style="{StaticResource CombatSummary.MetricChipLabel}" />
+                        <TextBlock Text="{Binding DamageShortString}" Style="{StaticResource CombatSummary.MetricChipValue}" Foreground="{StaticResource SolidColorBrush.Accent.Orange.2}" />
+                    </StackPanel>
+                </Border>
+                <ProgressBar Grid.Row="1" Grid.ColumnSpan="5" common:ProgressBarSmoother.SmoothValue="{Binding DamageInPercent}"
+                             Minimum="0" Maximum="100" Height="10" VerticalAlignment="Center" Background="{StaticResource SolidColorBrush.Panel}" BorderThickness="0">
                     <ProgressBar.Style>
-                        <Style TargetType="ProgressBar">
-                            <Setter Property="Foreground" Value="{StaticResource SolidColorBrush.Weapon.HealBar}" />
+                        <Style TargetType="ProgressBar" BasedOn="{StaticResource DamageMeter.ProgressBar.Colors}">
+                            <Setter Property="Template" Value="{StaticResource CombatSummary.ProgressBarTemplate}" />
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding DamageMeterStyleFragmentType}" Value="{x:Static damageMeter:DamageMeterStyleFragmentType.Damage}">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
                         </Style>
                     </ProgressBar.Style>
                 </ProgressBar>
-                <StackPanel Orientation="Horizontal">
-                    <Grid Margin="10,0, 0, 0" HorizontalAlignment="Center" VerticalAlignment="Top">
-                        <Image Source="{Binding CauserMainHand.Icon}" Style="{StaticResource DamageMeter.Icon}" />
-                    </Grid>
-                    <Label Foreground="{StaticResource SolidColorBrush.Weapon.Text}" Content="{Binding DamagePercentage}" 
-                           ContentStringFormat="{}{0:N2}%" MinWidth="55" Margin="10,5" HorizontalContentAlignment="Right" VerticalAlignment="Top" />
-                    <Label Content="{Binding Name}" MinWidth="125" MaxWidth="125" Margin="10,5, 0, 0" VerticalAlignment="Top" />
-                    <Label Foreground="{StaticResource SolidColorBrush.Weapon.Text}" Content="{Binding DamageShortString}" 
-                           MinWidth="100" MaxWidth="100" FontWeight="Bold" Margin="10,5, 5, 0" VerticalAlignment="Top" />
-                    <Label Foreground="{StaticResource SolidColorBrush.Weapon.Text}" Content="{Binding DpsString}" 
-                           ContentStringFormat="{}{0:N0}/dps" MinWidth="75" MaxWidth="75" FontWeight="Bold" Margin="10,5, 50, 0" VerticalAlignment="Top" />
-                    <Grid Width="16" Height="16" Margin="0,10" VerticalAlignment="Top" ToolTip="{Binding TranslationCombatTime, FallbackValue='COMBAT_TIME'}">
-                        <fa5:ImageAwesome Icon="Regular_Clock" Foreground="{StaticResource SolidColorBrush.Text.1}" />
-                    </Grid>
-                    <TextBlock Foreground="{StaticResource SolidColorBrush.Weapon.Text}" VerticalAlignment="Top" MinWidth="75" MaxWidth="100" FontWeight="Bold" Margin="10,10,50,0">
-                        <TextBlock.Text>
-                            <MultiBinding StringFormat="{}{0:00}:{1:00}:{2:00}">
-                                <Binding Path="CombatTime.Hours" />
-                                <Binding Path="CombatTime.Minutes" />
-                                <Binding Path="CombatTime.Seconds" />
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
-                </StackPanel>
-            </Grid>
-            <Grid MinHeight="42" Height="auto">
-                <Grid.Style>
-                    <Style TargetType="{x:Type Grid}">
-                        <Setter Property="Visibility" Value="Collapsed" />
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding DamageMeterStyleFragmentType}" Value="{x:Static damageMeter:DamageMeterStyleFragmentType.TakenDamage}">
-                                <Setter Property="Visibility" Value="Visible"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Grid.Style>
-                <Grid.InputBindings>
-                    <MouseBinding MouseAction="LeftClick" Command="{Binding ShowSpells}" />
-                </Grid.InputBindings>
-                <ProgressBar common:ProgressBarSmoother.SmoothValue="{Binding TakenDamageInPercent}" Minimum="0" Maximum="100" 
-                             MinHeight="40" Height="auto" Margin="3,0,2,1" VerticalAlignment="Top" Background="#00FFFFFF" BorderThickness="0" 
-                             Foreground="{StaticResource SolidColorBrush.Weapon.TakenDamageBar}" />
-                <StackPanel Orientation="Horizontal">
-                    <Grid Margin="10,0, 0, 0" HorizontalAlignment="Center" VerticalAlignment="Top">
-                        <Image Source="{Binding CauserMainHand.Icon}" Style="{StaticResource DamageMeter.Icon}" />
-                    </Grid>
-                    <Label Foreground="{StaticResource SolidColorBrush.Weapon.Text}" Content="{Binding TakenDamagePercentage}" 
-                           ContentStringFormat="{}{0:N2}%" MinWidth="55" Margin="10,5" HorizontalContentAlignment="Right" VerticalAlignment="Top" />
-                    <Label Content="{Binding Name}" MinWidth="125" MaxWidth="125" Margin="10,5, 0, 0" VerticalAlignment="Top" />
-                    <Label Foreground="{StaticResource SolidColorBrush.Weapon.Text}" Content="{Binding TakenDamageShortString}" 
-                           MinWidth="100" MaxWidth="100" FontWeight="Bold" Margin="10,5, 5, 0" VerticalAlignment="Top" />
-                    <Label Foreground="{StaticResource SolidColorBrush.Weapon.Text}" Content="" MinWidth="75" MaxWidth="75" 
-                           FontWeight="Bold" Margin="10,5, 50, 0" VerticalAlignment="Top" />
-                    <Grid Width="16" Height="16" Margin="0,10" VerticalAlignment="Top" ToolTip="{Binding TranslationCombatTime, FallbackValue='COMBAT_TIME'}">
-                        <fa5:ImageAwesome Icon="Regular_Clock" Foreground="{StaticResource SolidColorBrush.Text.1}" />
-                    </Grid>
-                    <TextBlock Foreground="{StaticResource SolidColorBrush.Weapon.Text}" VerticalAlignment="Top" MinWidth="75" MaxWidth="100" FontWeight="Bold" Margin="10,10,50,0">
-                        <TextBlock.Text>
-                            <MultiBinding StringFormat="{}{0:00}:{1:00}:{2:00}">
-                                <Binding Path="CombatTime.Hours" />
-                                <Binding Path="CombatTime.Minutes" />
-                                <Binding Path="CombatTime.Seconds" />
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
-                </StackPanel>
-            </Grid>
-            <Grid MinHeight="42" Height="auto">
-                <Grid.Style>
-                    <Style TargetType="{x:Type Grid}">
-                        <Setter Property="Visibility" Value="Collapsed" />
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding DamageMeterStyleFragmentType}" Value="{x:Static damageMeter:DamageMeterStyleFragmentType.Heal}">
-                                <Setter Property="Visibility" Value="Visible"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Grid.Style>
-                <Grid.InputBindings>
-                    <MouseBinding MouseAction="LeftClick" Command="{Binding ShowSpells}" />
-                </Grid.InputBindings>
-                <Grid>
-                    <ProgressBar common:ProgressBarSmoother.SmoothValue="{Binding HealInPercent}" Minimum="0" Maximum="100" 
-                                 MinHeight="40" Height="auto" Margin="3,0,2,1" VerticalAlignment="Top" Background="#00FFFFFF" BorderThickness="0" 
-                                 Foreground="{StaticResource SolidColorBrush.Weapon.HealBar}" />
-                </Grid>
-                <StackPanel Orientation="Horizontal">
-                    <Grid Margin="10,0, 0, 0" HorizontalAlignment="Center" VerticalAlignment="Top">
-                        <Image Source="{Binding CauserMainHand.Icon}" Style="{StaticResource DamageMeter.Icon}" />
-                    </Grid>
-                    <StackPanel Orientation="Vertical" Margin="10,0" MinWidth="55" VerticalAlignment="Top" Height="40">
-                        <Label Foreground="{StaticResource SolidColorBrush.Weapon.Text}" Content="{Binding HealPercentage}" 
-                               ContentStringFormat="{}{0:N2}%" Margin="0,5,0,0" Padding="0" HorizontalContentAlignment="Right" VerticalAlignment="Top" 
-                               ToolTip="{Binding TranslationHealingWithoutOverhealed}" />
-                        <Label Foreground="{StaticResource SolidColorBrush.Weapon.Text}" Opacity="0.50" Content="{Binding OverhealedPercentageOfTotalHealing}" 
-                               ContentStringFormat="{}{0:N2}%" Margin="0,-15,0,0" Padding="0,0" HorizontalContentAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Top"
-                               ToolTip="{Binding TranslationOverhealedPercentageOfTotalHealing}" />
+
+                <!-- Taken damage mode -->
+                <Border Grid.Row="0" Grid.Column="4" VerticalAlignment="Center">
+                    <Border.Style>
+                        <Style TargetType="Border" BasedOn="{StaticResource CombatSummary.MetricChip}">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding DamageMeterStyleFragmentType}" Value="{x:Static damageMeter:DamageMeterStyleFragmentType.TakenDamage}">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <StackPanel>
+                        <TextBlock Text="{Binding TakenDamagePercentage, StringFormat={}{0:N1}%}" Style="{StaticResource CombatSummary.MetricChipLabel}" />
+                        <TextBlock Text="{Binding TakenDamageShortString}" Style="{StaticResource CombatSummary.MetricChipValue}" Foreground="{StaticResource SolidColorBrush.Accent.Purple.2}" />
                     </StackPanel>
-                    <Label Content="{Binding Name}" MinWidth="125" MaxWidth="125" Margin="10,5, 0, 0" VerticalAlignment="Top" />
-                    <Label Foreground="{StaticResource SolidColorBrush.Weapon.Text}" Content="{Binding HealShortString}" 
-                           MinWidth="100" MaxWidth="100" FontWeight="Bold" Margin="10,5, 5, 0" VerticalAlignment="Top" />
-                    <Label Foreground="{StaticResource SolidColorBrush.Weapon.Text}" Content="{Binding HpsString}" 
-                           ContentStringFormat="{}{0:N0}/hps" MinWidth="75" MaxWidth="75" FontWeight="Bold" Margin="10,5, 50, 0" VerticalAlignment="Top" />
-                    <Grid Width="16" Height="16" Margin="0,10" VerticalAlignment="Top" ToolTip="{Binding TranslationCombatTime, FallbackValue='COMBAT_TIME'}">
-                        <fa5:ImageAwesome Icon="Regular_Clock" Foreground="{StaticResource SolidColorBrush.Text.1}" />
-                    </Grid>
-                    <TextBlock Foreground="{StaticResource SolidColorBrush.Weapon.Text}" VerticalAlignment="Top" MinWidth="75" MaxWidth="100" FontWeight="Bold" Margin="10,10,50,0">
-                        <TextBlock.Text>
-                            <MultiBinding StringFormat="{}{0:00}:{1:00}:{2:00}">
-                                <Binding Path="CombatTime.Hours" />
-                                <Binding Path="CombatTime.Minutes" />
-                                <Binding Path="CombatTime.Seconds" />
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
-                </StackPanel>
+                </Border>
+                <ProgressBar Grid.Row="1" Grid.ColumnSpan="5" common:ProgressBarSmoother.SmoothValue="{Binding TakenDamageInPercent}"
+                             Minimum="0" Maximum="100" Height="10" VerticalAlignment="Center" Background="{StaticResource SolidColorBrush.Panel}" BorderThickness="0"
+                             Foreground="{StaticResource CombatSummary.Gradient.Tank}">
+                    <ProgressBar.Style>
+                        <Style TargetType="ProgressBar">
+                            <Setter Property="Template" Value="{StaticResource CombatSummary.ProgressBarTemplate}" />
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding DamageMeterStyleFragmentType}" Value="{x:Static damageMeter:DamageMeterStyleFragmentType.TakenDamage}">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ProgressBar.Style>
+                </ProgressBar>
+
+                <!-- Heal mode -->
+                <Border Grid.Row="0" Grid.Column="3" VerticalAlignment="Center">
+                    <Border.Style>
+                        <Style TargetType="Border" BasedOn="{StaticResource CombatSummary.MetricChip}">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding DamageMeterStyleFragmentType}" Value="{x:Static damageMeter:DamageMeterStyleFragmentType.Heal}">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <StackPanel>
+                        <TextBlock Text="{x:Static damageMeter:DamageMeterBindings.TranslationEffectiveHealing}" Style="{StaticResource CombatSummary.MetricChipLabel}" />
+                        <TextBlock Text="{Binding HpsString}" Style="{StaticResource CombatSummary.MetricChipValue}" Foreground="{StaticResource SolidColorBrush.Accent.Green.2}" />
+                    </StackPanel>
+                </Border>
+                <Border Grid.Row="0" Grid.Column="4" VerticalAlignment="Center">
+                    <Border.Style>
+                        <Style TargetType="Border" BasedOn="{StaticResource CombatSummary.MetricChip}">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding DamageMeterStyleFragmentType}" Value="{x:Static damageMeter:DamageMeterStyleFragmentType.Heal}">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <StackPanel>
+                        <TextBlock Text="{Binding HealPercentage, StringFormat={}{0:N1}%}" Style="{StaticResource CombatSummary.MetricChipLabel}" />
+                        <TextBlock Text="{Binding HealShortString}" Style="{StaticResource CombatSummary.MetricChipValue}" Foreground="{StaticResource SolidColorBrush.Accent.Green.2}"
+                                   ToolTip="{Binding TranslationHealingWithoutOverhealed}" />
+                    </StackPanel>
+                </Border>
+                <ProgressBar Grid.Row="1" Grid.ColumnSpan="5" common:ProgressBarSmoother.SmoothValue="{Binding HealInPercent}"
+                             Minimum="0" Maximum="100" Height="10" VerticalAlignment="Center" Background="{StaticResource SolidColorBrush.Panel}" BorderThickness="0"
+                             Foreground="{StaticResource CombatSummary.Gradient.Healing}">
+                    <ProgressBar.Style>
+                        <Style TargetType="ProgressBar">
+                            <Setter Property="Template" Value="{StaticResource CombatSummary.ProgressBarTemplate}" />
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding DamageMeterStyleFragmentType}" Value="{x:Static damageMeter:DamageMeterStyleFragmentType.Heal}">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ProgressBar.Style>
+                </ProgressBar>
             </Grid>
-            <Grid Margin="10,41,0,3" VerticalAlignment="Top" HorizontalAlignment="Stretch" Visibility="{Binding SpellsContainerVisibility}">
-                <StackPanel Orientation="Horizontal" Height="24" HorizontalAlignment="Stretch" Margin="2,0,2,0" VerticalAlignment="Top" Background="{StaticResource SolidColorBrush.Accent.Blue.Transparent.5}">
-                    <Label Content="" Width="96" />
-                    <Label Content="{Binding TranslationName}" FontWeight="Bold" Width="244" Foreground="{StaticResource SolidColorBrush.Accent.Blue.2}" />
-                    <Label Content="{Binding TranslationDmgPercent}" FontWeight="Bold" Width="64" Foreground="{StaticResource SolidColorBrush.Accent.Blue.2}" />
-                    <Label Content="{Binding TranslationDamageHeal}" FontWeight="Bold" Width="84" Foreground="{StaticResource SolidColorBrush.Accent.Blue.2}"  />
-                    <Label Content="{Binding TranslationTicks}" FontWeight="Bold" Width="70" Foreground="{StaticResource SolidColorBrush.Accent.Blue.2}" />
-                </StackPanel>
-                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled" Margin="0,25,0,0">
-                    <ItemsControl ItemsSource="{Binding Spells, IsAsync=True}" ItemTemplate="{StaticResource SpellBarTemplate}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <VirtualizingStackPanel Orientation="Vertical"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                    </ItemsControl>
-                </ScrollViewer>
-            </Grid>
-        </Grid>
+        </Border>
+        <ContentControl Content="{Binding}" ContentTemplate="{StaticResource PlayerAnalysisInlinePanelTemplate}"
+                         Visibility="{Binding AnalysisContainerVisibility}" />
+        </StackPanel>
     </DataTemplate>
 
-    <!-- Damage meter snapshot fragment -->
+    <!-- Damage meter snapshot fragment: same modern card as the live template above -->
     <DataTemplate x:Key="DamageMeterSnapshotFragmentTemplate" DataType="{x:Type damageMeter:DamageMeterSnapshotFragment}">
-        <Grid>
-            <Grid MinHeight="42" Height="auto">
-                <Grid.Style>
-                    <Style TargetType="{x:Type Grid}">
-                        <Setter Property="Visibility" Value="Collapsed" />
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding DamageMeterStyleFragmentType}" Value="{x:Static damageMeter:DamageMeterStyleFragmentType.Damage}">
-                                <Setter Property="Visibility" Value="Visible"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Grid.Style>
-                <Grid.InputBindings>
-                    <MouseBinding MouseAction="LeftClick" Command="{Binding ShowSpells}" />
-                </Grid.InputBindings>
-                <ProgressBar common:ProgressBarSmoother.SmoothValue="{Binding DamageInPercent}" Minimum="0" Maximum="100" 
-                             MinHeight="40" Height="auto" Margin="3,0,2,1" VerticalAlignment="Top" Background="#00FFFFFF" BorderThickness="0" 
-                             Style="{StaticResource DamageMeter.ProgressBar.Colors}" />
-                <ProgressBar common:ProgressBarSmoother.SmoothValue="{Binding HealInPercent}" Minimum="0" Maximum="100" Height="2" 
-                             Margin="3,0,2,2" VerticalAlignment="Bottom" VerticalContentAlignment="Bottom" Background="#00FFFFFF" BorderThickness="0">
+        <StackPanel Orientation="Vertical">
+        <Border Style="{StaticResource DamageMeter.Card}">
+            <Border.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding ToggleAnalysis}" />
+            </Border.InputBindings>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="14" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource CombatSummary.Avatar}">
+                    <TextBlock Text="{Binding NameInitial}" Style="{StaticResource CombatSummary.AvatarInitial}" />
+                </Border>
+                <Image Grid.Row="0" Grid.Column="1" Source="{Binding CauserMainHand.Icon, IsAsync=True}" Style="{StaticResource DamageMeter.WeaponIcon}" />
+                <StackPanel Grid.Row="0" Grid.Column="2" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Name}" Style="{StaticResource CombatSummary.PlayerName}" />
+                    <Border Style="{StaticResource CombatSummary.DurationBadge}">
+                        <TextBlock Style="{StaticResource CombatSummary.DurationBadgeText}" ToolTip="{Binding TranslationCombatTime, FallbackValue='COMBAT_TIME'}">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0:00}:{1:00}:{2:00}">
+                                    <Binding Path="CombatTime.Hours" />
+                                    <Binding Path="CombatTime.Minutes" />
+                                    <Binding Path="CombatTime.Seconds" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </Border>
+                </StackPanel>
+
+                <!-- Damage mode -->
+                <Border Grid.Row="0" Grid.Column="3" VerticalAlignment="Center">
+                    <Border.Style>
+                        <Style TargetType="Border" BasedOn="{StaticResource CombatSummary.MetricChip}">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding DamageMeterStyleFragmentType}" Value="{x:Static damageMeter:DamageMeterStyleFragmentType.Damage}">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <StackPanel>
+                        <TextBlock Text="{x:Static damageMeter:DamageMeterBindings.TranslationTotalDps}" Style="{StaticResource CombatSummary.MetricChipLabel}" />
+                        <TextBlock Text="{Binding DpsString}" Style="{StaticResource CombatSummary.MetricChipValue}" Foreground="{StaticResource SolidColorBrush.Accent.Blue.2}" />
+                    </StackPanel>
+                </Border>
+                <Border Grid.Row="0" Grid.Column="4" VerticalAlignment="Center">
+                    <Border.Style>
+                        <Style TargetType="Border" BasedOn="{StaticResource CombatSummary.MetricChip}">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding DamageMeterStyleFragmentType}" Value="{x:Static damageMeter:DamageMeterStyleFragmentType.Damage}">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <StackPanel>
+                        <TextBlock Text="{Binding DamagePercentage, StringFormat={}{0:N1}%}" Style="{StaticResource CombatSummary.MetricChipLabel}" />
+                        <TextBlock Text="{Binding DamageShortString}" Style="{StaticResource CombatSummary.MetricChipValue}" Foreground="{StaticResource SolidColorBrush.Accent.Orange.2}" />
+                    </StackPanel>
+                </Border>
+                <ProgressBar Grid.Row="1" Grid.ColumnSpan="5" common:ProgressBarSmoother.SmoothValue="{Binding DamageInPercent}"
+                             Minimum="0" Maximum="100" Height="10" VerticalAlignment="Center" Background="{StaticResource SolidColorBrush.Panel}" BorderThickness="0">
                     <ProgressBar.Style>
-                        <Style TargetType="ProgressBar">
-                            <Setter Property="Foreground" Value="{StaticResource SolidColorBrush.Weapon.HealBar}" />
+                        <Style TargetType="ProgressBar" BasedOn="{StaticResource DamageMeter.ProgressBar.Colors}">
+                            <Setter Property="Template" Value="{StaticResource CombatSummary.ProgressBarTemplate}" />
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding DamageMeterStyleFragmentType}" Value="{x:Static damageMeter:DamageMeterStyleFragmentType.Damage}">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
                         </Style>
                     </ProgressBar.Style>
                 </ProgressBar>
-                <StackPanel Orientation="Horizontal">
-                    <Grid Margin="10,0, 0, 0" HorizontalAlignment="Center" VerticalAlignment="Top">
-                        <Image Source="{Binding CauserMainHand.Icon}" Style="{StaticResource DamageMeter.Icon}" />
-                    </Grid>
-                    <Label Foreground="{StaticResource SolidColorBrush.Weapon.Text}" Content="{Binding DamagePercentage}" 
-                           ContentStringFormat="{}{0:N2}%" MinWidth="55" Margin="10,5" HorizontalContentAlignment="Right" VerticalAlignment="Top" />
-                    <Label Content="{Binding Name}" MinWidth="125" MaxWidth="125" Margin="10,5, 0, 0" VerticalAlignment="Top" />
-                    <Label Foreground="{StaticResource SolidColorBrush.Weapon.Text}" Content="{Binding DamageShortString}" 
-                           MinWidth="100" MaxWidth="100" FontWeight="Bold" Margin="10,5, 5, 0" VerticalAlignment="Top" />
-                    <Label Foreground="{StaticResource SolidColorBrush.Weapon.Text}" Content="{Binding DpsString}" 
-                           ContentStringFormat="{}{0:N0}/dps" MinWidth="75" MaxWidth="75" FontWeight="Bold" Margin="10,5, 50, 0" VerticalAlignment="Top" />
-                    <Grid Width="16" Height="16" Margin="0,10" VerticalAlignment="Top" ToolTip="{Binding TranslationCombatTime, FallbackValue='COMBAT_TIME'}">
-                        <fa5:ImageAwesome Icon="Regular_Clock" Foreground="{StaticResource SolidColorBrush.Text.1}" />
-                    </Grid>
-                    <TextBlock Foreground="{StaticResource SolidColorBrush.Weapon.Text}" VerticalAlignment="Top" MinWidth="75" MaxWidth="100" FontWeight="Bold" Margin="10,10,50,0">
-                        <TextBlock.Text>
-                            <MultiBinding StringFormat="{}{0:00}:{1:00}:{2:00}">
-                                <Binding Path="CombatTime.Hours" />
-                                <Binding Path="CombatTime.Minutes" />
-                                <Binding Path="CombatTime.Seconds" />
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
-                </StackPanel>
-            </Grid>
-            <Grid MinHeight="42" Height="auto">
-                <Grid.Style>
-                    <Style TargetType="{x:Type Grid}">
-                        <Setter Property="Visibility" Value="Collapsed" />
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding DamageMeterStyleFragmentType}" Value="{x:Static damageMeter:DamageMeterStyleFragmentType.TakenDamage}">
-                                <Setter Property="Visibility" Value="Visible"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Grid.Style>
-                <Grid.InputBindings>
-                    <MouseBinding MouseAction="LeftClick" Command="{Binding ShowSpells}" />
-                </Grid.InputBindings>
-                <ProgressBar common:ProgressBarSmoother.SmoothValue="{Binding TakenDamageInPercent}" Minimum="0" Maximum="100" 
-                 MinHeight="40" Height="auto" Margin="3,0,2,1" VerticalAlignment="Top" Background="#00FFFFFF" BorderThickness="0" 
-                 Foreground="{StaticResource SolidColorBrush.Weapon.TakenDamageBar}" />
-                <StackPanel Orientation="Horizontal">
-                    <Grid Margin="10,0, 0, 0" HorizontalAlignment="Center" VerticalAlignment="Top">
-                        <Image Source="{Binding CauserMainHand.Icon}" Style="{StaticResource DamageMeter.Icon}" />
-                    </Grid>
-                    <Label Foreground="{StaticResource SolidColorBrush.Weapon.Text}" Content="{Binding TakenDamagePercentage}" 
-               ContentStringFormat="{}{0:N2}%" MinWidth="55" Margin="10,5" HorizontalContentAlignment="Right" VerticalAlignment="Top" />
-                    <Label Content="{Binding Name}" MinWidth="125" MaxWidth="125" Margin="10,5, 0, 0" VerticalAlignment="Top" />
-                    <Label Foreground="{StaticResource SolidColorBrush.Weapon.Text}" Content="{Binding TakenDamageShortString}" 
-               MinWidth="100" MaxWidth="100" FontWeight="Bold" Margin="10,5, 5, 0" VerticalAlignment="Top" />
-                    <Label Foreground="{StaticResource SolidColorBrush.Weapon.Text}" Content="" MinWidth="75" MaxWidth="75" 
-               FontWeight="Bold" Margin="10,5, 50, 0" VerticalAlignment="Top" />
-                    <Grid Width="16" Height="16" Margin="0,10" VerticalAlignment="Top" ToolTip="{Binding TranslationCombatTime, FallbackValue='COMBAT_TIME'}">
-                        <fa5:ImageAwesome Icon="Regular_Clock" Foreground="{StaticResource SolidColorBrush.Text.1}" />
-                    </Grid>
-                    <TextBlock Foreground="{StaticResource SolidColorBrush.Weapon.Text}" VerticalAlignment="Top" MinWidth="75" MaxWidth="100" FontWeight="Bold" Margin="10,10,50,0">
-                        <TextBlock.Text>
-                            <MultiBinding StringFormat="{}{0:00}:{1:00}:{2:00}">
-                                <Binding Path="CombatTime.Hours" />
-                                <Binding Path="CombatTime.Minutes" />
-                                <Binding Path="CombatTime.Seconds" />
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
-                </StackPanel>
-            </Grid>
-            <Grid MinHeight="42" Height="auto">
-                <Grid.Style>
-                    <Style TargetType="{x:Type Grid}">
-                        <Setter Property="Visibility" Value="Collapsed" />
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding DamageMeterStyleFragmentType}" Value="{x:Static damageMeter:DamageMeterStyleFragmentType.Heal}">
-                                <Setter Property="Visibility" Value="Visible"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Grid.Style>
-                <ProgressBar common:ProgressBarSmoother.SmoothValue="{Binding HealInPercent}" Minimum="0" Maximum="100" 
-                             Height="40" Margin="3,1,2,1" VerticalAlignment="Top" Background="#00FFFFFF" BorderThickness="0" 
-                             Style="{StaticResource DamageMeter.ProgressBar.Colors}" />
-                <StackPanel Orientation="Horizontal">
-                    <Grid Margin="10,0, 0, 0" HorizontalAlignment="Center" VerticalAlignment="Top">
-                        <Image Source="{Binding CauserMainHand.Icon}" Style="{StaticResource DamageMeter.Icon}" />
-                    </Grid>
-                    <StackPanel Orientation="Vertical" Margin="10,0" MinWidth="55" VerticalAlignment="Top" Height="40">
-                        <Label Foreground="{StaticResource SolidColorBrush.Weapon.Text}" Content="{Binding HealPercentage}" 
-                               ContentStringFormat="{}{0:N2}%" Margin="0,5,0,0" Padding="0" HorizontalContentAlignment="Right" VerticalAlignment="Top" />
-                        <Label Foreground="{StaticResource SolidColorBrush.Weapon.Text}" Opacity="0.50" Content="{Binding OverhealedPercentageOfTotalHealing}" 
-                               ContentStringFormat="{}{0:N2}%" Margin="0,-15,0,0" Padding="0,0" HorizontalContentAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Top" />
+
+                <!-- Taken damage mode -->
+                <Border Grid.Row="0" Grid.Column="4" VerticalAlignment="Center">
+                    <Border.Style>
+                        <Style TargetType="Border" BasedOn="{StaticResource CombatSummary.MetricChip}">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding DamageMeterStyleFragmentType}" Value="{x:Static damageMeter:DamageMeterStyleFragmentType.TakenDamage}">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <StackPanel>
+                        <TextBlock Text="{Binding TakenDamagePercentage, StringFormat={}{0:N1}%}" Style="{StaticResource CombatSummary.MetricChipLabel}" />
+                        <TextBlock Text="{Binding TakenDamageShortString}" Style="{StaticResource CombatSummary.MetricChipValue}" Foreground="{StaticResource SolidColorBrush.Accent.Purple.2}" />
                     </StackPanel>
-                    <Label Content="{Binding Name}" MinWidth="125" MaxWidth="125" Margin="10,5, 0, 0" VerticalAlignment="Top" />
-                    <Label Foreground="{StaticResource SolidColorBrush.Weapon.Text}" Content="{Binding HealShortString}" 
-                           MinWidth="100" MaxWidth="100" FontWeight="Bold" Margin="10,5, 5, 0" VerticalAlignment="Top" />
-                    <Label Foreground="{StaticResource SolidColorBrush.Weapon.Text}" Content="{Binding HpsString}" 
-                           ContentStringFormat="{}{0:N0}/hps" MinWidth="75" MaxWidth="75" FontWeight="Bold" Margin="10,5, 50, 0" VerticalAlignment="Top" />
-                    <Grid Width="16" Height="16" Margin="0,10" VerticalAlignment="Top" ToolTip="{Binding TranslationCombatTime, FallbackValue='COMBAT_TIME'}">
-                        <fa5:ImageAwesome Icon="Regular_Clock" Foreground="{StaticResource SolidColorBrush.Text.1}" />
-                    </Grid>
-                    <TextBlock Foreground="{StaticResource SolidColorBrush.Weapon.Text}" MinWidth="75" MaxWidth="100" FontWeight="Bold" Margin="10,13,50,0">
-                        <TextBlock.Text>
-                            <MultiBinding StringFormat="{}{0:00}:{1:00}:{2:00}">
-                                <Binding Path="CombatTime.Hours" />
-                                <Binding Path="CombatTime.Minutes" />
-                                <Binding Path="CombatTime.Seconds" />
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
-                </StackPanel>
+                </Border>
+                <ProgressBar Grid.Row="1" Grid.ColumnSpan="5" common:ProgressBarSmoother.SmoothValue="{Binding TakenDamageInPercent}"
+                             Minimum="0" Maximum="100" Height="10" VerticalAlignment="Center" Background="{StaticResource SolidColorBrush.Panel}" BorderThickness="0"
+                             Foreground="{StaticResource CombatSummary.Gradient.Tank}">
+                    <ProgressBar.Style>
+                        <Style TargetType="ProgressBar">
+                            <Setter Property="Template" Value="{StaticResource CombatSummary.ProgressBarTemplate}" />
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding DamageMeterStyleFragmentType}" Value="{x:Static damageMeter:DamageMeterStyleFragmentType.TakenDamage}">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ProgressBar.Style>
+                </ProgressBar>
+
+                <!-- Heal mode -->
+                <Border Grid.Row="0" Grid.Column="3" VerticalAlignment="Center">
+                    <Border.Style>
+                        <Style TargetType="Border" BasedOn="{StaticResource CombatSummary.MetricChip}">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding DamageMeterStyleFragmentType}" Value="{x:Static damageMeter:DamageMeterStyleFragmentType.Heal}">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <StackPanel>
+                        <TextBlock Text="{x:Static damageMeter:DamageMeterBindings.TranslationEffectiveHealing}" Style="{StaticResource CombatSummary.MetricChipLabel}" />
+                        <TextBlock Text="{Binding HpsString}" Style="{StaticResource CombatSummary.MetricChipValue}" Foreground="{StaticResource SolidColorBrush.Accent.Green.2}" />
+                    </StackPanel>
+                </Border>
+                <Border Grid.Row="0" Grid.Column="4" VerticalAlignment="Center">
+                    <Border.Style>
+                        <Style TargetType="Border" BasedOn="{StaticResource CombatSummary.MetricChip}">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding DamageMeterStyleFragmentType}" Value="{x:Static damageMeter:DamageMeterStyleFragmentType.Heal}">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <StackPanel>
+                        <TextBlock Text="{Binding HealPercentage, StringFormat={}{0:N1}%}" Style="{StaticResource CombatSummary.MetricChipLabel}" />
+                        <TextBlock Text="{Binding HealShortString}" Style="{StaticResource CombatSummary.MetricChipValue}" Foreground="{StaticResource SolidColorBrush.Accent.Green.2}" />
+                    </StackPanel>
+                </Border>
+                <ProgressBar Grid.Row="1" Grid.ColumnSpan="5" common:ProgressBarSmoother.SmoothValue="{Binding HealInPercent}"
+                             Minimum="0" Maximum="100" Height="10" VerticalAlignment="Center" Background="{StaticResource SolidColorBrush.Panel}" BorderThickness="0"
+                             Foreground="{StaticResource CombatSummary.Gradient.Healing}">
+                    <ProgressBar.Style>
+                        <Style TargetType="ProgressBar">
+                            <Setter Property="Template" Value="{StaticResource CombatSummary.ProgressBarTemplate}" />
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding DamageMeterStyleFragmentType}" Value="{x:Static damageMeter:DamageMeterStyleFragmentType.Heal}">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ProgressBar.Style>
+                </ProgressBar>
             </Grid>
-            <Grid Margin="10,41,0,3" Width="auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" Visibility="{Binding SpellsContainerVisibility}">
-                <StackPanel Orientation="Horizontal" Height="24" HorizontalAlignment="Stretch" Margin="2,0,2,0" VerticalAlignment="Top" Background="{StaticResource SolidColorBrush.Accent.Blue.Transparent.5}">
-                    <Label Content="" Width="96" />
-                    <Label Content="{Binding TranslationName}" FontWeight="Bold" Width="244" Foreground="{StaticResource SolidColorBrush.Accent.Blue.2}" />
-                    <Label Content="{Binding TranslationDmgPercent}" FontWeight="Bold" Width="64" Foreground="{StaticResource SolidColorBrush.Accent.Blue.2}" />
-                    <Label Content="{Binding TranslationDamageHeal}" FontWeight="Bold" Width="84" Foreground="{StaticResource SolidColorBrush.Accent.Blue.2}"  />
-                    <Label Content="{Binding TranslationTicks}" FontWeight="Bold" Width="70" Foreground="{StaticResource SolidColorBrush.Accent.Blue.2}" />
-                </StackPanel>
-                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled" Margin="0,25,0,0">
-                    <ItemsControl ItemsSource="{Binding Spells, IsAsync=True}" ItemTemplate="{StaticResource SpellBarTemplate}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <VirtualizingStackPanel Orientation="Vertical"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                    </ItemsControl>
-                </ScrollViewer>
-            </Grid>
-        </Grid>
+        </Border>
+        <ContentControl Content="{Binding}" ContentTemplate="{StaticResource PlayerAnalysisInlinePanelTemplate}"
+                         Visibility="{Binding AnalysisContainerVisibility}" />
+        </StackPanel>
     </DataTemplate>
 </ResourceDictionary>

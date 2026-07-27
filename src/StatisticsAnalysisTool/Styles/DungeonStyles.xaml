@@ -2785,7 +2785,7 @@
 
     <!-- Dungeon fragments -->
     <DataTemplate x:Key="RandomDungeonTemplate" DataType="{x:Type dungeonModels:RandomDungeonFragment}">
-        <Border BorderBrush="{StaticResource SolidColorBrush.Background.2}" BorderThickness="0,0,0,1">
+        <Border Style="{StaticResource Style.Card}" Margin="0,0,0,10" Padding="14">
             <Grid Style="{StaticResource Fragment.Activity}">
                 <StackPanel Orientation="Vertical" Style="{StaticResource DungeonFragment.Faction}">
                     <DockPanel>
@@ -2994,7 +2994,7 @@
     </DataTemplate>
 
     <DataTemplate x:Key="HellGateTemplate" DataType="{x:Type dungeonModels:HellGateFragment}">
-        <Border BorderBrush="{StaticResource SolidColorBrush.Background.2}" BorderThickness="0,0,0,1">
+        <Border Style="{StaticResource Style.Card}" Margin="0,0,0,10" Padding="14">
             <Grid Style="{StaticResource Fragment.Activity}">
                 <StackPanel Orientation="Vertical" Style="{StaticResource DungeonFragment.Faction}">
                     <DockPanel>
@@ -3163,7 +3163,7 @@
     </DataTemplate>
 
     <DataTemplate x:Key="CorruptedTemplate" DataType="{x:Type dungeonModels:CorruptedFragment}">
-        <Border BorderBrush="{StaticResource SolidColorBrush.Background.2}" BorderThickness="0,0,0,1">
+        <Border Style="{StaticResource Style.Card}" Margin="0,0,0,10" Padding="14">
             <Grid Style="{StaticResource Fragment.Activity}">
                 <StackPanel Orientation="Vertical" Style="{StaticResource DungeonFragment.Faction}">
                     <DockPanel>
@@ -3331,7 +3331,7 @@
     </DataTemplate>
 
     <DataTemplate x:Key="ExpeditionTemplate" DataType="{x:Type dungeonModels:ExpeditionFragment}">
-        <Border BorderBrush="{StaticResource SolidColorBrush.Background.2}" BorderThickness="0,0,0,1">
+        <Border Style="{StaticResource Style.Card}" Margin="0,0,0,10" Padding="14">
             <Grid Style="{StaticResource Fragment.Activity}">
                 <StackPanel Orientation="Vertical" Style="{StaticResource DungeonFragment.Faction}">
                     <DockPanel>
@@ -3460,7 +3460,7 @@
     </DataTemplate>
 
     <DataTemplate x:Key="MistsTemplate" DataType="{x:Type dungeonModels:MistsFragment}">
-        <Border BorderBrush="{StaticResource SolidColorBrush.Background.2}" BorderThickness="0,0,0,1">
+        <Border Style="{StaticResource Style.Card}" Margin="0,0,0,10" Padding="14">
             <Grid Style="{StaticResource Fragment.Activity}">
                 <StackPanel Orientation="Vertical" Style="{StaticResource DungeonFragment.Faction}">
                     <DockPanel>
@@ -3629,7 +3629,7 @@
     </DataTemplate>
 
     <DataTemplate x:Key="MistsDungeonTemplate" DataType="{x:Type dungeonModels:MistsDungeonFragment}">
-        <Border BorderBrush="{StaticResource SolidColorBrush.Background.2}" BorderThickness="0,0,0,1">
+        <Border Style="{StaticResource Style.Card}" Margin="0,0,0,10" Padding="14">
             <Grid Style="{StaticResource Fragment.Activity}">
                 <StackPanel Orientation="Vertical" Style="{StaticResource DungeonFragment.Faction}">
                     <DockPanel>
@@ -3782,7 +3782,7 @@
     </DataTemplate>
 
     <DataTemplate x:Key="AbyssalDepthsTemplate" DataType="{x:Type dungeonModels:AbyssalDepthsFragment}">
-        <Border BorderBrush="{StaticResource SolidColorBrush.Background.2}" BorderThickness="0,0,0,1">
+        <Border Style="{StaticResource Style.Card}" Margin="0,0,0,10" Padding="14">
             <Grid Style="{StaticResource Fragment.Activity}">
                 <StackPanel Orientation="Vertical" Style="{StaticResource DungeonFragment.Faction}">
                     <DockPanel>

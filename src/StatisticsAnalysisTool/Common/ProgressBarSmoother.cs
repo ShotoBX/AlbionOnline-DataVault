@@ -24,12 +24,37 @@ public class ProgressBarSmoother
 
     private static void Changing(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (double.IsNaN((double) e.OldValue) || double.IsNaN((double) e.NewValue) || double.IsInfinity((double) e.OldValue) || double.IsInfinity((double) e.NewValue))
+        if (d is not ProgressBar progressBar)
         {
             return;
         }
 
-        var anim = new DoubleAnimation((double) e.OldValue, (double) e.NewValue, new TimeSpan(0, 0, 0, 0, 250));
-        (d as ProgressBar)?.BeginAnimation(RangeBase.ValueProperty, anim, HandoffBehavior.Compose);
+        var oldValue = Sanitize((double) e.OldValue, progressBar);
+        var newValue = Sanitize((double) e.NewValue, progressBar);
+
+        var anim = new DoubleAnimation(oldValue, newValue, new TimeSpan(0, 0, 0, 0, 250));
+        progressBar.BeginAnimation(RangeBase.ValueProperty, anim, HandoffBehavior.Compose);
+    }
+
+    // A single bad tick (e.g. dividing by a not-yet-populated total) must not permanently
+    // freeze the bar, since IsNaN/IsInfinity would otherwise never receive a corrective animation.
+    private static double Sanitize(double value, RangeBase range)
+    {
+        if (double.IsNaN(value))
+        {
+            return range.Minimum;
+        }
+
+        if (double.IsPositiveInfinity(value))
+        {
+            return range.Maximum;
+        }
+
+        if (double.IsNegativeInfinity(value))
+        {
+            return range.Minimum;
+        }
+
+        return value;
     }
 }
